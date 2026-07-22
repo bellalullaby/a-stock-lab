@@ -1,0 +1,38 @@
+{
+  "date": "2026-07-14",
+  "rotation_speed": null,
+  "rotation_label": "首个交易日，暂无对比",
+  "prev_top5_sectors": [],
+  "curr_top5_sectors": [
+    "元件",
+    "汽车零部",
+    "工业金属",
+    "电网设备",
+    "化学制药"
+  ],
+  "overlap": [],
+  "continuity": {},
+  "sector_structure": {
+    "元件": {
+      "zt_count_in_pool": 11,
+      "structure": "健康"
+    },
+    "汽车零部": {
+      "zt_count_in_pool": 7,
+      "structure": "健康"
+    },
+    "工业金属": {
+      "zt_count_in_pool": 4,
+      "structure": "健康"
+    },
+    "电网设备": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "化学制药": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    }
+  },
+  "zb_rate": 20.6
+}

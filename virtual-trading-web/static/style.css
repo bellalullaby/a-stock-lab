@@ -1,0 +1,243 @@
+/* ══════════════════════════════════════════════════════
+   A股虚拟盘 Web 系统 · 样式
+   ══════════════════════════════════════════════════════ */
+
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22252f;
+  --border: #2a2d38;
+  --text: #e1e4eb;
+  --text2: #8b8fa3;
+  --green: #00c087;
+  --red: #f44b5e;
+  --orange: #f0a040;
+  --yellow: #d4c030;
+  --blue: #4a9eff;
+  --purple: #a78bfa;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, "Microsoft YaHei", "PingFang SC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* ── Alert banner ─────────────────────────── */
+.alert-banner {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--red);
+  color: #fff;
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-weight: 600;
+  font-size: 15px;
+}
+.alert-banner.hidden { display: none; }
+.alert-banner button {
+  background: none; border: none; color: #fff;
+  font-size: 18px; cursor: pointer; padding: 0 8px;
+}
+
+/* ── Top bar ──────────────────────────────── */
+.top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.top-bar h1 { font-size: 22px; }
+.top-bar .subtitle { font-size: 14px; color: var(--text2); font-weight: 400; margin-left: 8px; }
+.top-actions { display: flex; gap: 12px; align-items: center; }
+.top-actions select {
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 8px 12px; font-size: 14px; cursor: pointer;
+}
+.btn-collect {
+  background: var(--blue); color: #fff; border: none;
+  padding: 8px 18px; border-radius: 6px;
+  font-size: 14px; cursor: pointer; font-weight: 600;
+  transition: opacity 0.15s;
+}
+.btn-collect:hover { opacity: 0.85; }
+.btn-collect:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── L1 bar ────────────────────────────────── */
+.l1-bar {
+  display: flex; gap: 24px; padding: 10px 24px;
+  background: var(--surface2); border-bottom: 1px solid var(--border);
+  font-size: 13px; color: var(--text2);
+}
+.l1-bar .regime-safe { color: var(--green); font-weight: 700; }
+.l1-bar .regime-shock { color: var(--orange); font-weight: 700; }
+.l1-bar .regime-risk { color: var(--red); font-weight: 700; }
+
+/* ── Dashboard ─────────────────────────────── */
+.dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 16px;
+  padding: 20px 24px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.card-header { font-size: 13px; color: var(--text2); margin-bottom: 6px; }
+.card-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.card-pnl { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+.card-pnl.up { color: var(--green); }
+.card-pnl.down { color: var(--red); }
+.card-meta { display: flex; gap: 16px; font-size: 13px; color: var(--text2); }
+.card-meta strong { color: var(--text); }
+
+.jj-card { border-left: 3px solid #ff9a76; }
+.xk-card { border-left: 3px solid var(--blue); }
+
+.chart-container {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 180px;
+}
+.chart-container canvas { max-height: 170px; }
+
+/* ── Rotation panel ────────────────────────── */
+.rotation-panel {
+  display: flex; gap: 24px; padding: 8px 24px;
+  font-size: 13px; color: var(--text2);
+  background: var(--surface); border-bottom: 1px solid var(--border);
+}
+
+/* ── Tabs ──────────────────────────────────── */
+.tabs {
+  display: flex; gap: 2px;
+  padding: 0 24px; margin-top: 4px;
+  border-bottom: 2px solid var(--border);
+}
+.tab {
+  background: none; border: none; color: var(--text2);
+  padding: 10px 20px; font-size: 14px; cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+
+/* ── Tab content ───────────────────────────── */
+.tab-content { display: none; padding: 16px 24px; }
+.tab-content.active { display: block; }
+
+/* ── Tables ────────────────────────────────── */
+.table-wrap { overflow-x: auto; }
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.data-table thead { position: sticky; top: 0; }
+.data-table th {
+  background: var(--surface2); color: var(--text2);
+  padding: 10px 12px; text-align: left; font-weight: 500;
+  white-space: nowrap; border-bottom: 1px solid var(--border);
+}
+.data-table td {
+  padding: 8px 12px; border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+/* cell colors */
+.chg-up { color: var(--green); }
+.chg-down { color: var(--red); }
+.pe-negative { color: var(--text2); font-style: italic; }
+.score-strong { color: var(--green); font-weight: 700; }
+.score-watch { color: var(--yellow); }
+.score-weak { color: var(--text2); }
+.score-risk { color: var(--orange); font-weight: 700; }
+
+.label-tag {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-size: 12px; font-weight: 600;
+}
+.label-tag.strong { background: rgba(0,192,135,0.15); color: var(--green); }
+.label-tag.watch { background: rgba(212,192,48,0.15); color: var(--yellow); }
+.label-tag.risk { background: rgba(240,160,64,0.15); color: var(--orange); }
+.label-tag.weak { background: rgba(139,143,163,0.1); color: var(--text2); }
+
+/* stop-loss dots */
+.sl-dot { font-size: 14px; }
+.sl-dot.green { color: var(--green); }
+.sl-dot.yellow { color: var(--yellow); }
+.sl-dot.orange { color: var(--orange); }
+.sl-dot.red { color: var(--red); }
+
+/* trade type */
+.trade-buy { color: var(--green); font-weight: 600; }
+.trade-sell { color: var(--red); font-weight: 600; }
+
+/* buttons in table */
+.btn-buy, .btn-sell {
+  padding: 4px 12px; border-radius: 4px; font-size: 12px;
+  font-weight: 600; cursor: pointer; border: none;
+  transition: opacity 0.15s;
+}
+.btn-buy { background: var(--green); color: #fff; }
+.btn-sell { background: var(--red); color: #fff; }
+.btn-buy:hover, .btn-sell:hover { opacity: 0.8; }
+.btn-buy:disabled { background: #555; cursor: not-allowed; }
+
+/* ── Modal ─────────────────────────────────── */
+.modal {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; width: 380px;
+}
+.modal-content h3 { margin-bottom: 16px; }
+.modal-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 12px; font-size: 14px;
+}
+.modal-row label { color: var(--text2); }
+.modal-row input[type=number] {
+  width: 120px; padding: 6px 10px;
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px;
+  font-size: 14px; text-align: right;
+}
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+.btn-cancel {
+  padding: 8px 20px; background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 14px;
+}
+.btn-confirm {
+  padding: 8px 20px; background: var(--blue); color: #fff;
+  border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;
+}
+
+/* ── Hint ──────────────────────────────────── */
+.hint { color: var(--text2); font-size: 13px; margin-bottom: 12px; }
+
+/* ── Section titles ────────────────────────── */
+.tab-content h3 {
+  font-size: 15px; margin: 14px 0 8px; color: var(--text2);
+}
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 900px) {
+  .dashboard { grid-template-columns: 1fr 1fr; }
+  .chart-container { grid-column: 1 / -1; }
+}

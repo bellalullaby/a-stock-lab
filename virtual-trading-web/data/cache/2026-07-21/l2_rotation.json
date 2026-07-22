@@ -1,0 +1,48 @@
+{
+  "date": "2026-07-21",
+  "rotation_speed": 0.2,
+  "rotation_label": "加速轮动，仅限 buy_score≥3",
+  "prev_top5_sectors": [
+    "电力",
+    "煤炭开采",
+    "IT服务Ⅱ",
+    "化学原料",
+    "专用设备"
+  ],
+  "curr_top5_sectors": [
+    "半导体",
+    "元件",
+    "光学光电",
+    "汽车零部",
+    "专用设备"
+  ],
+  "overlap": [
+    "专用设备"
+  ],
+  "continuity": {
+    "汽车零部": 1
+  },
+  "sector_structure": {
+    "半导体": {
+      "zt_count_in_pool": 28,
+      "structure": "健康"
+    },
+    "元件": {
+      "zt_count_in_pool": 8,
+      "structure": "健康"
+    },
+    "光学光电": {
+      "zt_count_in_pool": 7,
+      "structure": "健康"
+    },
+    "汽车零部": {
+      "zt_count_in_pool": 7,
+      "structure": "健康"
+    },
+    "专用设备": {
+      "zt_count_in_pool": 4,
+      "structure": "健康"
+    }
+  },
+  "zb_rate": 6.2
+}

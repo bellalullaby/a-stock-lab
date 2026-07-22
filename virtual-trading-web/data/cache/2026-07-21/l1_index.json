@@ -1,0 +1,58 @@
+{
+  "date": "2026-07-21",
+  "regime": "系统性风险",
+  "original_regime": "系统性风险",
+  "regime_downgraded": false,
+  "indices": {
+    "sh000001": {
+      "name": "上证指数",
+      "close": 3864.37,
+      "ma20": 3989.52,
+      "ma60": 4066.93,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 1.193,
+      "chg_pct": 1.79
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "close": 14264.29,
+      "ma20": 15186.79,
+      "ma60": 15396.63,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 1.0918,
+      "chg_pct": 4.81
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "close": 3685.97,
+      "ma20": 3943.57,
+      "ma60": 3939.99,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 1.1459,
+      "chg_pct": 7.05
+    }
+  },
+  "aux_signals": {
+    "主板站上MA20": {
+      "signal": false,
+      "count": 0
+    }
+  },
+  "downgrade": {
+    "triggered": false,
+    "signals_count": 0,
+    "need": 2
+  },
+  "volume_analysis": "价涨量增 — 良性反弹，有资金支持",
+  "avg_vol_ratio": 1.1436,
+  "avg_chg_pct": 4.55
+}

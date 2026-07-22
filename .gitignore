@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+
+# Claude
+.claude/
+
+# Accounts — lock file (transient)
+accounts/.collect.lock
+
+# Data cache — large JSON files, can regenerate
+data/cache/
+
+# Virtual env
+venv/
+env/
+.venv/
+
+# OS
+Thumbs.db
+.DS_Store

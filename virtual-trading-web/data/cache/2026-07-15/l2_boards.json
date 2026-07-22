@@ -1,0 +1,95 @@
+{
+  "date": "2026-07-15",
+  "boards": [
+    {
+      "code": "",
+      "name": "化学制药",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 9,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "医疗服务",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 6,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "电力",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 4,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "医疗器械",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 3,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "电网设备",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 3,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "互联网电",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 3,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "影视院线",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "一般零售",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "煤炭开采",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "服装家纺",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    }
+  ]
+}

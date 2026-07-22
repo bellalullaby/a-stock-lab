@@ -1,0 +1,95 @@
+{
+  "date": "2026-07-21",
+  "boards": [
+    {
+      "code": "",
+      "name": "半导体",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 28,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "元件",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 8,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "光学光电",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 7,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "汽车零部",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 7,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "专用设备",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 4,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "通信设备",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 4,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "消费电子",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 4,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "电子化学",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 4,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "IT服务Ⅱ",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 3,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "化学原料",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 3,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    }
+  ]
+}

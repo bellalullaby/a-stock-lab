@@ -1,0 +1,95 @@
+{
+  "date": "2026-07-17",
+  "boards": [
+    {
+      "code": "",
+      "name": "电力",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 9,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "塑料",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "汽车零部",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 2,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "厨卫电器",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "医疗器械",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "服装家纺",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "专业工程",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "广告营销",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "中药Ⅱ",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    },
+    {
+      "code": "",
+      "name": "专业服务",
+      "close": 0,
+      "chg_pct": 0,
+      "chg_amt": 0,
+      "zt_count": 1,
+      "_note": "涨停集中度排名（API阻断降级方案）"
+    }
+  ]
+}

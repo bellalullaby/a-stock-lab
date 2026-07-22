@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏦 A股虚拟盘 · 酱酱 vs 小克</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════ 告警横幅 ═══════════ -->
+<div id="alert-banner" class="alert-banner hidden">
+  <span id="alert-msg"></span>
+  <button onclick="dismissAlert()">✕</button>
+</div>
+
+<!-- ═══════════ 顶部栏 ═══════════ -->
+<header class="top-bar">
+  <h1>🏦 A股虚拟盘 <span class="subtitle">酱酱 vs 小克</span></h1>
+  <div class="top-actions">
+    <select id="date-select" onchange="onDateChange()">
+      <option value="">加载中...</option>
+    </select>
+    <button id="btn-collect" class="btn-collect" onclick="triggerCollect()">
+      📡 拉取今日数据
+    </button>
+  </div>
+</header>
+
+<!-- ═══════════ L1 状态栏 ═══════════ -->
+<div id="l1-bar" class="l1-bar">
+  <span id="l1-regime">--</span>
+  <span id="l1-volume">--</span>
+  <span id="l1-detail">--</span>
+</div>
+
+<!-- ═══════════ 双账户卡片 + 图表 ═══════════ -->
+<section class="dashboard">
+  <div class="card account-card jj-card">
+    <div class="card-header">🍑 酱酱·手动盘</div>
+    <div class="card-value" id="jj-total">¥--</div>
+    <div class="card-pnl" id="jj-pnl">--</div>
+    <div class="card-meta">
+      <span>💰 现金 <strong id="jj-cash">--</strong></span>
+      <span>📦 持仓 <strong id="jj-count">0</strong> 只</span>
+    </div>
+  </div>
+
+  <div class="card account-card xk-card">
+    <div class="card-header">🤖 小克·纪律盘</div>
+    <div class="card-value" id="xk-total">¥--</div>
+    <div class="card-pnl" id="xk-pnl">--</div>
+    <div class="card-meta">
+      <span>💰 现金 <strong id="xk-cash">--</strong></span>
+      <span>📦 持仓 <strong id="xk-count">0</strong> 只</span>
+    </div>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="compare-chart"></canvas>
+  </div>
+</section>
+
+<!-- ═══════════ 轮动面板 ═══════════ -->
+<div id="rotation-panel" class="rotation-panel">
+  <span id="rotation-label">--</span>
+  <span id="rotation-speed">--</span>
+  <span id="zb-rate">--</span>
+</div>
+
+<!-- ═══════════ Tab 切换 ═══════════ -->
+<nav class="tabs">
+  <button class="tab active" data-tab="signals">📊 今日信号</button>
+  <button class="tab" data-tab="holdings">📋 持仓</button>
+  <button class="tab" data-tab="trades">📜 交易记录</button>
+  <button class="tab" data-tab="replay">⏪ 历史回放</button>
+</nav>
+
+<!-- ═══════════ Tab 内容 ═══════════ -->
+
+<!-- 📊 信号池 -->
+<section id="tab-signals" class="tab-content active">
+  <div class="table-wrap">
+    <table class="data-table" id="signals-table">
+      <thead>
+        <tr>
+          <th>代码</th><th>名称</th><th>连板</th><th>现价</th><th>涨幅</th>
+          <th>PE</th><th>换手</th><th>量比</th><th>市值(亿)</th>
+          <th>行业</th><th>评分</th><th>信号</th><th>触发规则</th><th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="signals-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 📋 持仓 -->
+<section id="tab-holdings" class="tab-content">
+  <h3>🍑 酱酱持仓</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="jj-holdings-table">
+      <thead>
+        <tr><th>代码</th><th>名称</th><th>成本价</th><th>现价</th><th>股数</th><th>市值</th><th>盈亏</th><th>止损</th><th>操作</th></tr>
+      </thead>
+      <tbody id="jj-holdings-tbody"></tbody>
+    </table>
+  </div>
+
+  <h3>🤖 小克持仓</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="xk-holdings-table">
+      <thead>
+        <tr><th>代码</th><th>名称</th><th>成本价</th><th>现价</th><th>股数</th><th>市值</th><th>盈亏</th></tr>
+      </thead>
+      <tbody id="xk-holdings-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 📜 交易记录 -->
+<section id="tab-trades" class="tab-content">
+  <h3>🍑 酱酱交易记录</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="jj-trades-table">
+      <thead>
+        <tr><th>日期</th><th>类型</th><th>代码</th><th>名称</th><th>价格</th><th>股数</th><th>金额</th><th>备注</th></tr>
+      </thead>
+      <tbody id="jj-trades-tbody"></tbody>
+    </table>
+  </div>
+
+  <h3>🤖 小克交易记录</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="xk-trades-table">
+      <thead>
+        <tr><th>日期</th><th>类型</th><th>代码</th><th>名称</th><th>价格</th><th>股数</th><th>金额</th><th>备注</th></tr>
+      </thead>
+      <tbody id="xk-trades-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ⏪ 历史回放 -->
+<section id="tab-replay" class="tab-content">
+  <p class="hint">选择历史日期，查看那天的信号池。可以"假装在那天做决策"。</p>
+  <div class="table-wrap">
+    <table class="data-table" id="replay-table">
+      <thead>
+        <tr><th>代码</th><th>名称</th><th>连板</th><th>现价</th><th>涨幅</th><th>PE</th><th>量比</th><th>评分</th><th>信号</th><th>规则</th></tr>
+      </thead>
+      <tbody id="replay-tbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 交易弹窗 ═══════════ -->
+<div id="trade-modal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="modal-title">买入</h3>
+    <div class="modal-body">
+      <div class="modal-row"><span>代码</span><strong id="modal-code"></strong></div>
+      <div class="modal-row"><span>名称</span><strong id="modal-name"></strong></div>
+      <div class="modal-row"><span>现价</span><strong id="modal-price"></strong></div>
+      <div class="modal-row">
+        <label>股数</label>
+        <input type="number" id="modal-shares" value="100" min="100" step="100">
+      </div>
+      <div class="modal-row">
+        <span>预估金额</span>
+        <strong id="modal-amount">--</strong>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">取消</button>
+      <button class="btn-confirm" id="btn-confirm-trade" onclick="confirmTrade()">确认买入</button>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

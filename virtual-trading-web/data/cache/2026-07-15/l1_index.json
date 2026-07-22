@@ -1,0 +1,58 @@
+{
+  "date": "2026-07-15",
+  "regime": "系统性风险",
+  "original_regime": "系统性风险",
+  "regime_downgraded": false,
+  "indices": {
+    "sh000001": {
+      "name": "上证指数",
+      "close": 3955.58,
+      "ma20": 4047.56,
+      "ma60": 4083.89,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.9286,
+      "chg_pct": -0.29
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "close": 14779.4,
+      "ma20": 15590.2,
+      "ma60": 15462.33,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.8907,
+      "chg_pct": -0.97
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "close": 3804.7,
+      "ma20": 4079.62,
+      "ma60": 3949.12,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.8649,
+      "chg_pct": -1.21
+    }
+  },
+  "aux_signals": {
+    "主板站上MA20": {
+      "signal": false,
+      "count": 0
+    }
+  },
+  "downgrade": {
+    "triggered": false,
+    "signals_count": 0,
+    "need": 2
+  },
+  "volume_analysis": "缩量阴跌 — 底部蓄力，非恐慌性抛售",
+  "avg_vol_ratio": 0.8947,
+  "avg_chg_pct": -0.82
+}

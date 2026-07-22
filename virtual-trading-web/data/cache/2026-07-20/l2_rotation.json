@@ -1,0 +1,48 @@
+{
+  "date": "2026-07-20",
+  "rotation_speed": 0.2,
+  "rotation_label": "加速轮动，仅限 buy_score≥3",
+  "prev_top5_sectors": [
+    "电力",
+    "塑料",
+    "汽车零部",
+    "厨卫电器",
+    "医疗器械"
+  ],
+  "curr_top5_sectors": [
+    "电力",
+    "煤炭开采",
+    "IT服务Ⅱ",
+    "化学原料",
+    "专用设备"
+  ],
+  "overlap": [
+    "电力"
+  ],
+  "continuity": {
+    "电力": 2
+  },
+  "sector_structure": {
+    "电力": {
+      "zt_count_in_pool": 17,
+      "structure": "健康"
+    },
+    "煤炭开采": {
+      "zt_count_in_pool": 6,
+      "structure": "健康"
+    },
+    "IT服务Ⅱ": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "化学原料": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "专用设备": {
+      "zt_count_in_pool": 2,
+      "structure": "分化"
+    }
+  },
+  "zb_rate": 41.8
+}

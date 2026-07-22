@@ -1,0 +1,50 @@
+{
+  "date": "2026-07-16",
+  "rotation_speed": 0.4,
+  "rotation_label": "加速轮动，仅限 buy_score≥3",
+  "prev_top5_sectors": [
+    "化学制药",
+    "医疗服务",
+    "电力",
+    "医疗器械",
+    "电网设备"
+  ],
+  "curr_top5_sectors": [
+    "消费电子",
+    "塑料",
+    "化学制药",
+    "影视院线",
+    "医疗服务"
+  ],
+  "overlap": [
+    "化学制药",
+    "医疗服务"
+  ],
+  "continuity": {
+    "化学制药": 1,
+    "医疗服务": 1
+  },
+  "sector_structure": {
+    "消费电子": {
+      "zt_count_in_pool": 5,
+      "structure": "健康"
+    },
+    "塑料": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "化学制药": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "影视院线": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "医疗服务": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    }
+  },
+  "zb_rate": 37.3
+}

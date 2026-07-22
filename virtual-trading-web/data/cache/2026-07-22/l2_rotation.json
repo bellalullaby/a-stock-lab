@@ -1,0 +1,49 @@
+{
+  "date": "2026-07-22",
+  "rotation_speed": 0.2,
+  "rotation_label": "加速轮动，仅限 buy_score≥3",
+  "prev_top5_sectors": [
+    "半导体",
+    "元件",
+    "光学光电",
+    "汽车零部",
+    "专用设备"
+  ],
+  "curr_top5_sectors": [
+    "电力",
+    "家居用品",
+    "电网设备",
+    "半导体",
+    "化学制药"
+  ],
+  "overlap": [
+    "半导体"
+  ],
+  "continuity": {
+    "电力": 2,
+    "半导体": 1
+  },
+  "sector_structure": {
+    "电力": {
+      "zt_count_in_pool": 8,
+      "structure": "健康"
+    },
+    "家居用品": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "电网设备": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "半导体": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    },
+    "化学制药": {
+      "zt_count_in_pool": 3,
+      "structure": "健康"
+    }
+  },
+  "zb_rate": 43.4
+}

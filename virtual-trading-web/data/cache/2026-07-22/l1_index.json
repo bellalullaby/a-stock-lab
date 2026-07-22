@@ -1,0 +1,58 @@
+{
+  "date": "2026-07-22",
+  "regime": "系统性风险",
+  "original_regime": "系统性风险",
+  "regime_downgraded": false,
+  "indices": {
+    "sh000001": {
+      "name": "上证指数",
+      "close": 3867.03,
+      "ma20": 3977.33,
+      "ma60": 4063.16,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.9995,
+      "chg_pct": 0.07
+    },
+    "sz399001": {
+      "name": "深证成指",
+      "close": 14061.44,
+      "ma20": 15087.29,
+      "ma60": 15380.27,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.8964,
+      "chg_pct": -1.42
+    },
+    "sz399006": {
+      "name": "创业板指",
+      "close": 3566.73,
+      "ma20": 3909.34,
+      "ma60": 3937.43,
+      "above_ma20": false,
+      "above_ma60": false,
+      "ma20_rising": false,
+      "ma20_direction": "DOWN",
+      "vol_ratio": 0.9163,
+      "chg_pct": -3.23
+    }
+  },
+  "aux_signals": {
+    "主板站上MA20": {
+      "signal": false,
+      "count": 0
+    }
+  },
+  "downgrade": {
+    "triggered": false,
+    "signals_count": 0,
+    "need": 2
+  },
+  "volume_analysis": "量价正常，无极端信号",
+  "avg_vol_ratio": 0.9374,
+  "avg_chg_pct": -1.53
+}
