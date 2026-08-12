@@ -11,12 +11,29 @@ let compareChart = null;
 // ── Init ─────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   initTabs();
-  loadDates();
-  loadStatus();
-  loadSignals();
-  loadCompare();
-  loadL1();
-  loadRotation();
+  // 先加载日期列表，再根据 localStorage 恢复选中状态
+  loadDates().then(() => {
+    // 恢复上次保存的日期（如果该日期仍存在）
+    const savedDate = localStorage.getItem("vport_current_date");
+    if (savedDate) {
+      const sel = document.getElementById("date-select");
+      const match = [...sel.options].find(o => o.value === savedDate);
+      if (match) {
+        currentDate = savedDate;
+        sel.value = savedDate;
+      }
+    }
+    loadStatus();
+    loadSignals();
+    loadCompare();
+    loadL1();
+    loadRotation();
+
+    // 恢复上次的 tab（默认"今日信号"）
+    const savedTab = localStorage.getItem("vport_active_tab") || "signals";
+    const tabBtn = document.querySelector(`.tab[data-tab="${savedTab}"]`);
+    if (tabBtn) tabBtn.click();
+  });
 });
 
 // ═══════════════════════════════════════════════════════
@@ -32,9 +49,18 @@ function initTabs() {
       document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
 
       const tabName = btn.dataset.tab;
+      // 记住当前 tab，刷新页面后恢复
+      localStorage.setItem("vport_active_tab", tabName);
+
       if (tabName === "holdings") loadHoldings();
       if (tabName === "trades") loadTrades();
-      if (tabName === "replay") loadReplay();
+      if (tabName === "replay") {
+        // 打开回放 tab 时，同步顶部日期选择器的日期
+        if (currentDate && !currentReplayDate) {
+          currentReplayDate = currentDate;
+        }
+        loadReplay();
+      }
     });
   });
 }
@@ -102,10 +128,24 @@ async function loadDates() {
 
 function onDateChange() {
   currentDate = document.getElementById("date-select").value;
+  // 记住日期，刷新页面后恢复
+  localStorage.setItem("vport_current_date", currentDate);
+
   loadSignals();
   loadL1();
   loadRotation();
   loadStopLoss();
+
+  // 如果当前在回放 tab，同步更新回放的日期和详情
+  const activeTab = document.querySelector(".tab.active");
+  if (activeTab && activeTab.dataset.tab === "replay") {
+    currentReplayDate = currentDate;
+    // 高亮汇总表中对应日期行
+    document.querySelectorAll("#daily-summary-tbody tr").forEach(r => {
+      r.style.background = r.dataset.date === currentDate ? "rgba(74,158,255,0.12)" : "";
+    });
+    renderReplayDate(currentDate);
+  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -327,20 +367,23 @@ async function loadXKHoldings() {
     }
 
     data.holdings.forEach(h => {
-      const curPrice = h.current_price || h.cost_price || 0;
-      const mktVal = curPrice * (h.shares || 0);
-      const pnl = (curPrice - (h.cost_price || 0)) * (h.shares || 0);
-      const pnlPct = h.cost_price ? (curPrice - h.cost_price) / h.cost_price * 100 : 0;
+      // 后端已补全字段（cost_price/current_price/market_value/pnl/pnl_pct）
+      // 前端只做兜底，防旧字段
+      const costPrice = h.cost_price || h.cost || h.buy_price || 0;
+      const curPrice = h.current_price || costPrice;
+      const mktVal = h.market_value != null ? h.market_value : curPrice * (h.shares || 0);
+      const pnl = h.pnl != null ? h.pnl : (curPrice - costPrice) * (h.shares || 0);
+      const pnlPct = h.pnl_pct != null ? h.pnl_pct : (costPrice ? (curPrice - costPrice) / costPrice * 100 : 0);
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${h.code || ""}</td>
         <td>${h.name || ""}</td>
-        <td>¥${fmt(h.cost_price)}</td>
+        <td>¥${fmt(costPrice)}</td>
         <td>¥${fmt(curPrice)}</td>
         <td>${h.shares || 0}</td>
         <td>¥${fmt(mktVal)}</td>
-        <td class="${pnlClass(pnl)}">${fmtPct(pnlPct)}</td>
+        <td class="${pnlClass(pnl)}">${fmtPct(pnlPct)} (¥${fmt(pnl)})</td>
       `;
       tbody.appendChild(tr);
     });
@@ -416,54 +459,6 @@ async function loadTrades() {
     }
   } catch (e) {
     console.error("loadTrades:", e);
-  }
-}
-
-// ═══════════════════════════════════════════════════════
-//  REPLAY TAB
-// ═══════════════════════════════════════════════════════
-
-async function loadReplay() {
-  try {
-    const data = await api("/api/signals?date=" + (currentDate || ""));
-    const tbody = document.getElementById("replay-tbody");
-    tbody.innerHTML = "";
-
-    if (!data.stocks || data.stocks.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:#8b8fa3;padding:24px;">该日期无信号数据</td></tr>';
-      return;
-    }
-
-    data.stocks.forEach(s => {
-      const chgClass = s.chg_pct >= 0 ? "chg-up" : "chg-down";
-      const peText = s.pe != null && s.pe < 0
-        ? `<span class="pe-negative">${s.pe.toFixed(1)}</span>`
-        : (s.pe != null ? s.pe.toFixed(1) : "--");
-
-      let labelHtml = "";
-      const label = s.label || "";
-      if (label === "强候选") labelHtml = '<span class="label-tag strong">强候选</span>';
-      else if (label === "观察") labelHtml = '<span class="label-tag watch">观察</span>';
-      else if (label === "风控") labelHtml = '<span class="label-tag risk">风控</span>';
-      else labelHtml = '<span class="label-tag weak">弱</span>';
-
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${s.code}</td>
-        <td>${s.name}</td>
-        <td>${s.lb}板</td>
-        <td>¥${fmt(s.price)}</td>
-        <td class="${chgClass}">${fmtPct(s.chg_pct)}</td>
-        <td>${peText}</td>
-        <td>${s.vol_ratio != null ? s.vol_ratio.toFixed(2) : "--"}</td>
-        <td>${s.buy_score}/4</td>
-        <td>${labelHtml}</td>
-        <td>${(s.rules || []).join(", ")}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (e) {
-    console.error("loadReplay:", e);
   }
 }
 
@@ -703,4 +698,221 @@ async function triggerCollect() {
     btn.textContent = "📡 拉取今日数据";
     alert("请求失败: " + e.message);
   }
+}
+
+let trackerData = null;     // cached full tracker data
+let currentReplayDate = ""; // which date row is selected
+let trackerPollTimer = null; // for polling tracker refresh
+
+async function loadReplay() {
+  // 1. Fetch tracker summary first (cards + daily summary table)
+  if (!trackerData) {
+    try {
+      const data = await api("/api/signal-tracker?view=summary");
+      if (data.error) {
+        document.getElementById("daily-summary-tbody").innerHTML =
+          '<tr><td colspan="11" style="text-align:center;color:#f0a040;padding:24px;">⚠️ ' + data.error + '</td></tr>';
+        return;
+      }
+      document.getElementById("tk-total").textContent = data.total_signals;
+      document.getElementById("tk-dates").textContent = data.first_date + " ~ " + data.last_date;
+      document.getElementById("tk-strong").textContent = data.strong_count;
+      document.getElementById("tk-observe").textContent = data.observe_count;
+      document.getElementById("tk-days").textContent = data.daily_summary.length + " 天";
+      if (data.daily_summary.length > 0) {
+        const last = data.daily_summary[data.daily_summary.length - 1];
+        document.getElementById("tk-desc").textContent = "最新: " + last.date;
+      }
+
+      // Render daily summary table (clickable rows)
+      const tbody = document.getElementById("daily-summary-tbody");
+      tbody.innerHTML = "";
+      data.daily_summary.forEach(d => {
+        const row = document.createElement("tr");
+        row.style.cursor = "pointer";
+        row.dataset.date = d.date;
+        row.onclick = () => selectReplayDate(d.date);
+        if (d.date === currentReplayDate) row.style.background = "rgba(74,158,255,0.12)";
+        row.title = "点击查看 " + d.date + " 信号明细";
+        const fmtAvg = (v) => {
+          if (v == null) return '<span style="color:#555">--</span>';
+          const cls = v >= 0 ? "chg-up" : "chg-down";
+          return '<span class="' + cls + '">' + fmtPct(v) + '</span>';
+        };
+        const fmtWin = (v) => v != null ? v.toFixed(0) + "%" : '<span style="color:#555">--</span>';
+        row.innerHTML = '<td>' + d.date + '</td><td>' + d.l1_state + '</td><td>' + d.total +
+          '</td><td>' + fmtAvg(d.avg_d1) + '</td><td>' + fmtWin(d.win_d1) +
+          '</td><td>' + fmtAvg(d.avg_d3) + '</td><td>' + fmtWin(d.win_d3) +
+          '</td><td>' + fmtAvg(d.avg_d5) + '</td><td>' + fmtWin(d.win_d5) +
+          '</td><td>' + fmtAvg(d.avg_d10) + '</td><td>' + fmtWin(d.win_d10) + '</td>';
+        tbody.appendChild(row);
+      });
+    } catch (e) {
+      console.error("loadReplay summary:", e);
+    }
+  }
+
+  // 2. Load all signals for cached drill-down
+  if (!trackerData || !trackerData._signals) {
+    try {
+      const sigData = await api("/api/signal-tracker?view=signals&sort=date");
+      if (!sigData.error) {
+        if (!trackerData) trackerData = {};
+        trackerData._signals = sigData.signals || [];
+      }
+    } catch (e) { console.error(e); }
+  }
+
+  // 3. If a date is already selected (or use latest), render its detail
+  if (!currentReplayDate && trackerData?._signals?.length > 0) {
+    // default to latest date with data
+    const dates = [...new Set(trackerData._signals.map(s => s.signal_date))].sort();
+    currentReplayDate = dates[dates.length - 1] || "";
+    // 如果有全局 currentDate（比如从顶部选择器带来的），优先用它
+    if (currentDate && dates.includes(currentDate)) {
+      currentReplayDate = currentDate;
+    }
+  }
+  // 双向同步：回放日期也反映到顶部选择器
+  if (currentReplayDate) {
+    const sel = document.getElementById("date-select");
+    if (sel && [...sel.options].some(o => o.value === currentReplayDate)) {
+      currentDate = currentReplayDate;
+      sel.value = currentReplayDate;
+    }
+  }
+  renderReplayDate(currentReplayDate);
+}
+
+async function selectReplayDate(date) {
+  currentReplayDate = date;
+  // 同步更新顶部日期选择器和全局 currentDate
+  currentDate = date;
+  const sel = document.getElementById("date-select");
+  if (sel && [...sel.options].some(o => o.value === date)) {
+    sel.value = date;
+  }
+  localStorage.setItem("vport_current_date", date);
+
+  // Re-highlight summary rows
+  document.querySelectorAll("#daily-summary-tbody tr").forEach(r => {
+    r.style.background = r.dataset.date === date ? "rgba(74,158,255,0.12)" : "";
+  });
+  renderReplayDate(date);
+  // 同步刷新 L1 状态栏、轮动面板
+  loadL1();
+  loadRotation();
+}
+
+function renderReplayDate(date) {
+  document.getElementById("replay-date-label").textContent = date || "--";
+  const tbody = document.getElementById("replay-tbody");
+  tbody.innerHTML = "";
+
+  if (!trackerData?._signals || !date) {
+    tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;color:#8b8fa3;padding:16px;">点击上方汇总表选中一个日期</td></tr>';
+    return;
+  }
+
+  const stocks = trackerData._signals.filter(s => s.signal_date === date);
+  if (stocks.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;color:#8b8fa3;padding:16px;">该日期无信号数据</td></tr>';
+    return;
+  }
+
+  stocks.sort((a, b) => -(a.buy_score || 0) + (b.buy_score || 0));
+
+  stocks.forEach(s => {
+    const row = document.createElement("tr");
+    const fmtRet = (v) => {
+      if (v == null) return '<span style="color:#555">--</span>';
+      const cls = v >= 0 ? "chg-up" : "chg-down";
+      return '<span class="' + cls + '">' + fmtPct(v) + '</span>';
+    };
+    const peText = s.pe != null && s.pe < 0
+      ? '<span class="pe-negative">' + (s.pe ? s.pe.toFixed(1) : "--") + '</span>'
+      : (s.pe != null ? s.pe.toFixed(1) : "--");
+
+    let labelHtml = "";
+    const out = s.out || "";
+    if (out.includes("强候选")) labelHtml = '<span class="label-tag strong">强候选</span>';
+    else if (out.includes("观察")) labelHtml = '<span class="label-tag watch">观察</span>';
+    else if (out.includes("重点")) labelHtml = '<span class="label-tag strong">重点</span>';
+    else labelHtml = '<span class="label-tag weak">' + out + '</span>';
+
+    row.innerHTML =
+      '<td>' + s.code + '</td>' +
+      '<td>' + s.name + '</td>' +
+      '<td>' + s.lbc + '板</td>' +
+      '<td>' + fmt(s.price) + '</td>' +
+      '<td class="' + (s.pct >= 0 ? "chg-up" : "chg-down") + '">' + fmtPct(s.pct) + '</td>' +
+      '<td>' + peText + '</td>' +
+      '<td>' + (s.buy_score || 0) + '/4</td>' +
+      '<td>' + labelHtml + '</td>' +
+      '<td>' + (s.industry || "--") + '</td>' +
+      '<td>' + fmtRet(s.d1_return) + '</td>' +
+      '<td>' + fmtRet(s.d3_return) + '</td>' +
+      '<td>' + fmtRet(s.d5_return) + '</td>' +
+      '<td>' + fmtRet(s.d10_return) + '</td>' +
+      '<td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;font-size:11px;" title="' + ((s.hits || []).join(", ")) + '">' + ((s.hits || []).join(", ")) + '</td>';
+    tbody.appendChild(row);
+  });
+}
+
+async function refreshSignalTracker() {
+  // 清除旧定时器
+  if (trackerPollTimer) clearInterval(trackerPollTimer);
+
+  // 记录刷新前的生成时间
+  let oldGeneratedAt = "";
+  try {
+    const oldData = await api("/api/signal-tracker?view=summary");
+    oldGeneratedAt = oldData.generated_at || "";
+  } catch (_) {}
+
+  // 触发后台重算
+  try {
+    const result = await apiPost("/api/signal-tracker/refresh", {});
+    if (!result.ok) {
+      alert("重算失败: " + (result.reason || "未知错误"));
+      return;
+    }
+  } catch (e) {
+    alert("请求失败: " + e.message);
+    return;
+  }
+
+  // 轮询直到数据更新（最多 30 次 × 3 秒 = 90 秒）
+  const btn = document.getElementById("btn-refresh-tracker");
+  const origText = btn ? btn.textContent : "";
+  let attempts = 0;
+
+  trackerPollTimer = setInterval(async () => {
+    attempts++;
+    try {
+      const data = await api("/api/signal-tracker?view=summary");
+      if (data.generated_at && data.generated_at !== oldGeneratedAt) {
+        // 数据已更新！
+        clearInterval(trackerPollTimer);
+        trackerPollTimer = null;
+        trackerData = null;  // 清缓存
+        currentReplayDate = currentDate || "";  // 重置为当前选中日期
+        await loadReplay();  // 重新加载
+        if (btn) btn.textContent = origText;
+        console.log("✅ 信号追踪数据已刷新（轮询 " + attempts + " 次）");
+        return;
+      }
+    } catch (_) {}
+
+    if (attempts >= 30) {
+      // 超时
+      clearInterval(trackerPollTimer);
+      trackerPollTimer = null;
+      if (btn) btn.textContent = origText;
+      console.warn("⚠️ 信号追踪刷新超时");
+    }
+  }, 3000);
+
+  // 在按钮上显示状态
+  if (btn) btn.textContent = "⏳ 追踪重算中...";
 }

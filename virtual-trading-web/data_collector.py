@@ -89,16 +89,35 @@ AUX_BOARD_KEYWORDS = ["微盘股", "ST板块"]  # ST 会模糊匹配 "ST板块" 
 # API 端点
 # ═══════════════════════════════════════════════════════════════
 
-TENCENT_KLINE = "http://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
+TENCENT_KLINE = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
 TENCENT_QT    = "http://qt.gtimg.cn/q={codes}"
 EM_ZT_POOL    = "https://push2ex.eastmoney.com/getTopicZTPool"
 EM_ZB_POOL    = "https://push2ex.eastmoney.com/getTopicZBPool"
-# 行业/概念板块 API 在 push2 子域名（非 push2ex），尝试 HTTP 绕过 SSL 阻断
-EM_CLIST      = "http://push2.eastmoney.com/api/qt/clist/get"
+# 行业/概念板块 API 在 push2 子域名（非 push2ex）
+# 注意：必须用 https。东财 2026-08 起拒绝明文 HTTP（返回 502），
+# 之前"HTTP 绕过 SSL 阻断"的做法已失效（P0 bug 教训：板块采集降级导致止损误杀）
+EM_CLIST      = "https://push2.eastmoney.com/api/qt/clist/get"
 
 # ═══════════════════════════════════════════════════════════════
 # 工具函数
 # ═══════════════════════════════════════════════════════════════
+
+# 东财/腾讯等国内接口强制不走代理。
+# 教训（P0）：环境变量代理指向 Clash → 全部流量走 chain-us → us-iproyal
+# 纽约住宅 IP → 东财风控 502 → 板块采集降级 → 止损引擎集体误杀。
+# 国内数据源直连天经地义，永不经过代理。
+NO_PROXY = {"http": None, "https": None}
+
+
+def em_get(url, params=None, headers=None, timeout=15):
+    """国内接口统一请求入口：强制不走代理 + 复用 UA"""
+    return requests.get(
+        url, params=params,
+        headers=headers or {"User-Agent": UA},
+        timeout=timeout,
+        proxies=NO_PROXY,
+    )
+
 
 def to_em_date(dt_str: str) -> str:
     """2026-07-20 → 20260720（东财 API 日期格式，无连字符）"""
@@ -179,37 +198,99 @@ def is_weekend(date_str: str) -> bool:
 # 数据拉取 — 腾讯 K 线
 # ═══════════════════════════════════════════════════════════════
 
+def tx_to_secid(tx_code: str) -> str:
+    """
+    腾讯代码 → 东财 secid。
+    sh600519 → 1.600519, sz000001 → 0.000001, bj920305 → 0.920305
+    """
+    prefix = tx_code[:2]
+    num = tx_code[2:]
+    mkt = "1" if prefix == "sh" else "0"
+    return f"{mkt}.{num}"
+
+
+def _fetch_klines_em(tx_code: str, limit: int = 120) -> list:
+    """
+    东财 push2his 日K线（腾讯 K线不可用时的降级源）。
+    返回格式与腾讯一致: [[date(str), open, close, high, low, volume], ...]
+    """
+    secid = tx_to_secid(tx_code)
+    url = "https://push2his.eastmoney.com/api/qt/stock/kline/get"
+    params = {
+        "secid": secid,
+        "fields1": "f1,f2,f3,f4,f5,f6",
+        "fields2": "f51,f52,f53,f54,f55,f56,f57,f58",
+        "klt": "101",          # 日K
+        "fqt": "1",            # 前复权
+        "end": "20500101",     # 到最新
+        "lmt": str(limit),
+    }
+    try:
+        resp = requests.get(
+            url, params=params,
+            headers={"User-Agent": UA, "Referer": "https://quote.eastmoney.com/"},
+            timeout=15, proxies=NO_PROXY,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        klines = (data.get("data") or {}).get("klines") or []
+        rows = []
+        for item in klines:
+            parts = str(item).split(",")
+            if len(parts) < 6:
+                continue
+            try:
+                rows.append([
+                    parts[0],           # date
+                    float(parts[1]),    # open
+                    float(parts[2]),    # close
+                    float(parts[3]),    # high
+                    float(parts[4]),    # low
+                    float(parts[5]),    # volume
+                ])
+            except (ValueError, TypeError):
+                continue
+        return rows
+    except Exception as e:
+        print(f"  ✗ {tx_code} 东财K线拉取失败: {e}")
+        return []
+
+
 def fetch_klines(tx_code: str, limit: int = 120) -> list:
     """
     从腾讯 API 拉取日K线（前复权）。
     返回: [[date(str), open, close, high, low, volume], ...]
-    失败或为空返回 []。
+    失败或为空时降级到东财 push2his。
     """
     url = f"{TENCENT_KLINE}?param={tx_code},day,,,{limit},qfq"
     try:
-        resp = requests.get(url, headers={"User-Agent": UA}, timeout=15)
+        # P0 教训：requests.get 默认读环境代理(Clash) → 财经接口 502/SSL 失败，
+        # 必须强制直连（与 em_get 一致）
+        resp = requests.get(
+            url, headers={"User-Agent": UA}, timeout=15, proxies=NO_PROXY
+        )
         resp.raise_for_status()
         data = resp.json()
 
         # 北交所（bj 前缀）等不支持的类型，API 可能返回空列表
         if isinstance(data, list):
-            return []
+            return _fetch_klines_em(tx_code, limit)
 
         if data.get("code") != 0:
             print(f"  ⚠ {tx_code} API code={data.get('code')}: {data.get('msg', '')}")
-            return []
+            return _fetch_klines_em(tx_code, limit)
 
         raw = data.get("data", {})
         # 北交所等不支持类型：data["data"] 可能是 list 而非 dict
         if isinstance(raw, list):
-            return []
+            return _fetch_klines_em(tx_code, limit)
         raw = raw.get(tx_code, {}) if isinstance(raw, dict) else {}
         if raw is None:
-            return []
+            return _fetch_klines_em(tx_code, limit)
 
         # 北交所（bj 前缀）可能返回 list 而非 dict
         if isinstance(raw, list):
-            return []
+            return _fetch_klines_em(tx_code, limit)
 
         day_list = raw.get("day")
         if not day_list:
@@ -231,11 +312,13 @@ def fetch_klines(tx_code: str, limit: int = 120) -> list:
                 ])
             except (ValueError, TypeError):
                 continue
+        if not rows:
+            return _fetch_klines_em(tx_code, limit)
         return rows
 
     except Exception as e:
         print(f"  ✗ {tx_code} K线拉取失败: {e}")
-        return []
+        return _fetch_klines_em(tx_code, limit)
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -257,7 +340,10 @@ def fetch_qt_batch(tx_codes: list) -> dict:
         batch = tx_codes[i:i + batch_size]
         url = TENCENT_QT.format(codes=",".join(batch))
         try:
-            resp = requests.get(url, headers={"User-Agent": UA}, timeout=15)
+            # P0 教训：必须强制直连，否则环境代理(Clash)导致 502
+            resp = requests.get(
+                url, headers={"User-Agent": UA}, timeout=15, proxies=NO_PROXY
+            )
             resp.encoding = "gbk"  # 腾讯 qt 返回 GBK
             text = resp.text
 
@@ -321,7 +407,7 @@ def fetch_zt_pool(date_str: str) -> list:
         "date": to_em_date(date_str),
     }
     try:
-        resp = requests.get(EM_ZT_POOL, params=params, headers=EM_HEADERS, timeout=15)
+        resp = em_get(EM_ZT_POOL, params=params, headers=EM_HEADERS)
         resp.raise_for_status()
         data = resp.json()
         pool = data.get("data", {}).get("pool", [])
@@ -376,7 +462,7 @@ def fetch_zb_pool(date_str: str) -> list:
         "date": to_em_date(date_str),
     }
     try:
-        resp = requests.get(EM_ZB_POOL, params=params, headers=EM_HEADERS, timeout=15)
+        resp = em_get(EM_ZB_POOL, params=params, headers=EM_HEADERS)
         resp.raise_for_status()
         data = resp.json()
         pool = data.get("data", {}).get("pool", [])
@@ -403,11 +489,23 @@ def fetch_zb_pool(date_str: str) -> list:
 # 数据拉取 — 东财行业板块 / 概念板块
 # ═══════════════════════════════════════════════════════════════
 
-def fetch_industry_boards(top_n: int = 10) -> list:
+def fetch_industry_boards(top_n: int = 20) -> list:
     """
-    拉取行业板块涨幅 TOP N。
+    拉取行业板块 TOP N（主源东财涨幅榜，失败返回空——由调用方降级为
+    涨停池集中度排名，见 analyze_l2）。
     返回: [{code, name, chg_pct, close, ...}, ...]
+
+    注意：必须 ≥ 20。板块止损分层依赖 TOP20（TOP20 全卖 / TOP10 减半），
+    只存 TOP10 会导致持仓行业永远不在榜单内 → 集体误判清仓（P0 bug 教训）。
+
+    重要：榜单必须与持仓 hybk 同源（东财体系）。同花顺行业名与东财
+    不一致（环境治理 vs 环保设备），用作止损榜单会集体误杀（教训）。
     """
+    return _fetch_industry_boards_em(top_n)
+
+
+def _fetch_industry_boards_em(top_n: int = 20) -> list:
+    """东财行业板块涨幅 TOP N（直连，不走代理——代理 IP 会被东财风控）"""
     params = {
         "pn": "1",
         "pz": str(top_n),
@@ -419,7 +517,7 @@ def fetch_industry_boards(top_n: int = 10) -> list:
         "fields": "f2,f3,f4,f12,f14",
     }
     try:
-        resp = requests.get(EM_CLIST, params=params, headers=EM_HEADERS, timeout=15)
+        resp = em_get(EM_CLIST, params=params, headers=EM_HEADERS)
         resp.raise_for_status()
         data = resp.json()
         items = data.get("data", {}).get("diff", [])
@@ -434,7 +532,56 @@ def fetch_industry_boards(top_n: int = 10) -> list:
             })
         return boards
     except Exception as e:
-        print(f"  ✗ 行业板块拉取失败: {e}")
+        print(f"  ✗ 东财行业板块拉取失败: {e}")
+        return []
+
+
+def _fetch_industry_boards_ths(top_n: int = 20) -> list:
+    """
+    同花顺行业板块涨幅 TOP N（备用源）。
+    东财 push2 被 IP 风控时降级使用（直连不通，走系统代理可达）。
+
+    页面结构（q.10jqka.com.cn/thshy/）每行:
+      <tr>... <td>排名</td> <td><a href="/thshy/detail/code/881121/">行业名</a></td> <td>涨幅%</td> ...
+    """
+    import re as _re
+    try:
+        resp = requests.get(
+            "https://q.10jqka.com.cn/thshy/",
+            headers={"User-Agent": UA},
+            timeout=20,
+            proxies=NO_PROXY,  # 同花顺国内直连稳定；走代理反而慢/超时
+        )
+        resp.encoding = "gbk"
+        html = resp.text
+
+        boards = []
+        for row in _re.finditer(r"<tr[^>]*>(.*?)</tr>", html, _re.S):
+            tds = _re.findall(r"<td[^>]*>(.*?)</td>", row.group(1), _re.S)
+            if len(tds) < 3:
+                continue
+            name_m = _re.search(r">([^<]+)</a>", tds[1])
+            name = name_m.group(1).strip() if name_m else ""
+            chg_text = _re.sub(r"<[^>]+>", "", tds[2]).strip()
+            if not name or not chg_text:
+                continue
+            try:
+                chg = float(chg_text)
+            except ValueError:
+                continue
+            boards.append({
+                "code": "",
+                "name": name,
+                "close": 0,
+                "chg_pct": chg,
+                "chg_amt": 0,
+                "_source": "ths",
+            })
+        # 按涨幅降序（同花顺页面可能不是严格按涨幅排）
+        boards.sort(key=lambda b: b["chg_pct"], reverse=True)
+        return boards[:top_n]
+    except Exception as e:
+        print(f"  ✗ 同花顺行业板块拉取失败: {e}")
         return []
 
 
@@ -459,7 +606,7 @@ def fetch_concept_board_by_keyword(keywords: list) -> dict:
         "fields": "f2,f3,f4,f12,f14",
     }
     try:
-        resp = requests.get(EM_CLIST, params=params, headers=EM_HEADERS, timeout=15)
+        resp = em_get(EM_CLIST, params=params, headers=EM_HEADERS)
         resp.raise_for_status()
         data = resp.json()
         items = data.get("data", {}).get("diff", [])
@@ -731,20 +878,22 @@ def analyze_l2(date_str: str) -> dict:
 
     time.sleep(EM_GAP)
 
-    # ── 行业板块 TOP10 ──
-    print("  拉取行业板块涨幅 TOP10...")
-    boards = fetch_industry_boards(10)
+    # ── 行业板块 TOP20（板块止损分层需要 TOP20，TOP10 不够） ──
+    print("  拉取行业板块涨幅 TOP20...")
+    boards = fetch_industry_boards(20)
     if not boards:
-        # 东财 push2 API 被阻断时，用涨停池 hybk 字段做涨停集中度排名（替代涨幅排名）
-        print("    ⚠ push2 API 不通，改用涨停池行业集中度排名")
+        # 东财涨幅榜失败（push2 风控/断连）时，用涨停池 hybk 集中度排名。
+        # 注意：涨停池 hybk 与持仓 hybk 同属东财体系，行业名一致，
+        # 不会出现同花顺那种名称错位导致的集体误杀（P0 教训）。
+        print("    ⚠ 东财涨幅榜不可用，改用涨停池行业集中度排名（同源，止损安全）")
         sector_zt_count = {}
         for s in zt_pool:
             bk = s.get("hybk", "")
             if bk:
                 sector_zt_count[bk] = sector_zt_count.get(bk, 0) + 1
-        # 按涨停数量降序排列
+        # 按涨停数量降序排列（同样取 TOP20，板块止损分级需要）
         ranked = sorted(sector_zt_count.items(), key=lambda x: x[1], reverse=True)
-        for name, count in ranked[:10]:
+        for name, count in ranked[:20]:
             boards.append({
                 "code": "",
                 "name": name,
@@ -752,7 +901,7 @@ def analyze_l2(date_str: str) -> dict:
                 "chg_pct": 0,
                 "chg_amt": 0,
                 "zt_count": count,
-                "_note": "涨停集中度排名（API阻断降级方案）",
+                "_note": "涨停集中度排名（东财涨幅榜不可用降级）",
             })
 
     if boards:
@@ -1081,12 +1230,130 @@ def analyze_l3(date_str: str, zt_pool: list, l1_result: dict, l2_rotation: dict)
 
 
 # ═══════════════════════════════════════════════════════════════
-#  主流程
+#  步骤 0.5: 缺口检测 + 自动回补
 # ═══════════════════════════════════════════════════════════════
 
-def collect(date_str: str):
+# 从第一条缓存到昨天之间的交易日（排除周末和节假日，用涨停池验证）
+# 跟已有缓存比较，找出缺失日期
+
+
+def find_trading_gaps(up_to_date: str) -> list:
+    """
+    扫描 data/cache/，找出从最早缓存日到 up_to_date 之间缺失的日期。
+    注意：不是精确交易日检测（会拉涨停池验证），这里先做日期扫描，
+    具体是否交易日由 collect() 内部判断。
+
+    返回: 缺失的日期列表 (YYYY-MM-DD)，按日期升序
+    """
+    if not CACHE_ROOT.exists():
+        return []
+
+    # 收集已有缓存日期
+    existing = set()
+    for d in CACHE_ROOT.iterdir():
+        if d.is_dir():
+            try:
+                datetime.strptime(d.name, "%Y-%m-%d")
+                if (d / "l1_index.json").exists():
+                    existing.add(d.name)
+            except ValueError:
+                continue
+
+    if not existing:
+        return []
+
+    all_dates = sorted(existing)
+    first_date_str = all_dates[0]  # 最早
+    last_cached = all_dates[-1]    # 最新已缓存
+
+    # 从最早缓存日到 up_to_date
+    try:
+        first_date = datetime.strptime(first_date_str, "%Y-%m-%d")
+        target_date = datetime.strptime(up_to_date, "%Y-%m-%d")
+    except ValueError:
+        return []
+
+    # 找缺口：从 first_date 到 target_date 之间，不在 existing 里的日期
+    gaps = []
+    curr = first_date
+    while curr <= target_date:
+        ds = curr.strftime("%Y-%m-%d")
+        if ds not in existing:
+            gaps.append(ds)
+        curr += timedelta(days=1)
+
+    return gaps
+
+
+def auto_backfill(requested_date: str, verbose: bool = True):
+    """
+    🆕 缺口自动回补（cc review，2026-07-29）
+
+    1. 扫描 data/cache/ 找出缺失日期
+    2. 对每个缺失日期调用 collect()
+    3. 标注 "backfilled": True
+    4. 最后跑 requested_date 的采集
+
+    参数:
+        requested_date: 用户请求的日期（YYYY-MM-DD）
+        verbose: 是否打印进度
+    """
+    gaps = find_trading_gaps(requested_date)
+
+    backfilled = []
+    skipped = []
+
+    for gap_date in gaps:
+        if verbose:
+            print(f"\n🔙 自动回补: {gap_date}")
+
+        # 检查是否已有缓存（双重检查，防止并发场景下的重复回补）
+        gap_cache = CACHE_ROOT / gap_date
+        if gap_cache.exists() and (gap_cache / "l1_index.json").exists():
+            if verbose:
+                print(f"  ⏭ {gap_date} 已有缓存，跳过")
+            skipped.append(gap_date)
+            continue
+
+        # 跳过周末（周六日直接标记已跳过）
+        if is_weekend(gap_date):
+            if verbose:
+                print(f"  ⏭ {gap_date} 是周末，跳过")
+            skipped.append(gap_date)
+            continue
+
+        # 拉取涨停池验证是否为交易日
+        zt_pool = fetch_zt_pool(gap_date)
+        if not zt_pool:
+            if verbose:
+                print(f"  ⚠ {gap_date} 涨停池为空（非交易日/休市），跳过")
+            skipped.append(gap_date)
+            continue
+
+        # 跑采集（collect 内部通过 is_backfill 标记）
+        try:
+            collect(gap_date, is_backfill=True)
+            backfilled.append(gap_date)
+            time.sleep(EM_GAP)  # 回补间间隔
+        except Exception as e:
+            if verbose:
+                print(f"  ✗ {gap_date} 回补失败: {e}")
+            skipped.append(gap_date)
+
+    if verbose and backfilled:
+        print(f"\n✅ 回补完成: {len(backfilled)} 个日期 ({', '.join(backfilled)})")
+    if verbose and skipped:
+        print(f"⏭ 跳过: {len(skipped)} 个日期")
+
+    return backfilled, skipped
+
+def collect(date_str: str, is_backfill: bool = False):
     """
     主入口：按 SPEC §7.2 流程拉取全量数据并写入缓存。
+
+    参数:
+        date_str: 目标日期 (YYYY-MM-DD)
+        is_backfill: 🆕 是否来自自动回补（标记在 l1_index.json）
     """
     cache_dir = CACHE_ROOT / date_str
     ensure_dir(cache_dir)
@@ -1140,6 +1407,8 @@ def collect(date_str: str):
 
     # l1_index.json
     path = cache_dir / "l1_index.json"
+    if is_backfill:
+        l1_result["backfilled"] = True
     with open(path, "w", encoding="utf-8") as f:
         json.dump(l1_result, f, ensure_ascii=False, indent=2)
     files_written.append(str(path))
@@ -1225,12 +1494,17 @@ if __name__ == "__main__":
         help="目标日期，格式 YYYY-MM-DD（默认今天）",
     )
     args = parser.parse_args()
+    target_date = args.date
 
     # 验证日期格式
     try:
-        datetime.strptime(args.date, "%Y-%m-%d")
+        datetime.strptime(target_date, "%Y-%m-%d")
     except ValueError:
-        print(f"❌ 日期格式错误: {args.date}，应为 YYYY-MM-DD")
+        print(f"❌ 日期格式错误: {target_date}，应为 YYYY-MM-DD")
         sys.exit(1)
 
-    collect(args.date)
+    # 🆕 步骤 0.5: 缺口检测 + 自动回补
+    auto_backfill(target_date)
+
+    # 🆕 跑目标日期采集
+    collect(target_date)

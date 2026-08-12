@@ -12,9 +12,45 @@ __pycache__/
 
 # Accounts — lock file (transient)
 accounts/.collect.lock
+*.fuse_hidden*
 
-# Data cache — large JSON files, can regenerate
+# Data cache — large JSON files, can regenerate（任意层级）
 data/cache/
+**/data/cache/
+
+# 备份文件（临时/回滚用，不入库）
+*.bak
+*.bak_*
+*.bak-*
+*_backup_*
+portfolio_backup_*.json
+
+# 虚拟盘每日旧版简报脚本（已被通用 closing_briefing.py 取代）
+virtual-trading-web/closing_briefing_0*.py
+virtual-trading-web/morning_scripts/
+closing_briefing_07*.py
+closing_briefing_08*.py
+
+# 一次性旧版 SOP 脚本（每日生成，已废弃）
+sop_briefing_0723.py
+update_portfolio_0723.py
+run_closing_0723.py
+
+# 预览/临时产物
+.preview_email.html
+*.tmp
+
+# Claude 计划文件
+plans/
+
+# 回测数据缓存（历史行情 CSV，可重新拉取）
+backtest/cache/
+backtest/__pycache__/
+backtest/output/
+
+# 独立 git 仓库（有各自的版本历史，不入主仓库）
+a-stock-data/
+ashare-sop-engine/
 
 # Virtual env
 venv/

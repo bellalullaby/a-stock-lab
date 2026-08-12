@@ -74,7 +74,7 @@
   <button class="tab active" data-tab="signals">📊 今日信号</button>
   <button class="tab" data-tab="holdings">📋 持仓</button>
   <button class="tab" data-tab="trades">📜 交易记录</button>
-  <button class="tab" data-tab="replay">⏪ 历史回放</button>
+  <button class="tab" data-tab="replay">⏪ 信号回放+追踪</button>
 </nav>
 
 <!-- ═══════════ Tab 内容 ═══════════ -->
@@ -141,13 +141,64 @@
   </div>
 </section>
 
-<!-- ⏪ 历史回放 -->
+<!-- ⏪ 信号回放+追踪 -->
 <section id="tab-replay" class="tab-content">
-  <p class="hint">选择历史日期，查看那天的信号池。可以"假装在那天做决策"。</p>
+  <p class="hint">选日期看那天的信号池，同时看它们后来 D1/D3/D5/D10 实际表现。可以"假装在那天做决策"然后看结果。</p>
+
+  <!-- 概览卡片 -->
+  <div class="tracker-cards">
+    <div class="tracker-card">
+      <div class="tcard-label">📊 总信号数</div>
+      <div class="tcard-value" id="tk-total">--</div>
+      <div class="tcard-sub" id="tk-dates">--</div>
+    </div>
+    <div class="tracker-card">
+      <div class="tcard-label">🔥 强候选</div>
+      <div class="tcard-value" id="tk-strong">--</div>
+      <div class="tcard-sub" id="tk-strong-d5">--</div>
+    </div>
+    <div class="tracker-card">
+      <div class="tcard-label">👀 观察</div>
+      <div class="tcard-value" id="tk-observe">--</div>
+      <div class="tcard-sub" id="tk-observe-d5">--</div>
+    </div>
+    <div class="tracker-card">
+      <div class="tcard-label">📅 覆盖日期</div>
+      <div class="tcard-value" id="tk-days">--</div>
+      <div class="tcard-sub" id="tk-desc">--</div>
+    </div>
+  </div>
+
+  <!-- 每日信号汇总表 -->
+  <h3>📅 每日信号表现汇总</h3>
+  <div class="table-wrap">
+    <table class="data-table" id="daily-summary-table">
+      <thead>
+        <tr>
+          <th>日期</th><th>L1</th><th>信号数</th>
+          <th>D1均</th><th>D1胜率</th><th>D3均</th><th>D3胜率</th>
+          <th>D5均</th><th>D5胜率</th><th>D10均</th><th>D10胜率</th>
+        </tr>
+      </thead>
+      <tbody id="daily-summary-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- 某日信号池（按日期筛选） -->
+  <h3>📋 选中日期: <span id="replay-date-label">--</span></h3>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+    <span class="hint">点击汇总表里的某一天，下方显示那天的具体信号 + 后续表现</span>
+    <button id="btn-refresh-tracker" class="btn-collect" onclick="refreshSignalTracker()">🔄 重算追踪</button>
+  </div>
   <div class="table-wrap">
     <table class="data-table" id="replay-table">
       <thead>
-        <tr><th>代码</th><th>名称</th><th>连板</th><th>现价</th><th>涨幅</th><th>PE</th><th>量比</th><th>评分</th><th>信号</th><th>规则</th></tr>
+        <tr>
+          <th>代码</th><th>名称</th><th>连板</th><th>推荐价</th><th>当日涨幅</th>
+          <th>PE</th><th>评分</th><th>信号</th><th>行业</th>
+          <th>D1</th><th>D3</th><th>D5</th><th>D10</th>
+          <th>规则</th>
+        </tr>
       </thead>
       <tbody id="replay-tbody"></tbody>
     </table>

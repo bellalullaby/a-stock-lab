@@ -241,3 +241,25 @@ body {
   .dashboard { grid-template-columns: 1fr 1fr; }
   .chart-container { grid-column: 1 / -1; }
 }
+
+/* ── Signal Tracker Cards ──────────────────── */
+.tracker-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.tracker-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.tcard-label { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+.tcard-value { font-size: 24px; font-weight: 700; }
+.tcard-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+@media (max-width: 700px) {
+  .tracker-cards { grid-template-columns: repeat(2, 1fr); }
+}

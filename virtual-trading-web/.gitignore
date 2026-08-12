@@ -1,0 +1,10 @@
+# 邮箱配置（含授权码，绝对不能提交！）
+.email_config.json
+.preview_email.html
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/

@@ -1,6 +1,7 @@
-import requests, json, time, math
+import requests, json, time, math, sys
 from datetime import datetime, date
 from collections import Counter
+from pathlib import Path
 
 today = date.today().strftime("%Y-%m-%d")
 today_c = today.replace("-","")
@@ -140,7 +141,10 @@ for z in top:
 print("\n## L4: 盘前vs收盘对比")
 
 # Read portfolio
-pf_path = "/sessions/kind-peaceful-hypatia/mnt/MyClaude/a-stock-lab/virtual-portfolio/portfolio.json"
+_REPO = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(_REPO))
+from common_paths import PORTFOLIO
+pf_path = str(PORTFOLIO)
 with open(pf_path, 'r', encoding='utf-8') as f:
     pf = json.load(f)
 

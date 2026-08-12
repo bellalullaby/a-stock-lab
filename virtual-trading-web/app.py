@@ -280,12 +280,67 @@ def api_holdings_jj():
 
 # ═══════════════════════════════════════════════════════════
 #  API 4: /api/holdings/xk — 小克持仓
+#  动态补全字段：portfolio.json 里存的是 cost/buy_price，
+#  前端要的是 cost_price/current_price，这里统一转换 + 拉实时价
 # ═══════════════════════════════════════════════════════════
+
+def fetch_tencent_prices(codes):
+    """批量拉腾讯实时行情，返回 {code: price}（code 带 sh/sz 前缀）"""
+    if not codes:
+        return {}
+    try:
+        import urllib.request
+        url = "https://qt.gtimg.cn/q=" + ",".join(codes)
+        req = urllib.request.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0")
+        data = urllib.request.urlopen(req, timeout=10).read().decode("gbk")
+        prices = {}
+        for line in data.strip().split(";"):
+            if not line.strip() or "=" not in line or '"' not in line:
+                continue
+            key = line.split("=")[0].split("_")[-1]  # 如 sh600272
+            vals = line.split('"')[1].split("~")
+            if len(vals) > 40 and vals[3]:
+                prices[key] = float(vals[3])
+        return prices
+    except Exception:
+        return {}
+
 
 @app.route("/api/holdings/xk")
 def api_holdings_xk():
     pf = load_xk_portfolio()
-    return jsonify({"holdings": pf.get("holdings", [])})
+    holdings = pf.get("holdings", [])
+
+    if not holdings:
+        return jsonify({"holdings": []})
+
+    # 收集带前缀的代码，一次批量请求拉实时价
+    codes = []
+    for h in holdings:
+        c = h.get("code", "")
+        if c and c not in codes:
+            codes.append(c)
+    prices = fetch_tencent_prices(codes)
+
+    results = []
+    for h in holdings:
+        code = h.get("code", "")
+        # portfolio.json 字段名兼容：cost / cost_price / buy_price
+        cost = h.get("cost") or h.get("cost_price") or h.get("buy_price") or 0
+        shares = h.get("shares", 0)
+        # 实时价拿不到时回退成本价
+        cur = prices.get(code) or cost
+        results.append({
+            **h,
+            "cost_price": cost,
+            "current_price": cur,
+            "market_value": round(cur * shares, 2),
+            "pnl": round((cur - cost) * shares, 2),
+            "pnl_pct": round((cur - cost) / cost * 100, 2) if cost else 0,
+        })
+
+    return jsonify({"holdings": results})
 
 
 # ═══════════════════════════════════════════════════════════
@@ -377,6 +432,8 @@ def api_trade():
                 )
 
             # 记交易 + 扣现金
+            if amount > cash:
+                return jsonify({"ok": False, "error": f"资金不足（需要 ¥{amount:,.2f}，可用 ¥{cash:,.2f}）"}), 400
             new_cash = round(cash - amount, 2)
             conn.execute(
                 "INSERT INTO trades (date, type, code, name, price, shares, amount, note) "
@@ -891,6 +948,94 @@ def api_l1():
         return jsonify({"error": "无缓存数据"})
 
     return jsonify(data)
+
+
+# ═══════════════════════════════════════════════════════════
+#  API 15: /api/signal-tracker — 信号追踪（历史推荐→后续表现）
+# ═══════════════════════════════════════════════════════════
+
+SIGNAL_TRACKER_FILE = BASE_DIR / "data" / "signal_tracker.json"
+
+
+@app.route("/api/signal-tracker")
+def api_signal_tracker():
+    """返回信号追踪数据。支持 ?view=summary|signals|stock&code=&sort=d5"""
+    data = load_json(SIGNAL_TRACKER_FILE)
+    if not data:
+        return jsonify({"error": "信号追踪数据尚未生成，请运行 signal_tracker.py"})
+
+    view = request.args.get("view", "summary")
+    sort_by = request.args.get("sort", "date")
+
+    if view == "signals":
+        signals = data.get("signals", [])
+        # 排序
+        if sort_by == "d5":
+            signals = sorted(signals, key=lambda s: -(s.get("d5_return") or -999))
+        elif sort_by == "d3":
+            signals = sorted(signals, key=lambda s: -(s.get("d3_return") or -999))
+        elif sort_by == "d1":
+            signals = sorted(signals, key=lambda s: -(s.get("d1_return") or -999))
+        elif sort_by == "worst_d5":
+            signals = sorted(signals, key=lambda s: (s.get("d5_return") or 999))
+        return jsonify({"signals": signals, "total": len(signals)})
+
+    if view == "stock":
+        code = request.args.get("code", "")
+        signals = data.get("signals", [])
+        stock_signals = [s for s in signals if s.get("code") == code]
+        # 计算该股票的平均表现
+        avg_d1 = avg_d3 = avg_d5 = avg_d10 = None
+        d1_vals = [s["d1_return"] for s in stock_signals if s.get("d1_return") is not None]
+        d3_vals = [s["d3_return"] for s in stock_signals if s.get("d3_return") is not None]
+        d5_vals = [s["d5_return"] for s in stock_signals if s.get("d5_return") is not None]
+        d10_vals = [s["d10_return"] for s in stock_signals if s.get("d10_return") is not None]
+        if d1_vals: avg_d1 = round(sum(d1_vals) / len(d1_vals), 2)
+        if d3_vals: avg_d3 = round(sum(d3_vals) / len(d3_vals), 2)
+        if d5_vals: avg_d5 = round(sum(d5_vals) / len(d5_vals), 2)
+        if d10_vals: avg_d10 = round(sum(d10_vals) / len(d10_vals), 2)
+        return jsonify({
+            "code": code,
+            "name": stock_signals[0]["name"] if stock_signals else "",
+            "appearances": len(stock_signals),
+            "avg_d1": avg_d1, "avg_d3": avg_d3, "avg_d5": avg_d5, "avg_d10": avg_d10,
+            "signals": stock_signals,
+        })
+
+    # 默认 view=summary
+    return jsonify({
+        "generated_at": data.get("generated_at", ""),
+        "first_date": data.get("first_date", ""),
+        "last_date": data.get("last_date", ""),
+        "total_signals": data.get("total_signals", 0),
+        "total_stocks": data.get("total_stocks", 0),
+        "strong_count": data.get("strong_count", 0),
+        "observe_count": data.get("observe_count", 0),
+        "daily_summary": data.get("daily_summary", []),
+    })
+
+
+# ═══════════════════════════════════════════════════════════
+#  API 16: POST /api/signal-tracker/refresh — 重算信号追踪
+# ═══════════════════════════════════════════════════════════
+
+@app.route("/api/signal-tracker/refresh", methods=["POST"])
+def api_signal_tracker_refresh():
+    """手动触发信号追踪数据重新计算"""
+    try:
+        tracker = BASE_DIR / "signal_tracker.py"
+        if not tracker.exists():
+            return jsonify({"ok": False, "reason": f"未找到 {tracker}"}), 500
+
+        subprocess.Popen(
+            [sys.executable, str(tracker)],
+            cwd=str(BASE_DIR),
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        return jsonify({"ok": True, "message": "信号追踪数据重新计算中，约 30 秒后刷新查看"})
+    except Exception as e:
+        return jsonify({"ok": False, "reason": str(e)}), 500
 
 
 # ═══════════════════════════════════════════════════════════

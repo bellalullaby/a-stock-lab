@@ -1,0 +1,32 @@
+{
+  "_说明": "A股 SOP 回测系统配置文件 — 修改股票列表和日期后重新跑即可",
+
+  "start_date": "2026-01-02",
+  "end_date": "2026-07-24",
+
+  "symbols_file": "hs300_symbols.json",
+  "symbols": ["603377"],
+  "_symbols_note": "symbols_file 优先于 symbols，从 hs300_symbols.json 加载沪深300成分股",
+
+  "initial_capital": 1000000,
+  "position_size_pct": 0.1,
+  "max_positions": 5,
+  "hold_days": 5,
+
+  "commission": 0.0003,
+  "_commission_note": "万三佣金，买卖双向",
+  "stamp_tax": 0.001,
+  "_stamp_tax_note": "千一印花税，仅卖出",
+
+  "l1_enabled": true,
+  "_l1_note": "开启L1门控：系统性风险日跳过所有买入",
+
+  "limit_up_only": true,
+  "_limit_up_note": "仅扫描涨停股（chg>=9.5%），这是策略的根基。关闭则扫全市场",
+
+  "stop_loss_pct": -0.05,
+  "_stop_loss_note": "止损线 -5%，持仓亏损超过此值立即平仓",
+
+  "output_dir": "./output",
+  "cache_dir": "./cache"
+}
