@@ -387,6 +387,34 @@ daily_log_entry = {
     "run_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
 }
 
+# ═══════════ 交易快照合并保护（--force 重跑时防篡改历史） ═══════════
+# 重跑时若缓存是晚上重采的，止损条件可能不满足 → 算出「0 买卖」，
+# 若整体覆盖会把当天已发生的交易从 daily_log 快照里清掉（历史失真）。
+# 策略：本次算出的 bought/sold 为空、而旧快照有交易 → 保留旧交易。
+old_entry = None
+for e in pf["daily_log"]:
+    if e.get("date") == today and str(e.get("session", "")).startswith("收盘简报"):
+        old_entry = e
+        break
+
+merged_any = False
+if old_entry:
+    old_t = old_entry.get("trades", {})
+    new_t = daily_log_entry["trades"]
+    old_bought = old_t.get("bought", [])
+    old_sold = old_t.get("sold", [])
+    if not new_t.get("bought") and old_bought:
+        new_t["bought"] = old_bought
+        merged_any = True
+    if not new_t.get("sold") and old_sold:
+        new_t["sold"] = old_sold
+        merged_any = True
+    if merged_any:
+        # 合并后沿用旧 note（描述更贴近真实发生的交易）
+        new_t["note"] = old_t.get("note", new_t.get("note", ""))
+        print(f"⚠️  本次重跑算出空买卖，已保留旧快照交易"
+              f"（bought {len(old_bought)} 条 / sold {len(old_sold)} 条）")
+
 # 去重（同日期同 session 只保留一条）+ 追加 + 按日期排序
 pf["daily_log"] = [
     e for e in pf["daily_log"]
