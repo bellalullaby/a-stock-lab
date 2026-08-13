@@ -34,6 +34,7 @@ parser = argparse.ArgumentParser(description="A股SOP收盘简报（通用版）
 parser.add_argument("--date", help="指定日期 YYYY-MM-DD（默认今天）")
 parser.add_argument("--dry-run", action="store_true", help="只计算打印，不写 portfolio.json")
 parser.add_argument("--pf", help="指定 portfolio.json 路径（回测/预演用，默认 common_paths.PORTFOLIO）")
+parser.add_argument("--force", action="store_true", help="当天已运行时强制重跑（谨慎使用）")
 args = parser.parse_args()
 
 today = args.date or date.today().strftime("%Y-%m-%d")
@@ -61,6 +62,27 @@ with open(BASE / "l3_stocks.json", encoding="utf-8") as f:
     l3 = json.load(f)
 with open(PF, encoding="utf-8") as f:
     pf = json.load(f)
+
+# ═══════════ 幂等锁：当天已跑过则跳过（防重跑覆盖） ═══════════
+already_run = any(
+    e.get("date") == today and str(e.get("session", "")).startswith("收盘简报")
+    for e in pf["daily_log"]
+)
+if already_run and not getattr(args, "force", False):
+    print(f"⏭️  {today} 已有收盘简报，当天已运行过，跳过（如需强制重跑加 --force）")
+    sys.exit(0)
+
+# ═══════════ 缓存口径防御：非 15:30 收盘快照则警告 ═══════════
+# 若缓存是晚上重采的，涨停池/炸板池与收盘时刻不一致，结果可能失真
+try:
+    import time as _time
+    mtime = (BASE / "l2_zt_pool.json").stat().st_mtime
+    mtime_h = _time.localtime(mtime).tm_hour + _time.localtime(mtime).tm_min / 60
+    if abs(mtime_h - 15.5) > 2:  # 距 15:30 超过 2 小时
+        print(f"⚠️  缓存快照时间 {_time.strftime('%m-%d %H:%M', _time.localtime(mtime))}"
+              f" 非 15:30 收盘快照，结果可能失真")
+except Exception:
+    pass  # mtime 读取失败不阻断
 
 # ═══════════ L1 收盘复核 ═══════════
 idx = l1["indices"]
@@ -202,7 +224,7 @@ if can_buy:
                     "hybk": s.get("hybk", ""),  # 必须存行业，板块止损依赖
                     "buy_reason": f"{s.get('lb', 0)}板强候选 收盘封板",
                 })
-                trades.append({"type": "buy", "code": code, "name": name,
+                trades.append({"date": today, "type": "buy", "code": code, "name": name,
                                "shares": shares, "price": price, "amount": shares * price})
                 bought_codes.append(code)
                 print(f"  买入: {name} {shares}股 ¥{price:.2f}")
@@ -243,7 +265,7 @@ for sp in sell_plan:
     cash += amount
     note = reasons + (f"（半仓减仓，剩{remaining}股）" if half else "")
     sold.append({
-        "type": "sell", "code": code, "name": name,
+        "date": today, "type": "sell", "code": code, "name": name,
         "shares": shares, "price": price, "amount": amount,
         "note": note,
     })
@@ -294,7 +316,14 @@ pf["account"]["pnl"] = round(pnl, 2)
 pf["account"]["pnl_pct"] = round(pnl_pct, 2)
 pf["account"]["last_updated"] = f"{today} 收盘简报"
 pf["holdings"] = holdings
-pf["trades"] = pf.get("trades", []) + trades + sold
+
+# trades 写入前去重：过滤掉与本次 date+type+code 相同的旧记录，防历史重复追加
+old_trades = pf.get("trades", [])
+new_keys = {(t["date"], t["type"], t["code"]) for t in trades + sold}
+pf["trades"] = [
+    t for t in old_trades
+    if (t.get("date"), t.get("type"), t.get("code")) not in new_keys
+] + trades + sold
 
 l2_summary = f"{zt_count}家涨停, 炸板率{zbr}%, 最高{max_lb}板, 主线: {main_line}"
 l3_summary_text = f"强候选:{strong}, 观察:{observe}, 风控:{riskc}, 弱:{weak} — {rotation_label}"
