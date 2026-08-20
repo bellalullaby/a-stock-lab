@@ -236,6 +236,21 @@ body {
   font-size: 15px; margin: 14px 0 8px; color: var(--text2);
 }
 
+/* ── Pagination ────────────────────────────── */
+.pager {
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 12px; margin: 10px 0 4px;
+}
+.page-btn {
+  background: var(--surface2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 14px; font-size: 13px; cursor: pointer;
+  transition: opacity 0.15s;
+}
+.page-btn:hover:not(:disabled) { opacity: 0.8; }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.page-info { font-size: 13px; color: var(--text2); }
+
 /* ── Responsive ────────────────────────────── */
 @media (max-width: 900px) {
   .dashboard { grid-template-columns: 1fr 1fr; }

@@ -362,7 +362,7 @@ async function loadXKHoldings() {
     tbody.innerHTML = "";
 
     if (!data.holdings || data.holdings.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#8b8fa3;padding:16px;">小克还没有持仓～</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#8b8fa3;padding:16px;">小克还没有持仓～</td></tr>';
       return;
     }
 
@@ -374,11 +374,13 @@ async function loadXKHoldings() {
       const mktVal = h.market_value != null ? h.market_value : curPrice * (h.shares || 0);
       const pnl = h.pnl != null ? h.pnl : (curPrice - costPrice) * (h.shares || 0);
       const pnlPct = h.pnl_pct != null ? h.pnl_pct : (costPrice ? (curPrice - costPrice) / costPrice * 100 : 0);
+      const buyDate = h.buy_date || "--";
 
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${h.code || ""}</td>
         <td>${h.name || ""}</td>
+        <td>${buyDate}</td>
         <td>¥${fmt(costPrice)}</td>
         <td>¥${fmt(curPrice)}</td>
         <td>${h.shares || 0}</td>
@@ -410,53 +412,90 @@ async function loadStopLoss() {
 //  TRADES TAB
 // ═══════════════════════════════════════════════════════
 
+// ── 交易记录分页状态 ──
+const TRADES_PAGE_SIZE = 50;
+const tradesPage = { jj: 1, xk: 1 }; // 当前页码
+
+// 通用分页渲染：trades 数组 → 按日期倒序 → 当前页切片
+function renderTradesPage(trades, tbody, page, pageKey, renderRow) {
+  tbody.innerHTML = "";
+  if (!trades || trades.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#8b8fa3;padding:16px;">暂无交易记录</td></tr>';
+    renderPager(pageKey, 0, 1);
+    return;
+  }
+
+  // 按日期倒序（无日期的排最后）
+  const sorted = [...trades].sort((a, b) => {
+    const da = a.date || "";
+    const db = b.date || "";
+    if (da === db) return 0;
+    if (!da) return 1;   // 无日期排最后
+    if (!db) return -1;
+    return da < db ? 1 : -1;
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sorted.length / TRADES_PAGE_SIZE));
+  const cur = Math.min(page, totalPages);
+  tradesPage[pageKey] = cur;
+
+  const start = (cur - 1) * TRADES_PAGE_SIZE;
+  const slice = sorted.slice(start, start + TRADES_PAGE_SIZE);
+  slice.forEach(t => tbody.appendChild(renderRow(t)));
+  renderPager(pageKey, cur, totalPages);
+}
+
+// 渲染页码导航（上一页/页码/下一页）
+function renderPager(pageKey, cur, totalPages) {
+  const pager = document.getElementById(`pager-${pageKey}`);
+  if (!pager) return;
+  if (totalPages <= 1) {
+    pager.innerHTML = "";
+    return;
+  }
+  let html = `<button class="page-btn" onclick="tradesPage['${pageKey}']=${Math.max(1, cur - 1)};loadTrades()" ${cur <= 1 ? "disabled" : ""}>‹ 上一页</button>`;
+  html += `<span class="page-info">第 ${cur} / ${totalPages} 页</span>`;
+  html += `<button class="page-btn" onclick="tradesPage['${pageKey}']=${Math.min(totalPages, cur + 1)};loadTrades()" ${cur >= totalPages ? "disabled" : ""}>下一页 ›</button>`;
+  pager.innerHTML = html;
+}
+
 async function loadTrades() {
   try {
-    // 酱酱 trades
+    // 酱酱 trades（分页）
     const jjData = await api("/api/trades/jj");
     const jjTbody = document.getElementById("jj-trades-tbody");
-    jjTbody.innerHTML = "";
-    if (!jjData.trades || jjData.trades.length === 0) {
-      jjTbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#8b8fa3;padding:16px;">暂无交易记录</td></tr>';
-    } else {
-      jjData.trades.forEach(t => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${t.date}</td>
-          <td class="${t.type === 'buy' ? 'trade-buy' : 'trade-sell'}">${t.type === 'buy' ? '买入' : '卖出'}</td>
-          <td>${t.code}</td>
-          <td>${t.name}</td>
-          <td>¥${fmt(t.price)}</td>
-          <td>${t.shares}</td>
-          <td>¥${fmt(t.amount)}</td>
-          <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;">${t.note || ""}</td>
-        `;
-        jjTbody.appendChild(tr);
-      });
-    }
+    renderTradesPage(jjData.trades, jjTbody, tradesPage.jj, "jj", t => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${t.date || "--"}</td>
+        <td class="${t.type === 'buy' ? 'trade-buy' : 'trade-sell'}">${t.type === 'buy' ? '买入' : '卖出'}</td>
+        <td>${t.code}</td>
+        <td>${t.name}</td>
+        <td>¥${fmt(t.price)}</td>
+        <td>${t.shares}</td>
+        <td>¥${fmt(t.amount)}</td>
+        <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;">${t.note || ""}</td>
+      `;
+      return tr;
+    });
 
-    // 小克 trades
+    // 小克 trades（分页）
     const xkData = await api("/api/trades/xk");
     const xkTbody = document.getElementById("xk-trades-tbody");
-    xkTbody.innerHTML = "";
-    if (!xkData.trades || xkData.trades.length === 0) {
-      xkTbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#8b8fa3;padding:16px;">暂无交易记录</td></tr>';
-    } else {
-      xkData.trades.forEach(t => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td>${t.date || ""}</td>
-          <td class="${(t.type || '') === 'buy' ? 'trade-buy' : 'trade-sell'}">${t.type === 'buy' ? '买入' : '卖出'}</td>
-          <td>${t.code || ""}</td>
-          <td>${t.name || ""}</td>
-          <td>¥${fmt(t.price)}</td>
-          <td>${t.shares || 0}</td>
-          <td>¥${fmt(t.amount)}</td>
-          <td>${t.note || ""}</td>
-        `;
-        xkTbody.appendChild(tr);
-      });
-    }
+    renderTradesPage(xkData.trades, xkTbody, tradesPage.xk, "xk", t => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${t.date || "--"}</td>
+        <td class="${(t.type || '') === 'buy' ? 'trade-buy' : 'trade-sell'}">${t.type === 'buy' ? '买入' : '卖出'}</td>
+        <td>${t.code || ""}</td>
+        <td>${t.name || ""}</td>
+        <td>¥${fmt(t.price)}</td>
+        <td>${t.shares || 0}</td>
+        <td>¥${fmt(t.amount)}</td>
+        <td>${t.note || ""}</td>
+      `;
+      return tr;
+    });
   } catch (e) {
     console.error("loadTrades:", e);
   }

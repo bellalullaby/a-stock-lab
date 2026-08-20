@@ -317,6 +317,20 @@ pf["account"]["pnl_pct"] = round(pnl_pct, 2)
 pf["account"]["last_updated"] = f"{today} 收盘简报"
 pf["holdings"] = holdings
 
+# 每日快照写入 daily_snapshots（Web 折线图数据源，按日期去重）
+pf["daily_snapshots"] = [
+    s for s in pf.get("daily_snapshots", []) if s.get("date") != today
+]
+pf["daily_snapshots"].append({
+    "date": today,
+    "total_value": round(total_value, 2),
+    "cash": round(cash, 2),
+    "pnl": round(pnl, 2),
+    "pnl_pct": round(pnl_pct, 2),
+    "holdings": len(holdings),
+})
+pf["daily_snapshots"].sort(key=lambda s: s.get("date", ""))
+
 # trades 写入前去重：过滤掉与本次 date+type+code 相同的旧记录，防历史重复追加
 old_trades = pf.get("trades", [])
 new_keys = {(t["date"], t["type"], t["code"]) for t in trades + sold}

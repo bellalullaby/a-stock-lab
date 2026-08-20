@@ -204,21 +204,18 @@ def api_status():
     finally:
         conn.close()
 
-    # 小克：从 portfolio.json 取最新 snapshot
+    # 小克：优先读 account 字段（收盘简报实时更新的真实数据）
+    # 历史 bug：之前只读 daily_snapshots，该数组为空时显示 100 万初始资金
     xk_data = load_xk_portfolio()
-    snaps = xk_data.get("daily_snapshots", [])
-    if snaps:
-        latest = snaps[-1]
-        xk = {
-            "total_value": latest.get("total_value", 1000000),
-            "cash": latest.get("cash", 1000000),
-            "holdings_value": latest.get("holdings_value", 0),
-            "pnl": latest.get("pnl", 0),
-            "pnl_pct": latest.get("pnl_pct", 0),
-            "date": latest.get("date", ""),
-        }
-    else:
-        xk = {"total_value": 1000000, "cash": 1000000, "holdings_value": 0, "pnl": 0, "pnl_pct": 0, "date": ""}
+    acct = xk_data.get("account", {})
+    xk = {
+        "total_value": acct.get("total_value", 1000000),
+        "cash": acct.get("cash", 1000000),
+        "holdings_value": 0,
+        "pnl": acct.get("pnl", 0),
+        "pnl_pct": acct.get("pnl_pct", 0),
+        "date": acct.get("last_updated", ""),
+    }
 
     # 酱酱持仓数
     conn = get_db()
