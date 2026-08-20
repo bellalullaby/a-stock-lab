@@ -226,7 +226,8 @@ missed_buys = []
 #   zbc = 0 且 fbt > 09:30  → ❌ 排队未成交（封单队尾收盘没轮到，reason=2）
 #         ↑ 从严口径：盘中封死不炸的硬板也买不进（v2 封单额启发式再细分）
 # fbt 必须 int 比较（92500=09:25），严禁字符串比较："92500" > "100000" 为 True！
-FBT_LIMIT = 100000   # 10:00 阈值（配置项：HHMMSS 格式 int，92500=09:25:00）
+# 注意：v1 从严版只区分 09:30 边界，无 10:00 阈值（FBT_LIMIT 已废弃删除，
+# 防止误导后人以为硬板可买——从严口径下硬板同样拒买）
 FBT_ONE_WORD = 93000  # 09:30 开盘瞬间，92500-93000 区间归一字/秒板类
 
 
@@ -425,6 +426,23 @@ decisions = (
     f"盘前{len(yesterday_review)}只信号→今收盘: 正收益{pos_n}只({win_rate:.0f}%胜率), 涨停{zt_n}只, 下跌{neg_n}只。"
     f"主线集中度: {main_line} (TOP1 {top1[1]}/{zt_count}={concentration}%)。"
 )
+
+# 旧口径持仓脚注：当前收益含 N 只旧口径（无成交过滤时期）买入的持仓
+# 剔除后收益 = 剔除 legacy 持仓市值后的总资产收益率（标注，不回滚）
+legacy_hold = [h for h in holdings if h.get("legacy_invalid")]
+if legacy_hold:
+    legacy_value = sum(
+        hold_prices.get(h["code"], h.get("cost", h.get("buy_price", 0))) * h["shares"]
+        for h in legacy_hold
+    )
+    clean_value = total_value - legacy_value
+    clean_pnl_pct = (clean_value - pf["account"].get("initial_capital", 1000000)) \
+        / pf["account"].get("initial_capital", 1000000) * 100
+    decisions += (
+        f"\n📌 当前收益含 {len(legacy_hold)} 只旧口径持仓"
+        f"({', '.join(h['name'] for h in legacy_hold)})，"
+        f"剔除后为 {clean_pnl_pct:+.2f}%（理想 vs 可实现）"
+    )
 
 observations = [
     f"L1收盘: {l1_detail}",
