@@ -373,6 +373,7 @@ def fetch_qt_batch(tx_codes: list) -> dict:
                     result[tx] = {
                         "name": f(1),
                         "price": float(f(3)) if f(3) else 0,
+                        "open": float(f(5)) if f(5) else 0,   # 今开（T+1 跟踪用）
                         "chg_pct": float(f(32)) if f(32) else 0,
                         "turnover": float(f(38)) if f(38) else 0,
                         "pe": float(f(39)) if f(39) and f(39) != "-" else None,

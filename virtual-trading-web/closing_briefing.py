@@ -72,6 +72,21 @@ if already_run and not getattr(args, "force", False):
     print(f"⏭️  {today} 已有收盘简报，当天已运行过，跳过（如需强制重跑加 --force）")
     sys.exit(0)
 
+# ═══════════ T+1 次日跟踪：给历史 missed_buys 补次日开盘/收盘价 ═══════════
+# 回答两个问题：虚拟盘虚高了多少；T+1 开盘买还剩多少 alpha
+from data_collector import fetch_qt_batch
+
+t1_missed = [m for m in pf.get("missed_buys", [])
+             if not m.get("next_close") and m.get("date") and m["date"] < today]
+if t1_missed:
+    t1_codes = [m["code"] for m in t1_missed]
+    t1_q = fetch_qt_batch(t1_codes) if t1_codes else {}
+    for m in t1_missed:
+        qd = t1_q.get(m["code"], {})
+        m["next_open"] = qd.get("open")
+        m["next_close"] = qd.get("price")
+    print(f"📈 T+1 跟踪: 为 {len(t1_missed)} 只 missed_buys 补次日行情")
+
 # ═══════════ 缓存口径防御：非 15:30 收盘快照则警告 ═══════════
 # 若缓存是晚上重采的，涨停池/炸板池与收盘时刻不一致，结果可能失真
 try:
@@ -202,8 +217,48 @@ win_rate = pos_n / len(yesterday_review) * 100 if yesterday_review else 0
 trades = []
 cash = pf["account"]["cash"]
 holdings = pf["holdings"]
+missed_buys = []
 
-# ═══════════ 虚拟买入：L3 强候选 + 收盘封板 ═══════════
+# ═══════════ 可成交过滤 ═══════════
+# 涨停票不假设必成交。依据 15:30 快照 l2_zt_pool 的 fbt（首封时间）与 zbc（炸板次数）：
+#   zbc >= 1            → ✅ 成交（炸板瞬间按涨停价成交，保守模型）
+#   fbt < 10:00 且 zbc=0 → ❌ 一字/秒板（竞价封死全天无机会，reason=1）
+#   fbt >= 10:00 且 zbc=0 → ❌ 排队未成交（封单队尾收盘没轮到，reason=2）
+# fbt 必须 int 比较（92500=09:25），严禁字符串比较："92500" > "100000" 为 True！
+FBT_LIMIT = 100000   # 10:00 阈值（配置项：HHMMSS 格式 int，92500=09:25:00）
+FBT_ONE_WORD = 93000  # 09:30 开盘瞬间，92500-93000 区间归一字/秒板类
+
+
+def can_fill(zt_info):
+    """判定涨停票能否成交。zt_info: {fbt, zbc, fund} 或 None"""
+    if zt_info is None:
+        # 不在涨停池（非涨停但 chg>=9.5 的边界情况），保守按可成交处理
+        return True, 0
+    try:
+        fbt = int(zt_info.get("fbt", 0))
+        zbc = int(zt_info.get("zbc", 0) or 0)
+    except (TypeError, ValueError):
+        return True, 0
+    if zbc >= 1:
+        return True, 0
+    if fbt <= FBT_ONE_WORD:
+        return False, 1   # 一字/秒板
+    if fbt < FBT_LIMIT:
+        return False, 2   # 排队未成交
+    return True, 0
+
+
+# 涨停池索引：tx_code/纯代码 → zt 信息（fbt/zbc/fund）
+zt_by_code = {}
+for z in zt_stocks:
+    zt_by_code[z.get("code", "")] = z
+    zt_by_code[z.get("tx_code", "")] = z
+    # 纯 6 位代码也建索引（tx_code 可能带前缀）
+    raw = str(z.get("code", ""))
+    if raw.startswith(("sh", "sz", "bj")):
+        zt_by_code[raw[2:]] = z
+
+# ═══════════ 虚拟买入：L3 强候选 + 收盘封板 + 可成交过滤 ═══════════
 can_buy = gate != "暂停交易" and "全面暂停" not in rotation_label and strong > 0
 bought_codes = []
 if can_buy:
@@ -213,6 +268,22 @@ if can_buy:
             name = s["name"]
             price = s["price"]
             if any(h["code"] == code for h in holdings) or code in bought_codes:
+                continue
+            # 可成交判定
+            zt_info = zt_by_code.get(code) or zt_by_code.get(str(code)[2:])
+            fillable, miss_reason = can_fill(zt_info)
+            if not fillable:
+                fbt = int(zt_info.get("fbt", 0) or 0) if zt_info else 0
+                fbt_str = f"{fbt // 10000:02d}:{fbt // 100 % 100:02d}:{fbt % 100:02d}"
+                reason_text = "一字/秒板，无法成交" if miss_reason == 1 else "排队未成交，收盘没轮到"
+                missed_buys.append({
+                    "date": today, "code": code, "name": name,
+                    "reason": miss_reason, "reason_text": f"{fbt_str} {reason_text}",
+                    "fbt": fbt, "zbc": int(zt_info.get("zbc", 0) or 0) if zt_info else 0,
+                    "fund": zt_info.get("fund", 0) if zt_info else 0,
+                    "trigger_signal": f"{s.get('lb', 0)}板强候选",
+                })
+                print(f"  ⛔ 买不进: {name} {fbt_str} {reason_text}")
                 continue
             buy_amount = 100000
             shares = int(buy_amount / price / 100) * 100
@@ -339,6 +410,14 @@ pf["trades"] = [
     if (t.get("date"), t.get("type"), t.get("code")) not in new_keys
 ] + trades + sold
 
+# missed_buys 写入（幂等：按 date+code 去重，同日重跑不追加）
+old_missed = pf.get("missed_buys", [])
+missed_keys = {(m["date"], m["code"]) for m in missed_buys}
+pf["missed_buys"] = [
+    m for m in old_missed
+    if (m.get("date"), m.get("code")) not in missed_keys
+] + missed_buys
+
 l2_summary = f"{zt_count}家涨停, 炸板率{zbr}%, 最高{max_lb}板, 主线: {main_line}"
 l3_summary_text = f"强候选:{strong}, 观察:{observe}, 风控:{riskc}, 弱:{weak} — {rotation_label}"
 
@@ -355,6 +434,10 @@ observations = [
     f"涨停{zt_count}家 / 炸板率{zbr}% — {'情绪偏弱' if zbr >= 20 else '情绪正常'}",
     f"轮动判定: {rotation_label}",
 ]
+# 想买买不到清单（可成交过滤）渲染进日报
+if missed_buys:
+    miss_lines = [f"{m['name']}：{m['reason_text']}" for m in missed_buys]
+    observations.append(f"⛔ 想买买不到 {len(missed_buys)} 只: {'；'.join(miss_lines)}")
 
 signals_legacy = []
 for s in l3_stocks:
