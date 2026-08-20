@@ -219,18 +219,19 @@ cash = pf["account"]["cash"]
 holdings = pf["holdings"]
 missed_buys = []
 
-# ═══════════ 可成交过滤 ═══════════
+# ═══════════ 可成交过滤（从严口径 v1） ═══════════
 # 涨停票不假设必成交。依据 15:30 快照 l2_zt_pool 的 fbt（首封时间）与 zbc（炸板次数）：
-#   zbc >= 1            → ✅ 成交（炸板瞬间按涨停价成交，保守模型）
-#   fbt < 10:00 且 zbc=0 → ❌ 一字/秒板（竞价封死全天无机会，reason=1）
-#   fbt >= 10:00 且 zbc=0 → ❌ 排队未成交（封单队尾收盘没轮到，reason=2）
+#   zbc >= 1              → ✅ 成交（炸板瞬间按涨停价成交，保守模型）
+#   zbc = 0 且 fbt <= 09:30 → ❌ 一字/秒板（竞价封死全天无机会，reason=1）
+#   zbc = 0 且 fbt > 09:30  → ❌ 排队未成交（封单队尾收盘没轮到，reason=2）
+#         ↑ 从严口径：盘中封死不炸的硬板也买不进（v2 封单额启发式再细分）
 # fbt 必须 int 比较（92500=09:25），严禁字符串比较："92500" > "100000" 为 True！
 FBT_LIMIT = 100000   # 10:00 阈值（配置项：HHMMSS 格式 int，92500=09:25:00）
 FBT_ONE_WORD = 93000  # 09:30 开盘瞬间，92500-93000 区间归一字/秒板类
 
 
 def can_fill(zt_info):
-    """判定涨停票能否成交。zt_info: {fbt, zbc, fund} 或 None"""
+    """判定涨停票能否成交（从严：只有炸过板的算可成交）。zt_info: {fbt, zbc, fund} 或 None"""
     if zt_info is None:
         # 不在涨停池（非涨停但 chg>=9.5 的边界情况），保守按可成交处理
         return True, 0
@@ -240,12 +241,10 @@ def can_fill(zt_info):
     except (TypeError, ValueError):
         return True, 0
     if zbc >= 1:
-        return True, 0
+        return True, 0          # 炸过板 → 有开板成交机会
     if fbt <= FBT_ONE_WORD:
-        return False, 1   # 一字/秒板
-    if fbt < FBT_LIMIT:
-        return False, 2   # 排队未成交
-    return True, 0
+        return False, 1         # 一字/秒板（reason=1）
+    return False, 2             # 其余 zbc=0 一律排队未成交（reason=2，含硬板）
 
 
 # 涨停池索引：tx_code/纯代码 → zt 信息（fbt/zbc/fund）
