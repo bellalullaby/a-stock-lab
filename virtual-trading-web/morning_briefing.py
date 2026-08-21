@@ -166,18 +166,28 @@ hits_down = [t for t in tracking if t.get("today_pct", 0) < 0]
 n_track = len(tracking)
 up_rate = len(hits_up) / n_track * 100 if n_track else 0
 
-# ── 持仓估值（只读：用数据日缓存收盘价，不拉实时） ──
-# 修正：盘前简报应显示"数据日收盘"估值（实时行情是收盘脚本的活）
+# ── 持仓估值（只读：固定读最近收盘简报的收盘价，不拉实时） ──
+# 修正（Claude哥验收）：持仓大多不在 l3 缓存（l3 只含涨停池 30 只），
+# 从 l3 匹配会退回成本价导致估值偏低（08-21 晚差 ¥27,260）。
+# 正确口径：最近收盘简报 holdings_snapshot 的 market_price（当日收盘价）。
 holdings = pf.get("holdings", [])
 cash = pf.get("account", {}).get("cash", 0)
 l3_price_map = {s.get("tx_code"): s.get("price") for s in l3_stocks}
+
+# 最近收盘简报的持仓收盘价 {code: market_price}
+closing_price_map = {}
+if prev_close_entry:
+    for hs in (prev_close_entry.get("holdings_snapshot") or []):
+        closing_price_map[hs.get("code", "")] = hs.get("market_price")
 
 holdings_snapshot = []
 hold_value = 0.0
 for h in holdings:
     cost = h.get("cost", h.get("buy_price", 0))
     shares = h.get("shares", 0)
-    mp = l3_price_map.get(h.get("code", "")) or cost
+    # 价格源优先级：最近收盘快照 > l3 缓存 > 成本价
+    mp = closing_price_map.get(h.get("code", "")) \
+        or l3_price_map.get(h.get("code", "")) or cost
     mv = round(mp * shares, 2)
     hold_value += mv
     holdings_snapshot.append({**h, "market_price": mp, "market_value": mv,
