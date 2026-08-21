@@ -27,7 +27,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 _REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from common_paths import PORTFOLIO, cache_dir
+from common_paths import PORTFOLIO, CACHE_DIR, cache_dir
 
 # ── 参数 ──
 parser = argparse.ArgumentParser(description="A股SOP收盘简报（通用版）")
@@ -164,11 +164,21 @@ riskc = sum(1 for s in l3_stocks if s.get("label") == "风控")
 weak = sum(1 for s in l3_stocks if s.get("label") == "弱")
 
 # ═══════════ 盘前信号对比 ═══════════
-# 基准：当天盘前简报的 signals → 用腾讯实时价算当日表现
+# 基准（优先）：独立观察文件 data/morning_briefing_{date}.json（早报只读不写后）
+# 基准（fallback）：portfolio 盘前条目（兼容改造前的历史数据）
 from data_collector import fetch_qt_batch
 
 pre_signals = []
-if pre_entry:
+# 观察文件在缓存根（morning_briefing.py 写入位置），不在日期子目录
+obs_file = CACHE_DIR / f"morning_briefing_{today}.json"
+if obs_file.exists():
+    try:
+        with open(obs_file, encoding="utf-8") as f:
+            obs = json.load(f)
+        pre_signals = obs.get("signals", [])
+    except Exception:
+        pre_signals = []
+if not pre_signals and pre_entry:
     pre_signals = pre_entry.get("signals", [])
 
 yesterday_review = []
