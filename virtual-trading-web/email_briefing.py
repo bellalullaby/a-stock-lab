@@ -1,9 +1,18 @@
 """
-email_briefing.py — 读取 portfolio.json 最新简报，发送到 QQ 邮箱
+email_briefing.py — 发送 SOP 简报到 QQ 邮箱（盘前观察 / 收盘日报 双源）
 ============================================================
 用法:
-    python email_briefing.py                          # 发最新简报
-    python email_briefing.py --sender 123@qq.com --pwd 授权码 --to 456@qq.com
+    python email_briefing.py                            # auto 判定来源
+    python email_briefing.py --source morning           # 强制盘前观察邮件
+    python email_briefing.py --source closing           # 强制收盘日报邮件
+    python email_briefing.py --dry-run                  # 只生成预览 HTML
+
+来源判定（--source auto，默认）:
+    当天 data/cache/morning_briefing_{date}.json 存在 且 当前时间 < 12:00
+        → 盘前观察邮件（读观察文件）
+    否则 → 收盘日报邮件（读 portfolio.json logs[-1]，与旧版行为一致）
+    时间窗的原因：晚间补跑收盘后发邮件时，当天的观察文件仍在，
+    纯文件存在性判定会把收盘场景误判成盘前（反向 bug）。
 
 配置:
     首次运行交互式输入 QQ 邮箱 + 授权码，保存到同目录 .email_config.json。
@@ -14,7 +23,7 @@ import io
 import json
 import smtplib
 import sys
-from datetime import datetime
+from datetime import datetime, date
 from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -27,6 +36,8 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 BASE_DIR = Path(__file__).parent
 PORTFOLIO = BASE_DIR.parent / "virtual-portfolio" / "portfolio.json"
 CONFIG_FILE = BASE_DIR / ".email_config.json"
+CACHE_DIR = BASE_DIR / "data" / "cache"          # morning_briefing_{date}.json 所在
+MORNING_CUTOFF_HOUR = 12                          # auto 判定的时间窗：12 点前才认盘前
 
 
 def load_config():
@@ -231,14 +242,200 @@ def build_plain_briefing(portfolio: dict) -> str:
     return "\n".join(lines)
 
 
-def send_briefing_email(portfolio: dict, sender: str, password: str, receivers: list) -> bool:
-    """发送简报邮件"""
-    date_str = portfolio.get("daily_log", [{}])[-1].get("date", datetime.now().strftime("%Y-%m-%d"))
-    subject = f"📈 A股 SOP 虚拟盘日报 - {date_str}"
+def resolve_source(source: str):
+    """
+    解析邮件来源。返回 (kind, payload)：
+      ("morning", obs_dict)   — 读 data/cache/morning_briefing_{date}.json
+      ("closing", portfolio)  — 读 portfolio.json（旧版行为）
+    auto 判定：观察文件存在 且 当前时间 < 12:00 → morning；否则 closing。
+    强制模式文件缺失时 graceful 回退到 closing（不报错，打印提示）。
+    """
+    today_str = date.today().strftime("%Y-%m-%d")
+    obs_file = CACHE_DIR / f"morning_briefing_{today_str}.json"
 
-    html = build_briefing_html(portfolio)
-    plain = build_plain_briefing(portfolio)
+    want_morning = (source == "morning") or (
+        source == "auto" and obs_file.exists()
+        and datetime.now().hour < MORNING_CUTOFF_HOUR
+    )
+    if want_morning and obs_file.exists():
+        try:
+            obs = json.loads(obs_file.read_text("utf-8"))
+            print(f"📤 来源: 盘前观察 ({obs_file.name})")
+            return "morning", obs
+        except Exception as e:
+            print(f"⚠️ 观察文件读取失败({e})，回退收盘日报")
 
+    if source == "morning":
+        print(f"⚠️ 当天观察文件不存在({obs_file.name})，回退收盘日报")
+    else:
+        print("📤 来源: 收盘日报 (portfolio.json logs[-1])")
+    with open(PORTFOLIO, encoding="utf-8") as f:
+        return "closing", json.load(f)
+
+
+def build_morning_html(obs: dict) -> str:
+    """从早报观察文件构建盘前观察 HTML 邮件（风格与收盘一致）"""
+    date_str = obs.get("date", "")
+    data_date = obs.get("data_date", "")
+    l1 = obs.get("l1", {})
+    l2 = obs.get("l2", {})
+    l3 = obs.get("l3", {})
+    signals = obs.get("signals", [])
+    yesterday = obs.get("yesterday_review", [])
+    decisions = obs.get("decisions", "")[:600]
+
+    acct = obs.get("account_snapshot", {})
+    total = acct.get("total_value", 1000000)
+    pnl = acct.get("pnl", 0)
+    pnl_pct = acct.get("pnl_pct", 0)
+    pnl_color = "#22c55e" if pnl >= 0 else "#ef4444"
+
+    regime = l1.get("regime", "?")
+    gate = l1.get("gate", "")
+    l1_detail = l1.get("detail", "")[:200]
+    l1_color = "#22c55e" if regime == "多头趋势" else ("#f59e0b" if regime == "震荡市" else "#ef4444")
+    l2_text = l2.get("detail", "")
+    rotation = l2.get("rotation", "")
+
+    strong_n = l3.get("strong", 0)
+    watch_n = l3.get("watch", 0)
+    risk_n = l3.get("risk", 0)
+    buy_ge3 = l3.get("buy_ge3", 0)
+
+    html = f"""
+    <div style="max-width:600px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+                background:#1a1d28;color:#e1e4eb;padding:24px;border-radius:12px;">
+      <!-- 头部 -->
+      <div style="text-align:center;padding-bottom:20px;border-bottom:1px solid #2a2d38;margin-bottom:20px;">
+        <h2 style="margin:0;font-size:20px;">🌅 A股 SOP 盘前观察</h2>
+        <p style="margin:4px 0 0;color:#8b8fa3;font-size:13px;">{date_str} 交易 · 数据截至 {data_date} 收盘</p>
+      </div>
+
+      <!-- 账户卡片 -->
+      <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;text-align:center;">
+        <span style="font-size:12px;color:#8b8fa3;">账户总资产</span>
+        <div style="font-size:28px;font-weight:700;margin:4px 0;">¥{total:,.0f}</div>
+        <span style="font-size:14px;color:{pnl_color};">{pnl:+,.0f} ({pnl_pct:+.2f}%)</span>
+      </div>
+
+      <!-- L1 状态 -->
+      <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;
+                  border-left:4px solid {l1_color};">
+        <div style="font-size:16px;font-weight:600;margin-bottom:4px;">
+          L1 宏观环境：<span style="color:{l1_color};">{regime}</span>
+          {f' · {gate}' if gate else ''}
+        </div>
+        <div style="font-size:12px;color:#8b8fa3;">{l1_detail}</div>
+      </div>
+
+      <!-- L2 市场 -->
+      <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:6px;">📊 L2 市场结构</div>
+        <div style="font-size:13px;color:#c1c6d4;">{l2_text}</div>
+        {f'<div style="font-size:12px;color:#8b8fa3;margin-top:6px;">轮动判定: {rotation}</div>' if rotation else ''}
+      </div>
+
+      <!-- L3 汇总 -->
+      <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:14px;font-weight:600;margin-bottom:6px;">📡 今日信号池
+          （技术达标 {buy_ge3} · 强候选 {strong_n} · 观察 {watch_n} · 风控 {risk_n}）</div>
+    """
+    # 信号表格（字段与收盘格式同构）
+    if signals:
+        html += """
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <tr style="color:#8b8fa3;border-bottom:1px solid #2a2d38;">
+              <th style="padding:6px;text-align:left;">代码</th>
+              <th style="padding:6px;text-align:left;">名称</th>
+              <th style="padding:6px;text-align:center;">连板</th>
+              <th style="padding:6px;text-align:right;">价格</th>
+              <th style="padding:6px;text-align:right;">涨幅</th>
+              <th style="padding:6px;text-align:center;">评分</th>
+              <th style="padding:6px;text-align:left;">信号</th>
+            </tr>
+        """
+        for s in signals[:10]:
+            chg_color = "#22c55e" if s.get("pct", 0) > 0 else "#ef4444"
+            out = s.get("out", "")
+            label_color = {"强候选": "#22c55e", "观察": "#f59e0b", "风控": "#ef4444"}.get(
+                out.split("(")[0] if out else "", "#8b8fa3"
+            )
+            pe = s.get("pe")
+            pe_str = f"{pe:.0f}" if isinstance(pe, (int, float)) and pe > 0 else "负"
+            html += f"""
+            <tr style="border-bottom:1px solid #2a2d38;">
+              <td style="padding:6px;">{s.get('code','')}</td>
+              <td style="padding:6px;">{s.get('name','')}</td>
+              <td style="padding:6px;text-align:center;">{s.get('lbc','1')}板</td>
+              <td style="padding:6px;text-align:right;">¥{s.get('price',0):.2f}</td>
+              <td style="padding:6px;text-align:right;color:{chg_color};">{s.get('pct',0):+.1f}%</td>
+              <td style="padding:6px;text-align:center;">{s.get('buy',0)}/4</td>
+              <td style="padding:6px;color:{label_color};font-weight:600;">{out}</td>
+            </tr>"""
+        html += "</table>"
+    html += "</div>"
+
+    # 昨日回顾
+    if yesterday:
+        up_n = sum(1 for y in yesterday if y.get("today_pct", 0) > 0)
+        zt_n = sum(1 for y in yesterday if y.get("status", "") in ("涨停", "✅涨停"))
+        html += f"""
+        <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:6px;">
+            🔄 昨日信号回顾（正收益 {up_n}/{len(yesterday)} · 涨停 {zt_n}）
+          </div>
+        """
+        for y in yesterday[:8]:
+            pct = y.get("today_pct", 0)
+            icon = "📈" if pct > 5 else ("↗" if pct > 0 else ("↘" if pct > -5 else "📉"))
+            color = "#22c55e" if pct > 0 else "#ef4444"
+            html += f"""
+            <div style="font-size:12px;margin:2px 0;">
+              {icon} {y.get('name','')} | 昨{y.get('lbc','')}板 ¥{y.get('yesterday_price',0)}→
+              <span style="color:{color};">{pct:+.1f}%</span> {y.get('status','')}
+            </div>"""
+        html += "</div>"
+
+    # 决策
+    if decisions:
+        decisions_html = decisions.replace("\n", "<br>")
+        html += f"""
+        <div style="background:#222534;border-radius:8px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:14px;font-weight:600;margin-bottom:6px;">💡 今日决策</div>
+          <div style="font-size:13px;color:#c1c6d4;line-height:1.7;">{decisions_html}</div>
+        </div>"""
+
+    # 尾部
+    html += f"""
+      <div style="text-align:center;color:#8b8fa3;font-size:11px;padding-top:16px;
+                  border-top:1px solid #2a2d38;margin-top:8px;">
+        ⚠️ 研究观察，不构成投资建议 · 自动生成于 {datetime.now().strftime('%m-%d %H:%M')}
+      </div>
+    </div>"""
+    return html
+
+
+def build_morning_plain(obs: dict) -> str:
+    """盘前观察纯文本版本"""
+    l1 = obs.get("l1", {})
+    l2 = obs.get("l2", {})
+    l3 = obs.get("l3", {})
+    acct = obs.get("account_snapshot", {})
+
+    lines = [
+        f"🌅 A股 SOP 盘前观察 — {obs.get('date', '')} 交易（数据截至 {obs.get('data_date', '')} 收盘）",
+        f"L1: {l1.get('regime', '?')} → {l1.get('gate', '')} | 总资产: ¥{acct.get('total_value', 0):,.0f} ({acct.get('pnl_pct', 0):+.2f}%)",
+        f"L2: {l2.get('detail', '')}",
+        f"L3: 技术达标{l3.get('buy_ge3', 0)}只（强{l3.get('strong', 0)}/观{l3.get('watch', 0)}/风{l3.get('risk', 0)}）",
+        "",
+        "⚠️ 研究观察，不构成投资建议",
+    ]
+    return "\n".join(lines)
+
+
+def send_briefing_email(subject: str, html: str, plain: str,
+                        sender: str, password: str, receivers: list) -> bool:
+    """发送简报邮件（内容与发送解耦）"""
     msg = MIMEMultipart("alternative")
     msg["Subject"] = Header(subject, "utf-8")
     msg["From"] = formataddr(("A股SOP虚拟盘", sender))
@@ -263,26 +460,38 @@ def send_briefing_email(portfolio: dict, sender: str, password: str, receivers: 
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="发送 A股 SOP 虚拟盘日报到邮箱")
+    parser = argparse.ArgumentParser(description="发送 A股 SOP 简报到邮箱（盘前观察/收盘日报）")
+    parser.add_argument("--source", choices=["auto", "morning", "closing"], default="auto",
+                        help="邮件来源：auto=按观察文件+时间窗判定 / morning=盘前 / closing=收盘")
     parser.add_argument("--sender", help="发件 QQ 邮箱")
     parser.add_argument("--pwd", help="QQ 邮箱 SMTP 授权码")
     parser.add_argument("--to", help="收件邮箱（逗号分隔多个）")
     parser.add_argument("--dry-run", action="store_true", help="只生成预览，不发送")
     args = parser.parse_args()
 
-    # 读 portfolio
     if not PORTFOLIO.exists():
         print(f"❌ 找不到 portfolio.json: {PORTFOLIO}")
         sys.exit(1)
 
-    portfolio = json.loads(PORTFOLIO.read_text("utf-8"))
+    # 解析来源与内容
+    kind, payload = resolve_source(args.source)
+    today_str = date.today().strftime("%Y-%m-%d")
+    if kind == "morning":
+        subject = f"🌅 盘前观察 - {payload.get('date', today_str)}"
+        html = build_morning_html(payload)
+        plain = build_morning_plain(payload)
+    else:
+        latest_date = payload.get("daily_log", [{}])[-1].get("date", today_str)
+        subject = f"📊 收盘日报 - {latest_date}"
+        html = build_briefing_html(payload)
+        plain = build_plain_briefing(payload)
+    print(f"📌 邮件主题: {subject}")
 
     # dry-run 模式：只生成预览 HTML，不需要邮箱配置
     if args.dry_run:
-        html = build_briefing_html(portfolio)
         out = BASE_DIR / ".preview_email.html"
         out.write_text(html, "utf-8")
-        print(f"✅ 预览已生成 → {out}")
+        print(f"✅ 预览已生成 → {out}（{kind}）")
         return
 
     # 正式发送：获取邮箱配置
@@ -299,7 +508,7 @@ def main():
             config = {"sender": sender, "password": pwd, "receivers": receivers}
 
     send_briefing_email(
-        portfolio,
+        subject, html, plain,
         config["sender"],
         config["password"],
         config["receivers"],
