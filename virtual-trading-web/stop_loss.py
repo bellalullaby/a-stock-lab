@@ -179,11 +179,13 @@ def check_lb_break_stop(holding, l2_zb_pool):
     zb_stocks = l2_zb_pool.get("stocks", [])
     for zb in zb_stocks:
         if norm_code(zb.get("code", "")) == code:
+            chg = zb.get("chg_pct")
+            chg_str = f"{chg:.2f}%" if isinstance(chg, (int, float)) else f"{chg}%"
             return {
                 "triggered": True,
                 "level": 4,
                 "rule": "炸板止损",
-                "detail": f"{zb.get('name', code)} 炸板！封板时间 {zb.get('fbt', 'N/A')}，涨幅收至 {zb.get('chg_pct', 'N/A')}%",
+                "detail": f"{zb.get('name', code)} 炸板！封板时间 {zb.get('fbt', 'N/A')}，涨幅收至 {chg_str}",
             }
 
     return {"triggered": False, "level": 4, "rule": "炸板止损", "detail": "未炸板"}
