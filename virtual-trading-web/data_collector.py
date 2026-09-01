@@ -93,6 +93,7 @@ TENCENT_KLINE = "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
 TENCENT_QT    = "http://qt.gtimg.cn/q={codes}"
 EM_ZT_POOL    = "https://push2ex.eastmoney.com/getTopicZTPool"
 EM_ZB_POOL    = "https://push2ex.eastmoney.com/getTopicZBPool"
+EM_DT_POOL    = "https://push2ex.eastmoney.com/getTopicDTPool"
 # 行业/概念板块 API 在 push2 子域名（非 push2ex）
 # 注意：必须用 https。东财 2026-08 起拒绝明文 HTTP（返回 502），
 # 之前"HTTP 绕过 SSL 阻断"的做法已失效（P0 bug 教训：板块采集降级导致止损误杀）
@@ -483,6 +484,46 @@ def fetch_zb_pool(date_str: str) -> list:
         return stocks
     except Exception as e:
         print(f"  ✗ 炸板池拉取失败: {e}")
+        return []
+
+
+def fetch_dt_pool(date_str: str) -> list:
+    """
+    拉取东财跌停池（与涨停/炸板池同族，getTopicDTPool）。
+    卖出端可成交判定依赖：oc（开板次数）是"炸过板的跌停"的镜像字段，
+    跟买入端炸板池的 zbc 严丝合缝（oc=0 封死拒卖 / oc≥1 开板窗口可卖）。
+    """
+    params = {
+        "ut": "7eea3edcaed734bea9cbfc24409ed989",
+        "dpt": "wz.ztzt",
+        "Pageindex": "0",
+        "pagesize": "300",
+        "sort": "fund:asc",   # 跌停池按封单资金升序（封单少的先开板）
+        "date": to_em_date(date_str),
+    }
+    try:
+        resp = em_get(EM_DT_POOL, params=params, headers=EM_HEADERS)
+        resp.raise_for_status()
+        data = resp.json()
+        pool = data.get("data", {}).get("pool", [])
+        stocks = []
+        for item in pool:
+            raw_p = item.get("p", 0)
+            price = raw_p / 1000 if raw_p and raw_p > 100 else raw_p
+            stocks.append({
+                "code": str(item.get("c", "")).zfill(6),
+                "name": item.get("n", ""),
+                "price": round(price, 2),        # 跌停价
+                "chg_pct": item.get("zdp", 0),
+                "fbt": item.get("fbt", ""),       # 封死时间
+                "fund": item.get("fund", 0),      # 封单资金
+                "days": item.get("days", 1),      # 连续跌停天数
+                "oc": item.get("oc", 0),          # 开板次数（0=全天封死）
+                "hybk": item.get("hybk", ""),
+            })
+        return stocks
+    except Exception as e:
+        print(f"  ✗ 跌停池拉取失败: {e}")
         return []
 
 
@@ -927,6 +968,16 @@ def analyze_l2(date_str: str) -> dict:
     else:
         print(f"    ✓ {n_zb} 家炸板")
 
+    # ── 跌停池（卖出端可成交判定依赖，买入端 zbc 的镜像）──
+    print("  拉取跌停池...")
+    dt_pool = fetch_dt_pool(date_str)
+    print(f"    ✓ {len(dt_pool)} 家跌停")
+    if n_zt + n_zb > 0:
+        zb_rate = n_zb / (n_zt + n_zb) * 100
+        print(f"    ✓ {n_zb} 家炸板（炸板率 {zb_rate:.1f}%）")
+    else:
+        print(f"    ✓ {n_zb} 家炸板")
+
     # ── 轮动速度 + 板块连续性 ──
     print("  计算轮动速度 + 板块连续性...")
     prev_dates = find_prev_cache_date(date_str)
@@ -1008,6 +1059,7 @@ def analyze_l2(date_str: str) -> dict:
         "boards": boards,
         "zt_pool": zt_pool,
         "zb_pool": zb_pool,
+        "dt_pool": dt_pool,
         "rotation": rotation,
     }
 
@@ -1440,6 +1492,16 @@ def collect(date_str: str, is_backfill: bool = False):
             "date": date_str,
             "total": len(l2_result["zb_pool"]),
             "stocks": l2_result["zb_pool"],
+        }, f, ensure_ascii=False, indent=2)
+    files_written.append(str(path))
+
+    # l2_dt_pool.json（跌停池，卖出端可成交判定）
+    path = cache_dir / "l2_dt_pool.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump({
+            "date": date_str,
+            "total": len(l2_result.get("dt_pool", [])),
+            "stocks": l2_result.get("dt_pool", []),
         }, f, ensure_ascii=False, indent=2)
     files_written.append(str(path))
 

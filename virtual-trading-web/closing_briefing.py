@@ -268,7 +268,51 @@ for z in zt_stocks:
     if raw.startswith(("sh", "sz", "bj")):
         zt_by_code[raw[2:]] = z
 
-# ═══════════ 虚拟买入：L3 强候选 + 收盘封板 + 可成交过滤 ═══════════
+# ═══════════ 门控数值化 ═══════════
+# 门控不再只剩"是否暂停"二值——"降低权重/正常模式"翻译成数值约束。
+# （Claude哥拍板的保守值，要调直接改这张表）
+def gate_limits(state: str, rot_label: str):
+    """返回 (总仓位上限, 单日买入只数上限)"""
+    if "加速轮动" in rot_label or "暂无对比" in rot_label:
+        return 0.40, 2   # 加速轮动档；"首个交易日暂无对比"保守并入 40% 档
+    if "电风扇" in rot_label or "全面暂停" in rot_label:
+        return 0.0, 0
+    if state == "多头趋势":
+        return 0.90, 5   # 正常模式
+    if state == "系统性风险":
+        return 0.0, 0
+    return 0.60, 3       # 震荡市 → 降低权重
+
+
+POS_CAP, DAY_MAX_BUY = gate_limits(state, rotation_label)
+
+# 当前持仓市值（最新估值链：最近收盘简报收盘价 > l3 缓存 > 成本，别拿成本价算仓位）
+closing_price_map = {}
+for e in pf["daily_log"]:
+    if str(e.get("session", "")).startswith("收盘简报") and e.get("holdings_snapshot"):
+        for hs in e["holdings_snapshot"]:
+            closing_price_map[hs.get("code", "")] = hs.get("market_price")
+        break  # daily_log 按日期排序，第一条收盘简报即最近
+l3_price_map = {s.get("tx_code"): s.get("price") for s in l3_stocks}
+
+
+def est_price(h):
+    return closing_price_map.get(h.get("code", "")) \
+        or l3_price_map.get(h.get("code", "")) \
+        or h.get("cost", h.get("buy_price", 0))
+
+
+hold_value = sum(est_price(h) * h.get("shares", 0) for h in holdings)
+total_assets = cash + hold_value
+print(f"  仓位状态: 市值¥{hold_value:,.0f} + 现金¥{cash:,.0f} = ¥{total_assets:,.0f} "
+      f"(仓位 {hold_value / total_assets * 100 if total_assets else 0:.1f}%, "
+      f"门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只)")
+
+# ═══════════ 虚拟买入：L3 强候选 + 收盘封板 + 仓位额度 + 可成交过滤 ═══════════
+# 两层过滤语义（重要）：
+#   仓位额度   = 策略层自我约束（我们的选择）→ 跳过只打印，不进 missed_buys
+#   可成交判定 = 市场层客观拒绝（市场的现实）→ 才配进 missed_buys
+# 这样 missed_buys 永远只记录市场摩擦，复盘"理想 vs 可实现"时分母干净。
 can_buy = gate != "暂停交易" and "全面暂停" not in rotation_label and strong > 0
 bought_codes = []
 if can_buy:
@@ -279,7 +323,15 @@ if can_buy:
             price = s["price"]
             if any(h["code"] == code for h in holdings) or code in bought_codes:
                 continue
-            # 可成交判定
+            # ── 策略层：仓位额度检查 ──
+            if len(bought_codes) >= DAY_MAX_BUY:
+                print(f"  ⏭️ 跳过 {name}: 单日买入只数已达上限 {DAY_MAX_BUY}")
+                continue
+            if total_assets > 0 and (hold_value + 100000) / total_assets > POS_CAP:
+                print(f"  ⏭️ 跳过 {name}: 仓位额度不足"
+                      f"（{(hold_value + 100000) / total_assets * 100:.0f}% > 上限 {POS_CAP * 100:.0f}%）")
+                continue
+            # ── 市场层：可成交判定 ──
             zt_info = zt_by_code.get(code) or zt_by_code.get(str(code)[2:])
             fillable, miss_reason = can_fill(zt_info)
             if not fillable:
@@ -299,6 +351,7 @@ if can_buy:
             shares = int(buy_amount / price / 100) * 100
             if shares >= 100 and cash >= shares * price:
                 cash -= shares * price
+                hold_value += shares * price  # 现金换仓，总资产不变
                 holdings.append({
                     "code": code, "name": name, "shares": shares, "cost": price,
                     "buy_date": today, "buy_price": price,
@@ -310,10 +363,11 @@ if can_buy:
                 bought_codes.append(code)
                 print(f"  买入: {name} {shares}股 ¥{price:.2f}")
 
-# ═══════════ 虚拟卖出：五层止损 ═══════════
+# ═══════════ 虚拟卖出：五层止损 + 跌停可卖判定（T+1 在引擎内） ═══════════
 from stop_loss import fetch_tencent_prices, run_stop_loss
 
 sell_plan = []
+missed_sells = []
 if holdings:
     prices = fetch_tencent_prices([h["code"] for h in holdings])
     l2_boards = None
@@ -321,7 +375,17 @@ if holdings:
     if boards_path.exists():
         with open(boards_path, encoding="utf-8") as f:
             l2_boards = json.load(f)
-    sell_plan = run_stop_loss(holdings, prices, l2_boards, l2_zt, l2_zb, today)
+    # 跌停池（可选：历史日期无此缓存时按 None 处理，跳过跌停判定）
+    l2_dt = None
+    dt_path = BASE / "l2_dt_pool.json"
+    if dt_path.exists():
+        with open(dt_path, encoding="utf-8") as f:
+            l2_dt = json.load(f)
+    sell_plan, missed_sells = run_stop_loss(
+        holdings, prices, l2_boards, l2_zt, l2_zb, today, l2_dt_pool=l2_dt
+    )
+    for ms in missed_sells:
+        print(f"  🚫 卖不掉: {ms['name']} {ms['reason_text']}（继续按跌停价扛，次日再试）")
 
 sold = []
 for sp in sell_plan:
@@ -387,6 +451,8 @@ if args.dry_run:
         for s in sold:
             print(f"  卖 {s['name']} {s['shares']}股 ¥{s['price']:.2f} | {s['note']}")
     print(f"账户将变为: ¥{total_value:,.0f} ({pnl_pct:+.2f}%)  现金: ¥{cash:,.0f}  持仓: {len(holdings)}只")
+    if total_value > 0:
+        print(f"当前仓位: {total_hold / total_value * 100:.1f}%（门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只）")
     print("=" * 50)
     sys.exit(0)
 
@@ -428,6 +494,14 @@ pf["missed_buys"] = [
     if (m.get("date"), m.get("code")) not in missed_keys
 ] + missed_buys
 
+# missed_sells 写入（幂等：按 date+code 去重——跌停拒卖的票次日重试，同日不重复记）
+old_missed_sells = pf.get("missed_sells", [])
+ms_keys = {(m["date"], m["code"]) for m in missed_sells}
+pf["missed_sells"] = [
+    m for m in old_missed_sells
+    if (m.get("date"), m.get("code")) not in ms_keys
+] + missed_sells
+
 l2_summary = f"{zt_count}家涨停, 炸板率{zbr}%, 最高{max_lb}板, 主线: {main_line}"
 l3_summary_text = f"强候选:{strong}, 观察:{observe}, 风控:{riskc}, 弱:{weak} — {rotation_label}"
 
@@ -465,6 +539,17 @@ observations = [
 if missed_buys:
     miss_lines = [f"{m['name']}：{m['reason_text']}" for m in missed_buys]
     observations.append(f"⛔ 想买买不到 {len(missed_buys)} 只: {'；'.join(miss_lines)}")
+# 想卖卖不掉清单（跌停拒卖，镜像）
+if missed_sells:
+    ms_lines = [f"{m['name']}：{m['reason_text']}" for m in missed_sells]
+    observations.append(f"🚫 想卖卖不掉 {len(missed_sells)} 只: {'；'.join(ms_lines)}")
+# 当前仓位（门控数值化：用卖出后的最新估值口径）
+if total_value > 0:
+    pos_pct = total_hold / total_value * 100
+    observations.append(
+        f"📊 当前仓位 {pos_pct:.1f}%（市值¥{total_hold:,.0f} / 总资产¥{total_value:,.0f}，"
+        f"门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只）"
+    )
 
 signals_legacy = []
 for s in l3_stocks:

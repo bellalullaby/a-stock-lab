@@ -215,9 +215,10 @@ def check_board_gradient_stop(holding, l2_zt_pool):
 
 # ── 执行入口 ──────────────────────────────────────────────
 
-def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_date):
+def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_date,
+                  l2_dt_pool=None):
     """
-    对持仓逐只跑五层止损检查，返回卖出建议列表。
+    对持仓逐只跑五层止损检查，返回 (卖出建议, 拒卖清单)。
 
     参数:
       holdings   : portfolio.json 的 holdings 列表（code 带前缀）
@@ -226,13 +227,31 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
       l2_zt_pool : l2_zt_pool.json 解析结果（涨停池）
       l2_zb_pool : l2_zb_pool.json 解析结果（炸板池）
       check_date : 检查日期 "YYYY-MM-DD"
+      l2_dt_pool : l2_dt_pool.json 解析结果（跌停池，卖出端可成交判定）
+                   oc=0 跌停封死 → 拒卖进 missed_sells（市场层，镜像买入端 zbc）
+                   oc>=1 开过板   → 按跌停价成交（开板窗口排队单成交）
 
     返回:
-      [{code, name, shares, price, amount, cost_price, reasons: [触发详情...]}, ...]
+      (sells, missed_sells)
+      sells:        [{code, name, shares, price, amount, cost_price, half, reasons}, ...]
+      missed_sells: [{date, code, name, reason, reason_text, oc, days, fund,
+                      price(跌停价), trigger_reasons}, ...]
     """
     sells = []
+    missed_sells = []
+
+    # 跌停池索引（纯 6 位代码）
+    dt_by_code = {}
+    for d in (l2_dt_pool or {}).get("stocks", []):
+        dt_by_code[str(d.get("code", ""))] = d
+
     for h in holdings:
         code = h.get("code", "")
+        # ── T+1 约束：A股当日买入当日不可卖，五层全跳 ──
+        # 只挡一天，补跑场景（check_date 晚于 buy_date 数日）不误伤
+        if h.get("buy_date") == check_date:
+            continue
+
         # 补 cost_price 字段（portfolio.json 存的是 cost/buy_price）
         cost = h.get("cost") or h.get("cost_price") or h.get("buy_price") or 0
         holding_norm = {**h, "cost_price": cost}
@@ -249,15 +268,33 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
             check_lb_break_stop(holding_norm, l2_zb_pool),
             check_board_gradient_stop(holding_norm, l2_zt_pool),
         ]
-        # 买入当天（D+0）跳过板块止损：当天收盘封板买入，行业排名靠后
-        # 不代表板块转弱，D+1 起才按板块排名判断（否则刚买入就被误杀）
-        if h.get("buy_date") == check_date:
-            checks[2] = {
-                "triggered": False, "level": 3, "rule": "板块止损",
-                "detail": "买入当天跳过板块止损（D+1 起生效）",
-            }
         triggered = [c for c in checks if c.get("triggered")]
 
+        if triggered:
+            reasons = [f"{c['rule']}: {c['detail']}" for c in triggered]
+            # ── 市场层：跌停可卖判定（镜像买入端从严口径）──
+            dt = dt_by_code.get(str(code)[-6:])
+            sell_price = cur
+            if dt is not None:
+                try:
+                    oc = int(dt.get("oc", 0) or 0)
+                except (TypeError, ValueError):
+                    oc = 0
+                if oc == 0:
+                    # 跌停封死全天未开板 → 排队卖不出，按跌停价继续扛，次日再试
+                    missed_sells.append({
+                        "date": check_date, "code": code, "name": h.get("name", ""),
+                        "reason": 1,
+                        "reason_text": f"跌停封死未开板（连续{dt.get('days', 1)}天），排队未成交",
+                        "oc": 0,
+                        "days": dt.get("days", 1),
+                        "fund": dt.get("fund", 0),
+                        "price": dt.get("price", cur),
+                        "trigger_reasons": reasons,
+                    })
+                    continue
+                # oc>=1 → 开过板，排队单在开板窗口成交，按跌停价保守入账
+                sell_price = dt.get("price", cur) or cur
         if triggered:
             reasons = [f"{c['rule']}: {c['detail']}" for c in triggered]
             # 半仓规则：只有"纯板块 TOP10 触发"才减半仓
@@ -276,16 +313,16 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
                 "code": code,
                 "name": h.get("name", ""),
                 "shares": sell_shares,
-                "price": cur,
-                "amount": round(cur * sell_shares, 2),
+                "price": sell_price,
+                "amount": round(sell_price * sell_shares, 2),
                 "cost_price": cost,
                 "half": half,          # 半仓标记：调用方要保留剩余持仓
                 "reasons": reasons,
             })
-    return sells
+    return sells, missed_sells
 
 
 if __name__ == "__main__":
     # 自测：空数据不崩
-    r = run_stop_loss([], {}, None, None, None, "2026-08-11")
-    print(f"空持仓测试: {len(r)} 个卖出建议（应为 0）")
+    sells, missed = run_stop_loss([], {}, None, None, None, "2026-08-11")
+    print(f"空持仓测试: {len(sells)} 个卖出建议（应为 0），{len(missed)} 个拒卖")
