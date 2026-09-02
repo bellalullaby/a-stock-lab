@@ -282,7 +282,9 @@ def api_holdings_jj():
 # ═══════════════════════════════════════════════════════════
 
 def fetch_tencent_prices(codes):
-    """批量拉腾讯实时行情，返回 {code: price}（code 带 sh/sz 前缀）"""
+    """批量拉腾讯实时行情，返回 {code: price}（code 带 sh/sz 前缀）
+    强制直连不走系统代理：urllib 在 Windows 会读注册表代理（Clash），
+    Clash 抖动会导致行情失败 → 回退成本价 → 页面"成本=现价"（09-02 事故）"""
     if not codes:
         return {}
     try:
@@ -290,7 +292,8 @@ def fetch_tencent_prices(codes):
         url = "https://qt.gtimg.cn/q=" + ",".join(codes)
         req = urllib.request.Request(url)
         req.add_header("User-Agent", "Mozilla/5.0")
-        data = urllib.request.urlopen(req, timeout=10).read().decode("gbk")
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        data = opener.open(req, timeout=8).read().decode("gbk")
         prices = {}
         for line in data.strip().split(";"):
             if not line.strip() or "=" not in line or '"' not in line:
@@ -302,6 +305,23 @@ def fetch_tencent_prices(codes):
         return prices
     except Exception:
         return {}
+
+
+def latest_closing_prices():
+    """最近收盘简报的持仓收盘价 {code: market_price}——实时行情失败时的回退价源"""
+    result = {}
+    pf_path = BASE_DIR.parent / "virtual-portfolio" / "portfolio.json"
+    try:
+        pf = json.loads(pf_path.read_text("utf-8"))
+        for e in pf.get("daily_log", []):
+            if str(e.get("session", "")).startswith("收盘简报") and e.get("holdings_snapshot"):
+                for hs in e["holdings_snapshot"]:
+                    if hs.get("market_price") is not None:
+                        result[hs.get("code", "")] = hs["market_price"]
+                break
+    except Exception:
+        pass
+    return result
 
 
 @app.route("/api/holdings/xk")
@@ -319,6 +339,7 @@ def api_holdings_xk():
         if c and c not in codes:
             codes.append(c)
     prices = fetch_tencent_prices(codes)
+    closing_prices = latest_closing_prices()
 
     results = []
     for h in holdings:
@@ -326,8 +347,9 @@ def api_holdings_xk():
         # portfolio.json 字段名兼容：cost / cost_price / buy_price
         cost = h.get("cost") or h.get("cost_price") or h.get("buy_price") or 0
         shares = h.get("shares", 0)
-        # 实时价拿不到时回退成本价
-        cur = prices.get(code) or cost
+        # 价格源链：腾讯实时 > 最近收盘简报收盘价 > 成本价
+        # （回退到昨收仍能显示涨跌；只有三层层层失败才落到成本，此时盈亏为 0 是诚实显示）
+        cur = prices.get(code) or closing_prices.get(code) or cost
         results.append({
             **h,
             "cost_price": cost,
@@ -1044,4 +1066,5 @@ if __name__ == "__main__":
     print(f"   📁 缓存目录: {CACHE_DIR}")
     print(f"   📁 账户目录: {ACCOUNTS_DIR}")
     print(f"   🌐 http://localhost:5000")
-    app.run(debug=False, host="127.0.0.1", port=5000)
+    # host=0.0.0.0 允许外部访问（Tailscale 组网：办公室经 100.115.142.74:5000 访问）
+    app.run(debug=False, host="0.0.0.0", port=5000)
