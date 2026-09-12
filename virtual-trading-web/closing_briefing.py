@@ -308,6 +308,16 @@ print(f"  仓位状态: 市值¥{hold_value:,.0f} + 现金¥{cash:,.0f} = ¥{tot
       f"(仓位 {hold_value / total_assets * 100 if total_assets else 0:.1f}%, "
       f"门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只)")
 
+# ═══════════ 交易成本（A 修复项：真实世界买卖都有摩擦）═══════════
+# 佣金 万2.5 最低5元（双边）· 印花税 0.05%（卖单边）· 过户费 0.001%（双边）
+def trade_fee(trade_type: str, amount: float) -> float:
+    """按成交金额算费用（元）"""
+    commission = max(amount * 0.00025, 5.0)          # 佣金双边
+    stamp = amount * 0.0005 if trade_type == "sell" else 0.0  # 印花税卖单边
+    transfer = amount * 0.00001                      # 过户费双边
+    return round(commission + stamp + transfer, 2)
+
+
 # ═══════════ 虚拟买入：L3 强候选 + 收盘封板 + 仓位额度 + 可成交过滤 ═══════════
 # 两层过滤语义（重要）：
 #   仓位额度   = 策略层自我约束（我们的选择）→ 跳过只打印，不进 missed_buys
@@ -350,18 +360,22 @@ if can_buy:
             buy_amount = 100000
             shares = int(buy_amount / price / 100) * 100
             if shares >= 100 and cash >= shares * price:
-                cash -= shares * price
-                hold_value += shares * price  # 现金换仓，总资产不变
+                buy_fee = trade_fee("buy", shares * price)
+                cash -= shares * price + buy_fee
+                hold_value += shares * price  # 现金换仓，总资产不变（费用小额损耗）
                 holdings.append({
                     "code": code, "name": name, "shares": shares, "cost": price,
                     "buy_date": today, "buy_price": price,
                     "hybk": s.get("hybk", ""),  # 必须存行业，板块止损依赖
                     "buy_reason": f"{s.get('lb', 0)}板强候选 收盘封板",
                 })
+                if not s.get("hybk", ""):
+                    print(f"  ⚠️ 警告: {name} 无行业数据，板块止损将跳过此票（请查数据源）")
                 trades.append({"date": today, "type": "buy", "code": code, "name": name,
-                               "shares": shares, "price": price, "amount": shares * price})
+                               "shares": shares, "price": price, "amount": shares * price,
+                               "fee": buy_fee})
                 bought_codes.append(code)
-                print(f"  买入: {name} {shares}股 ¥{price:.2f}")
+                print(f"  买入: {name} {shares}股 ¥{price:.2f} (费¥{buy_fee:.2f})")
 
 # ═══════════ 虚拟卖出：五层止损 + 跌停可卖判定（T+1 在引擎内） ═══════════
 from stop_loss import fetch_tencent_prices, run_stop_loss
@@ -407,14 +421,50 @@ for sp in sell_plan:
         else:
             new_holdings.append(h)
     holdings = new_holdings
-    cash += amount
+    sell_fee = trade_fee("sell", amount)
+    cash += amount - sell_fee
     note = reasons + (f"（半仓减仓，剩{remaining}股）" if half else "")
     sold.append({
         "date": today, "type": "sell", "code": code, "name": name,
         "shares": shares, "price": price, "amount": amount,
+        "fee": sell_fee,
         "note": note,
     })
-    print(f"  ⛔ 止损卖出: {name} {shares}股 ¥{price:.2f} | {note}")
+    print(f"  ⛔ 止损卖出: {name} {shares}股 ¥{price:.2f} (费¥{sell_fee:.2f}) | {note}")
+
+# ═══════════ 移动止盈·影子模式（只计算记录，不真实卖出） ═══════════
+# 第六层草案：浮盈≥+20% 启用，从持有期最高价回吐 1/3 减半 / 1/2 清仓。
+# 影子跑三周攒"如果生效会怎样"的数据，再决定是否启用与调参。
+from stop_loss import fetch_tencent_highs, check_trailing_stop
+
+trailing_shadow = []
+if holdings:
+    for h in holdings:
+        cost = h.get("cost", h.get("buy_price", 0))
+        if cost <= 0:
+            continue
+        peak, cur_close = fetch_tencent_highs(h["code"], h.get("buy_date", "2000-01-01"))
+        if peak is None:
+            continue
+        r = check_trailing_stop(cur_close, peak, cost)
+        entry = {
+            "date": today, "code": h["code"], "name": h["name"],
+            "cost": cost, "cur": cur_close, "peak": peak,
+            "gain_pct": round((cur_close - cost) / cost * 100, 2),
+            "drawdown_pct": round((peak - cur_close) / peak * 100, 2),
+            "trigger": r["trigger"] if r else None,
+            "would_sell_shares": (h["shares"] // 2 if r and r["trigger"] == "减半"
+                                  else h["shares"] if r and r["trigger"] == "清仓" else 0),
+        }
+        trailing_shadow.append(entry)
+        if r:
+            print(f"  🌅 影子止盈(未执行): {h['name']} 浮盈{entry['gain_pct']:+.1f}% "
+                  f"峰值¥{peak:.2f} 回吐{entry['drawdown_pct']:.1f}% → {r['trigger']}档")
+
+# 影子日志写入（幂等：同 date 覆盖当日旧影子记录）
+if trailing_shadow:
+    shadow_log = [s for s in pf.get("trailing_shadow", []) if s.get("date") != today]
+    pf["trailing_shadow"] = shadow_log + trailing_shadow
 
 # ═══════════ 账户估值（持仓按实时价） ═══════════
 hold_prices = fetch_tencent_prices([h["code"] for h in holdings]) if holdings else {}
@@ -543,6 +593,12 @@ if missed_buys:
 if missed_sells:
     ms_lines = [f"{m['name']}：{m['reason_text']}" for m in missed_sells]
     observations.append(f"🚫 想卖卖不掉 {len(missed_sells)} 只: {'；'.join(ms_lines)}")
+# 移动止盈影子触发（只记录不执行，攒三周数据再定）
+shadow_triggers = [s for s in trailing_shadow if s.get("trigger")]
+if shadow_triggers:
+    sh_lines = [f"{s['name']} 浮盈{s['gain_pct']:+.0f}% 回吐{s['drawdown_pct']:.0f}%→{s['trigger']}档"
+                for s in shadow_triggers]
+    observations.append(f"🌅 影子止盈(未执行) {len(shadow_triggers)} 只: {'；'.join(sh_lines)}")
 # 当前仓位（门控数值化：用卖出后的最新估值口径）
 if total_value > 0:
     pos_pct = total_hold / total_value * 100

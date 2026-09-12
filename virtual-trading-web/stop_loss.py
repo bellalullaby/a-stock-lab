@@ -20,6 +20,7 @@ stop_loss.py — 五层止损引擎（收盘简报执行版）
     # sell_list: [{code, name, shares, price, amount, reasons: [...]}, ...]
 """
 
+import json
 import urllib.request
 from datetime import datetime
 
@@ -211,6 +212,59 @@ def check_board_gradient_stop(holding, l2_zt_pool):
             }
 
     return {"triggered": False, "level": 5, "rule": "连板梯度止损", "detail": "不在今日涨停池"}
+
+
+# ── 移动止盈（第六层·影子模式：只计算记录，不真实卖出）──────────
+# 规则（参数可配）：浮盈 ≥ +20% 启用；从持有期最高价回吐 ≥ 1/3 → 减半档；
+# 回吐 ≥ 1/2 → 清仓档。先影子跑三周，拿"如果生效会怎样"的数据再决定启用。
+TRAIL_ACTIVATE = 0.20    # 浮盈启用阈值
+TRAIL_HALF = 1 / 3       # 回吐 1/3 → 减半
+TRAIL_FULL = 1 / 2       # 回吐 1/2 → 清仓
+
+
+def fetch_tencent_highs(code: str, since_date: str):
+    """拉腾讯日K线，返回 (peak_high, cur_close)——持有期最高价与最新收盘"""
+    import urllib.request
+    from datetime import datetime
+    try:
+        url = (f"https://web.ifzq.gtimg.cn/appstock/app/fqkline/get"
+               f"?param={code},day,,,320,qfq")
+        req = urllib.request.Request(url)
+        req.add_header("User-Agent", "Mozilla/5.0")
+        opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
+        data = json.loads(opener.open(req, timeout=10).read().decode("utf-8"))
+        klines = (data.get("data", {}).get(code, {}).get("qfqday")
+                  or data.get("data", {}).get(code, {}).get("day") or [])
+        highs = [float(k[3]) for k in klines if k[0] >= since_date]
+        closes = [float(k[2]) for k in klines if k[0] >= since_date]
+        if not highs:
+            return None, None
+        return max(highs), closes[-1]
+    except Exception:
+        return None, None
+
+
+def check_trailing_stop(cur: float, peak: float, cost: float):
+    """
+    移动止盈判定。返回 None（未触发）或 {"trigger": "清仓"|"减半", "gain_pct", "drawdown_pct"}。
+
+    启用判定用"历史最大浮盈"（peak 相对 cost）而非当前浮盈：
+    否则"涨上去又跌回来"（收益回吐）的场景永远不触发——那正是本规则要防的。
+    """
+    if cost <= 0 or cur <= 0 or peak is None or peak <= 0:
+        return None
+    peak_gain = (peak - cost) / cost          # 历史最大浮盈
+    if peak_gain < TRAIL_ACTIVATE:
+        return None  # 从未达到启用线
+    cur_gain = (cur - cost) / cost
+    drawdown = (peak - cur) / peak
+    if drawdown >= TRAIL_FULL:
+        return {"trigger": "清仓", "gain_pct": round(cur_gain * 100, 2),
+                "drawdown_pct": round(drawdown * 100, 2)}
+    if drawdown >= TRAIL_HALF:
+        return {"trigger": "减半", "gain_pct": round(cur_gain * 100, 2),
+                "drawdown_pct": round(drawdown * 100, 2)}
+    return None
 
 
 # ── 执行入口 ──────────────────────────────────────────────
