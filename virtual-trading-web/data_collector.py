@@ -113,8 +113,13 @@ EM_CLIST      = "https://push2.eastmoney.com/api/qt/clist/get"
 NO_PROXY = {"http": None, "https": None}
 
 
+# 路径记忆：某域名直连失败过 → 本进程内后续请求直接走代理
+# （批量场景性能关键：631 只票若每次都先试直连失败，重试成本 ×631）
+_HOST_PREFER_PROXY = {}
+
+
 def robust_cn_get(url, params=None, headers=None, timeout=15):
-    """国内接口稳健请求：直连优先，失败回退代理重试。
+    """国内接口稳健请求：直连优先，失败回退代理重试（带路径记忆）。
 
     失败路径两条纪律（Claude哥验收反馈——修静默事故的代码自己不能静默）：
       1. 不静默：回退必打印原因（直连何时失败、失败码是什么，必须可见）
@@ -123,6 +128,15 @@ def robust_cn_get(url, params=None, headers=None, timeout=15):
     except 只收网络异常与自抛 5xx；编程错误（URL 非法）直接上抛不吞。
     """
     h = headers or {"User-Agent": UA}
+    host = url.split("/")[2] if "//" in url else url
+
+    # 该域名已知直连不通 → 直接走代理（省去每次的失败探测）
+    if _HOST_PREFER_PROXY.get(host):
+        resp = requests.get(url, params=params, headers=h, timeout=timeout)
+        if resp.status_code >= 500:
+            raise RuntimeError(f"代理失败: HTTP {resp.status_code}")
+        return resp
+
     try:
         resp = requests.get(url, params=params, headers=h,
                             timeout=timeout, proxies=NO_PROXY)
@@ -137,6 +151,8 @@ def robust_cn_get(url, params=None, headers=None, timeout=15):
         resp = requests.get(url, params=params, headers=h, timeout=timeout)
         if resp.status_code >= 500:
             raise RuntimeError(f"代理回退仍失败: HTTP {resp.status_code}")
+        # 仅当代理确实可用才记忆（避免两条路都断时锁死在失败路径上）
+        _HOST_PREFER_PROXY[host] = True
         return resp
 
 

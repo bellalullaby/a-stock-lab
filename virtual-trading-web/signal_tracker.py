@@ -207,26 +207,46 @@ def new_rule_score(s):
     return v
 
 
-def build_shadow_scoring(all_signals):
-    """影子记录：每日按新规则取 top3 + 前向收益。
-    并行积累几周，用数据决定是否切换打分体系（不碰生产选票逻辑）。"""
+def build_shadow_scoring(all_signals, enabled_date=None):
+    """影子记录：每日按新规则取 top3 + 前向收益，与现行规则 top3 配对比较。
+
+    配对口径（Claude哥对账要求，apples-to-apples）：
+      同一天内，新规则 top3 vs 现行规则 top3（buy_score 降序取3），
+      两边样本天数/每日只数完全一致，消除"top3 vs 全量强候选"的口径偏差。
+
+    ⚠️ in-sample 警告：历史区间（07-14起）既是发现倒挂的数据、又是回测数据，
+    回测结论必然乐观（数学必然）。唯一可信的是影子模式从启用日起的
+    out-of-sample 数据——攒 4-6 周覆盖完整情绪周期（涨潮→退潮）再拍板。
+    另：样本期全是震荡市/系统性风险，未经历多头市，外推需谨慎。"""
     by_date = defaultdict(list)
     for s in all_signals:
         by_date[s["signal_date"]].append(s)
 
-    picks_out = []
+    def buyable(s):
+        """可买池：风控/弱/门控禁止的票生产不会买入，影子必须模拟真实可执行口径"""
+        out = s.get("out", "")
+        return "风控" not in out and out != "弱" and "门控禁止" not in out
+
+    new_picks, cur_picks = [], []
     for d in sorted(by_date):
-        picks = sorted(by_date[d], key=new_rule_score, reverse=True)[:3]
-        for p in picks:
-            picks_out.append({
+        day = [s for s in by_date[d] if buyable(s)]
+        # 新规则：低换手+高连板+PE>0（可买池内 top3）
+        for p in sorted(day, key=new_rule_score, reverse=True)[:3]:
+            new_picks.append({
                 "date": d, "code": p["code"], "name": p["name"],
                 "score": new_rule_score(p),
                 "turnover": p.get("turnover"), "lbc": p.get("lbc"), "pe": p.get("pe"),
                 "out": p.get("out", ""),
                 "d1": p.get("d1_return"), "d3": p.get("d3_return"), "d5": p.get("d5_return"),
             })
+        # 现行规则：buy_score 降序（同分保持信号池原序）
+        for p in sorted(day, key=lambda s: -(s.get("buy_score") or 0))[:3]:
+            cur_picks.append({
+                "date": d, "code": p["code"], "name": p["name"],
+                "score": p.get("buy_score"), "out": p.get("out", ""),
+                "d1": p.get("d1_return"), "d3": p.get("d3_return"), "d5": p.get("d5_return"),
+            })
 
-    # 汇总对比：新规则 top3 vs 现行强候选
     def agg(items, key):
         vals = [x[key] for x in items if x.get(key) is not None]
         if not vals:
@@ -237,23 +257,18 @@ def build_shadow_scoring(all_signals):
             "win": round(sum(1 for v in vals if v > 0) / len(vals) * 100, 1),
         }
 
-    cur_strong = [s for s in all_signals if "强候选" in s.get("out", "")]
-    cur_map = {"d1": "d1_return", "d3": "d3_return", "d5": "d5_return"}
-    new_stats = {k: agg(picks_out, k) for k in ["d1", "d3", "d5"]}
-    cur_stats = {}
-    for k, field in cur_map.items():
-        vals = [s[field] for s in cur_strong if s.get(field) is not None]
-        cur_stats[k] = {
-            "n": len(vals),
-            "avg": round(sum(vals) / len(vals), 2) if vals else None,
-            "win": round(sum(1 for v in vals if v > 0) / len(vals) * 100, 1) if vals else None,
-        }
-
     return {
         "rule": "turnover<5:+2, <10:+1; lb>=2:+lb; pe<0:-5",
-        "note": "影子模式——只记录不执行，积累数据后决定是否切换打分体系",
-        "picks": picks_out,
-        "stats": {"new_rule_top3": new_stats, "current_strong": cur_stats},
+        "compare": "同日配对：新规则 top3 vs 现行规则 top3（buy_score 降序）",
+        "warning": "in-sample：回测结论必然乐观，以启用日后的 out-of-sample 影子数据为准；"
+                   "样本期全为震荡/风险市，未经历多头市",
+        "enabled_date": enabled_date or datetime.now().strftime("%Y-%m-%d"),
+        "picks": new_picks,
+        "current_picks": cur_picks,
+        "stats": {
+            "new_rule_top3": {k: agg(new_picks, k) for k in ["d1", "d3", "d5"]},
+            "current_top3": {k: agg(cur_picks, k) for k in ["d1", "d3", "d5"]},
+        },
     }
 
 
@@ -294,10 +309,17 @@ def main():
                 win = sum(1 for r in returns if r > 0) / len(returns) * 100
                 print(f"  {label} D{o}: avg={avg:+.2f}% win={win:.0f}% (n={len(returns)})")
     
-    # 影子记录：新规则 vs 现行强候选（只记录不执行，积累切换依据）
-    shadow = build_shadow_scoring(tracked)
-    ns, cs = shadow["stats"]["new_rule_top3"], shadow["stats"]["current_strong"]
-    print(f"\n[影子打分] 新规则 top3 vs 现行强候选:")
+    # 影子记录：新规则 vs 现行规则（同日各取 top3 配对，只记录不执行）
+    # enabled_date 只认首次（防被每次运行覆盖——它是 out-of-sample 分界线）
+    old_enabled = ""
+    try:
+        with open(OUTPUT, encoding="utf-8") as f:
+            old_enabled = json.load(f).get("shadow_scoring", {}).get("enabled_date", "")
+    except Exception:
+        pass
+    shadow = build_shadow_scoring(tracked, enabled_date=old_enabled or None)
+    ns, cs = shadow["stats"]["new_rule_top3"], shadow["stats"]["current_top3"]
+    print(f"\n[影子打分] 同日配对: 新规则 top3 vs 现行 top3:")
     for o in ["d1", "d3", "d5"]:
         n, c = ns.get(o), cs.get(o)
         if n and c:
