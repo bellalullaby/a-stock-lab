@@ -140,7 +140,7 @@ if pre_entry and "l1_indexes" in pre_entry:
             l1_changed = True
 
 l1_detail = " ".join(l1_detail_lines) + \
-    f"。均涨幅{l1['avg_chg_pct']:+.1f}% 量比{l1['avg_vol_ratio']:.2f}。{l1['volume_analysis']}"
+    f"。均涨幅{l1['avg_chg_pct']:+.1f}% 量比{l1['avg_vol_ratio']:.2f}。量能观察：{l1['volume_analysis']}"
 
 # ═══════════ L2 涨停池/题材 ═══════════
 zt_stocks = l2_zt["stocks"]

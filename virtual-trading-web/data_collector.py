@@ -832,14 +832,16 @@ def analyze_l1(date_str: str, aux_board_data: dict) -> dict:
     avg_vol_ratio = sum(v["vol_ratio"] for v in idx_vals) / 3
     avg_chg_pct = sum(v["chg_pct"] for v in idx_vals) / 3
 
+    # 文案只做量能维度描述，不下趋势结论（趋势判定归 regime，避免拼接后自相矛盾：
+    # 曾出现"系统性风险→暂停交易"与"底部蓄力"并排打架）
     if avg_chg_pct < 0 and avg_vol_ratio < 0.9:
-        vol_analysis = "缩量阴跌 — 底部蓄力，非恐慌性抛售"
+        vol_analysis = "缩量阴跌 — 量能萎缩，未现恐慌性放量"
     elif avg_chg_pct < 0 and avg_vol_ratio > 1.2:
-        vol_analysis = "放量下跌 — 恐慌抛售，真正的系统性风险 ⚠"
+        vol_analysis = "放量下跌 — 出现恐慌性抛压 ⚠"
     elif avg_chg_pct > 0 and avg_vol_ratio > 1.0:
-        vol_analysis = "价涨量增 — 良性反弹，有资金支持"
+        vol_analysis = "价涨量增 — 量价配合良好"
     elif avg_chg_pct > 0 and avg_vol_ratio < 0.9:
-        vol_analysis = "价涨量缩 — 反弹乏力，缺乏持续性"
+        vol_analysis = "价涨量缩 — 量价背离"
     else:
         vol_analysis = "量价正常，无极端信号"
 

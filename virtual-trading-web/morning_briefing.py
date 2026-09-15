@@ -102,7 +102,7 @@ l1_text = (fmt_idx("上证", "sh000001") + "; " +
            fmt_idx("深证", "sz399001") + "; " +
            fmt_idx("创业板", "sz399006") +
            f"。均涨幅{l1.get('avg_chg_pct', 0):+.1f}% 量比{l1.get('avg_vol_ratio', 0):.2f}。"
-           f"{l1.get('volume_analysis', '')}")
+           f"量能观察：{l1.get('volume_analysis', '')}")
 
 regime = l1.get("regime", "震荡市")
 gate = "正常模式" if regime == "多头趋势" else ("暂停交易" if regime == "系统性风险" else "降低权重")
@@ -143,7 +143,13 @@ for s in l3_stocks:
 strong = [s for s in signals if s.get("out", "").startswith("强候选")]
 watch = [s for s in signals if s.get("out", "") == "观察"]
 risk = [s for s in signals if s.get("out", "").startswith("风控")]
+weak = [s for s in signals if s.get("out", "") == "弱"]
 buy_ge3 = sum(1 for s in signals if s.get("buy", 0) >= 3)
+
+# L3 文案：label 分桶（和=信号池总数）与 buy_score 达标数（可与分桶重叠）是两个维度，
+# 不可并排相加（曾出现"达标18只(强0/观11/风18)"的加法对不上 bug）
+l3_line = (f"信号池{len(signals)}只(强{len(strong)}/观{len(watch)}/风{len(risk)}/弱{len(weak)})"
+           f"; 其中技术面达标(buy_score≥3) {buy_ge3}只")
 
 # ── 昨日信号回顾（从最近收盘简报的 yesterday_review 提取，只读） ──
 closing_entries = [e for e in pf["daily_log"] if "收盘" in e.get("session", "")]
@@ -211,7 +217,7 @@ elif is_fan:
                 f"昨日为放量大跌日（涨停{zt_count}家/炸板率{zbr}%/最高{max_lb}板），防御性板块领涨且无涨停结构。\n\n"
                 f"📈 市场结构：{l2_text}。\n轮动判定：{rotation_label}。\n\n"
                 f"🔄 昨日信号回顾（{data_date}盘前信号→{data_date}收盘）：共{n_track}只，涨停{len(hits_zt)}只，正收益{len(hits_up)}只({up_rate:.0f}%)，下跌{len(hits_down)}只。\n"
-                f"   今日盘前候选：技术面达标{buy_ge3}只，但全局禁止开仓。持仓{len(holdings)}只重点盯开盘去留。\n\n"
+                f"   今日盘前候选：技术面达标(buy_score≥3) {buy_ge3}只，但全局禁止开仓。持仓{len(holdings)}只重点盯开盘去留。\n\n"
                 f"⚠️ 不构成投资建议。虚拟盘仅作研究观察。")
 elif regime == "震荡市":
     decision = (f"震荡市门控→降低权重。当前持仓{len(holdings)}只，不执行新增买入。\n\n"
@@ -235,7 +241,7 @@ if max_lb_name:
 if top_sectors:
     observations.append(f"涨停池主线：{' / '.join(f'{n}({c})' for n, c in top_sectors[:3])}")
 if buy_ge3:
-    observations.append(f"技术面达标{buy_ge3}只(强{len(strong)}/观{len(watch)}/风{len(risk)})")
+    observations.append(f"L3: {l3_line}")
 if tracking:
     observations.append(f"昨日信号回顾: {len(hits_up)}/{n_track}正收益({up_rate:.0f}%), {len(hits_zt)}涨停, {len(hits_down)}下跌")
 observations.append("⚠️ 不构成投资建议。虚拟盘仅作研究观察。")
@@ -252,7 +258,8 @@ brief = {
            "sectors": [{"name": n, "count": c} for n, c in top_sectors],
            "rotation": rotation_label, "detail": l2_text},
     "l3": {"buy_ge3": buy_ge3, "strong": len(strong), "watch": len(watch),
-           "risk": len(risk)},
+           "risk": len(risk), "weak": len(weak), "total": len(signals),
+           "summary": l3_line},
     "signals": signals,
     "yesterday_review": tracking,
     "holdings_snapshot": holdings_snapshot,
@@ -271,7 +278,7 @@ if args.dry_run:
     print(f"   {l1_text}")
     print(f"L2: {l2_text}")
     print(f"   轮动: {rotation_label}")
-    print(f"L3: 技术面达标{buy_ge3}只(强{len(strong)}/观{len(watch)}/风{len(risk)})")
+    print(f"L3: {l3_line}")
     if signals:
         for s in signals[:8]:
             print(f"   {s['code']} {s['name']:8s} {s['lbc']}板 ¥{s['price']:.2f} {s['pct']:+.1f}% → {s['out']}")
@@ -293,7 +300,7 @@ print(f"L1: {regime} → {gate}")
 print(f"   {l1_text}")
 print(f"L2: {l2_text}")
 print(f"   轮动: {rotation_label}")
-print(f"L3: 技术面达标{buy_ge3}只(强{len(strong)}/观{len(watch)}/风{len(risk)})")
+print(f"L3: {l3_line}")
 if signals:
     for s in signals[:8]:
         pe_str = f"PE{s['pe']:.0f}" if s.get('pe') and s['pe'] > 0 else "PE负"
