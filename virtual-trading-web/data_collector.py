@@ -114,17 +114,29 @@ NO_PROXY = {"http": None, "https": None}
 
 
 def robust_cn_get(url, params=None, headers=None, timeout=15):
-    """国内接口稳健请求：直连优先，5xx/异常自动回退代理重试。"""
+    """国内接口稳健请求：直连优先，失败回退代理重试。
+
+    失败路径两条纪律（Claude哥验收反馈——修静默事故的代码自己不能静默）：
+      1. 不静默：回退必打印原因（直连何时失败、失败码是什么，必须可见）
+      2. 不假成功：回退响应同样校验 5xx，宁可明确失败——502 交给下游
+         解析错误页拿到空数据 = 09-14「缓存写空」原版剧本
+    except 只收网络异常与自抛 5xx；编程错误（URL 非法）直接上抛不吞。
+    """
     h = headers or {"User-Agent": UA}
     try:
         resp = requests.get(url, params=params, headers=h,
                             timeout=timeout, proxies=NO_PROXY)
         if resp.status_code >= 500:
-            raise RuntimeError(f"direct HTTP {resp.status_code}")
+            raise RuntimeError(f"HTTP {resp.status_code}")
         return resp
-    except Exception:
-        # 直连失败 → 走系统代理重试（Clash 可用时的正常路径）
-        return requests.get(url, params=params, headers=h, timeout=timeout)
+    except (requests.exceptions.InvalidURL, requests.exceptions.MissingSchema):
+        raise  # URL 拼错等编程错误：原样抛，不当作"该走代理"
+    except (requests.RequestException, RuntimeError) as e:
+        print(f"  ⚠️ 直连失败({str(e)[:80]}) → 回退代理重试")
+        resp = requests.get(url, params=params, headers=h, timeout=timeout)
+        if resp.status_code >= 500:
+            raise RuntimeError(f"代理回退仍失败: HTTP {resp.status_code}")
+        return resp
 
 
 def em_get(url, params=None, headers=None, timeout=15):
