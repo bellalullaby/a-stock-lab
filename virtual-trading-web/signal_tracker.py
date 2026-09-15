@@ -189,6 +189,74 @@ def build_daily_summary(signals):
         daily.append(stats)
     return daily
 
+def new_rule_score(s):
+    """新规则草案（Claude哥复盘发现打分倒挂后的重排方案）：
+    低换手加分、高连板加分、PE 负剔除。与 analyze_scoring.py 回测口径一致。"""
+    turn = s.get("turnover") or 0
+    lb = s.get("lbc") or 0
+    pe = s.get("pe")
+    v = 0
+    if turn < 5:
+        v += 2
+    elif turn < 10:
+        v += 1
+    if lb >= 2:
+        v += lb
+    if pe is not None and pe < 0:
+        v -= 5
+    return v
+
+
+def build_shadow_scoring(all_signals):
+    """影子记录：每日按新规则取 top3 + 前向收益。
+    并行积累几周，用数据决定是否切换打分体系（不碰生产选票逻辑）。"""
+    by_date = defaultdict(list)
+    for s in all_signals:
+        by_date[s["signal_date"]].append(s)
+
+    picks_out = []
+    for d in sorted(by_date):
+        picks = sorted(by_date[d], key=new_rule_score, reverse=True)[:3]
+        for p in picks:
+            picks_out.append({
+                "date": d, "code": p["code"], "name": p["name"],
+                "score": new_rule_score(p),
+                "turnover": p.get("turnover"), "lbc": p.get("lbc"), "pe": p.get("pe"),
+                "out": p.get("out", ""),
+                "d1": p.get("d1_return"), "d3": p.get("d3_return"), "d5": p.get("d5_return"),
+            })
+
+    # 汇总对比：新规则 top3 vs 现行强候选
+    def agg(items, key):
+        vals = [x[key] for x in items if x.get(key) is not None]
+        if not vals:
+            return None
+        return {
+            "n": len(vals),
+            "avg": round(sum(vals) / len(vals), 2),
+            "win": round(sum(1 for v in vals if v > 0) / len(vals) * 100, 1),
+        }
+
+    cur_strong = [s for s in all_signals if "强候选" in s.get("out", "")]
+    cur_map = {"d1": "d1_return", "d3": "d3_return", "d5": "d5_return"}
+    new_stats = {k: agg(picks_out, k) for k in ["d1", "d3", "d5"]}
+    cur_stats = {}
+    for k, field in cur_map.items():
+        vals = [s[field] for s in cur_strong if s.get(field) is not None]
+        cur_stats[k] = {
+            "n": len(vals),
+            "avg": round(sum(vals) / len(vals), 2) if vals else None,
+            "win": round(sum(1 for v in vals if v > 0) / len(vals) * 100, 1) if vals else None,
+        }
+
+    return {
+        "rule": "turnover<5:+2, <10:+1; lb>=2:+lb; pe<0:-5",
+        "note": "影子模式——只记录不执行，积累数据后决定是否切换打分体系",
+        "picks": picks_out,
+        "stats": {"new_rule_top3": new_stats, "current_strong": cur_stats},
+    }
+
+
 def main():
     print(f"[信号追踪] 读取 {XK_PORTFOLIO}")
     signals = extract_signals()
@@ -226,6 +294,16 @@ def main():
                 win = sum(1 for r in returns if r > 0) / len(returns) * 100
                 print(f"  {label} D{o}: avg={avg:+.2f}% win={win:.0f}% (n={len(returns)})")
     
+    # 影子记录：新规则 vs 现行强候选（只记录不执行，积累切换依据）
+    shadow = build_shadow_scoring(tracked)
+    ns, cs = shadow["stats"]["new_rule_top3"], shadow["stats"]["current_strong"]
+    print(f"\n[影子打分] 新规则 top3 vs 现行强候选:")
+    for o in ["d1", "d3", "d5"]:
+        n, c = ns.get(o), cs.get(o)
+        if n and c:
+            print(f"  {o.upper()}: 新 {n['avg']:+.2f}% 胜{n['win']:.0f}% (n={n['n']}) "
+                  f"| 现行 {c['avg']:+.2f}% 胜{c['win']:.0f}% (n={c['n']})")
+
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "first_date": min(date_counts.keys()) if date_counts else "",
@@ -235,13 +313,14 @@ def main():
         "strong_count": len(strong),
         "observe_count": len(observe),
         "daily_summary": daily,
+        "shadow_scoring": shadow,
         "signals": tracked,
     }
-    
+
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
-    
+
     print(f"\n[信号追踪] 写入 {OUTPUT}")
     print("[信号追踪] Done.")
 
