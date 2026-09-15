@@ -247,28 +247,70 @@ def build_shadow_scoring(all_signals, enabled_date=None):
                 "d1": p.get("d1_return"), "d3": p.get("d3_return"), "d5": p.get("d5_return"),
             })
 
-    def agg(items, key):
-        vals = [x[key] for x in items if x.get(key) is not None]
+    # 统计口径（Claude哥 2026-09-15 要求，全站信号统计通用）：
+    #   1. 按日配对（消同日 beta） 2. 同票去重只计首次（防单票重复计数）
+    #   3. 主看中位数+逐日胜率（均值被厚尾支配）
+    import statistics as _st
+
+    def dedup_first(picks):
+        seen, out = set(), []
+        for p in sorted(picks, key=lambda x: x["date"]):
+            if p["code"] in seen:
+                continue
+            seen.add(p["code"])
+            out.append(p)
+        return out
+
+    def desc(vals):
         if not vals:
             return None
         return {
             "n": len(vals),
-            "avg": round(sum(vals) / len(vals), 2),
+            "median": round(_st.median(vals), 2),
+            "mean": round(sum(vals) / len(vals), 2),
             "win": round(sum(1 for v in vals if v > 0) / len(vals) * 100, 1),
+        }
+
+    def daily_pairs(new_p, cur_p, key):
+        by_n, by_c = defaultdict(list), defaultdict(list)
+        for p in new_p:
+            if p.get(key) is not None:
+                by_n[p["date"]].append(p[key])
+        for p in cur_p:
+            if p.get(key) is not None:
+                by_c[p["date"]].append(p[key])
+        common = sorted(set(by_n) & set(by_c))
+        diffs = [sum(by_n[d]) / len(by_n[d]) - sum(by_c[d]) / len(by_c[d]) for d in common]
+        if not diffs:
+            return None
+        wins = sum(1 for x in diffs if x > 0.005)
+        losses = sum(1 for x in diffs if x < -0.005)
+        return {
+            "days": len(diffs), "wins": wins, "losses": losses,
+            "ties": len(diffs) - wins - losses,
+            "mean_diff": round(sum(diffs) / len(diffs), 2),
+            "median_diff": round(_st.median(diffs), 2),
+        }
+
+    dn, dc = dedup_first(new_picks), dedup_first(cur_picks)
+    stats = {}
+    for k in ["d1", "d3", "d5"]:
+        stats[k] = {
+            "new_dedup": desc([p[k] for p in dn if p.get(k) is not None]),
+            "cur_dedup": desc([p[k] for p in dc if p.get(k) is not None]),
+            "paired": daily_pairs(dn, dc, k),
         }
 
     return {
         "rule": "turnover<5:+2, <10:+1; lb>=2:+lb; pe<0:-5",
         "compare": "同日配对：新规则 top3 vs 现行规则 top3（buy_score 降序）",
+        "stats_note": "口径 v2: 按日配对+同票去重+中位数优先（Claude哥 09-15 要求）",
         "warning": "in-sample：回测结论必然乐观，以启用日后的 out-of-sample 影子数据为准；"
                    "样本期全为震荡/风险市，未经历多头市",
         "enabled_date": enabled_date or datetime.now().strftime("%Y-%m-%d"),
         "picks": new_picks,
         "current_picks": cur_picks,
-        "stats": {
-            "new_rule_top3": {k: agg(new_picks, k) for k in ["d1", "d3", "d5"]},
-            "current_top3": {k: agg(cur_picks, k) for k in ["d1", "d3", "d5"]},
-        },
+        "stats": stats,
     }
 
 
@@ -318,13 +360,15 @@ def main():
     except Exception:
         pass
     shadow = build_shadow_scoring(tracked, enabled_date=old_enabled or None)
-    ns, cs = shadow["stats"]["new_rule_top3"], shadow["stats"]["current_top3"]
-    print(f"\n[影子打分] 同日配对: 新规则 top3 vs 现行 top3:")
+    print(f"\n[影子打分] 口径v2（按日配对+去重+中位优先）:")
     for o in ["d1", "d3", "d5"]:
-        n, c = ns.get(o), cs.get(o)
-        if n and c:
-            print(f"  {o.upper()}: 新 {n['avg']:+.2f}% 胜{n['win']:.0f}% (n={n['n']}) "
-                  f"| 现行 {c['avg']:+.2f}% 胜{c['win']:.0f}% (n={c['n']})")
+        s = shadow["stats"].get(o, {})
+        n, c, pc = s.get("new_dedup"), s.get("cur_dedup"), s.get("paired")
+        if n and c and pc:
+            print(f"  {o.upper()}: 新中位{n['median']:+.2f}%(n={n['n']}) "
+                  f"| 现行中位{c['median']:+.2f}%(n={c['n']}) "
+                  f"| 按日 {pc['wins']}胜{pc['losses']}负/{pc['days']}天 "
+                  f"中位差{pc['median_diff']:+.2f}pp")
 
     output = {
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
