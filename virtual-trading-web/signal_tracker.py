@@ -17,6 +17,9 @@ if not isinstance(sys.stdout, io.TextIOWrapper) or sys.stdout.encoding != "utf-8
 
 import requests
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from data_collector import robust_cn_get  # 双路径请求（直连优先→代理回退，不静默不假成功）
+
 BASE_DIR = Path(__file__).resolve().parent
 CACHE_DIR = BASE_DIR / "data"
 XK_PORTFOLIO = BASE_DIR.parent / "virtual-portfolio" / "portfolio.json"
@@ -30,10 +33,12 @@ def to_tx(code):
     return code
 
 def fetch_klines(tx_code, n=120):
-    """拉取一只股票的日K线。注意：不带 qfq 参数，数据在 day 字段。"""
+    """拉取一只股票的日K线。注意：不带 qfq 参数，数据在 day 字段。
+    请求走 robust_cn_get（直连优先→代理回退）：单一网络路径曾导致
+    631 只票全线静默失败 → D1-D10 全空事故。"""
     try:
-        url = f"http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={tx_code},day,,,{n},"
-        r = requests.get(url, timeout=10)
+        url = f"https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={tx_code},day,,,{n},"
+        r = robust_cn_get(url, timeout=10)
         data = r.json()
         raw = data.get("data", {}).get(tx_code, {}).get("day", [])
         if not raw:
@@ -119,16 +124,27 @@ def compute_forward_returns(signals):
     """为每只信号计算前向收益。"""
     unique_codes = sorted(set(s["code"] for s in signals))
     print(f"[信号追踪] {len(unique_codes)} 只不同股票，拉取K线...")
-    
+
     stock_klines = {}
+    fail = 0
     for i, tx in enumerate(unique_codes):
         if i % 30 == 0:
             print(f"  K线进度: {i}/{len(unique_codes)}")
         klines = fetch_klines(tx)
+        if not klines:
+            fail += 1
         stock_klines[tx] = klines
         time.sleep(0.03)
-    
-    print(f"[信号追踪] K线拉取完成，计算前向收益...")
+
+    ok = len(unique_codes) - fail
+    print(f"[信号追踪] K线拉取完成: 成功 {ok}/{len(unique_codes)} 只，失败 {fail} 只")
+    # 熔断：全失败=网络/接口异常，拒绝继续（防把旧的好数据覆盖成空——09-14 教训）
+    if unique_codes and fail == len(unique_codes):
+        print("[信号追踪] ⚠️ K线全部拉取失败（网络/接口异常），"
+              "拒绝写空数据覆盖 signal_tracker.json。请检查网络后重跑。")
+        sys.exit(1)
+    if fail > len(unique_codes) * 0.3:
+        print(f"[信号追踪] ⚠️ 失败率 {fail / len(unique_codes) * 100:.0f}% 偏高，结果覆盖度可能不足")
     
     results = []
     for s in signals:
@@ -185,6 +201,14 @@ def main():
         print(f"  {d}: {date_counts[d]} 条")
     
     tracked = compute_forward_returns(signals)
+
+    # 空结果保护：前向收益全空 = 计算链路失效，拒绝覆盖旧数据（09-14 教训）
+    has_any = any(s.get("d1_return") is not None for s in tracked)
+    if tracked and not has_any:
+        print("[信号追踪] ⚠️ 全部信号的前向收益均为空（K线数据不可用），"
+              "拒绝覆盖 signal_tracker.json。请检查网络后重跑。")
+        sys.exit(1)
+
     daily = build_daily_summary(tracked)
     
     total = len(tracked)

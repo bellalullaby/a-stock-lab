@@ -129,8 +129,9 @@ def robust_cn_get(url, params=None, headers=None, timeout=15):
         if resp.status_code >= 500:
             raise RuntimeError(f"HTTP {resp.status_code}")
         return resp
-    except (requests.exceptions.InvalidURL, requests.exceptions.MissingSchema):
-        raise  # URL 拼错等编程错误：原样抛，不当作"该走代理"
+    except (requests.exceptions.InvalidURL, requests.exceptions.MissingSchema,
+            requests.exceptions.InvalidSchema):
+        raise  # URL 拼错/畸形 scheme 等编程错误：原样抛，不当作"该走代理"
     except (requests.RequestException, RuntimeError) as e:
         print(f"  ⚠️ 直连失败({str(e)[:80]}) → 回退代理重试")
         resp = requests.get(url, params=params, headers=h, timeout=timeout)
