@@ -103,21 +103,33 @@ EM_CLIST      = "https://push2.eastmoney.com/api/qt/clist/get"
 # 工具函数
 # ═══════════════════════════════════════════════════════════════
 
-# 东财/腾讯等国内接口强制不走代理。
-# 教训（P0）：环境变量代理指向 Clash → 全部流量走 chain-us → us-iproyal
-# 纽约住宅 IP → 东财风控 502 → 板块采集降级 → 止损引擎集体误杀。
-# 国内数据源直连天经地义，永不经过代理。
+# 国内接口的代理策略：直连优先，失败（5xx/连接异常）自动回退走系统代理。
+#
+# 历史教训（两个方向都踩过，接口行为随网络环境变化）：
+#   - 东财 push2：走代理 → 住宅 IP 被风控 502 → 必须直连
+#   - 腾讯 K 线：直连 → 501 Not Implemented → 必须走代理
+# 单一策略必然在某个时刻翻车（09-14 采集事故：腾讯直连 501 导致缓存写坏），
+# 双路径重试对两种环境都健壮。
 NO_PROXY = {"http": None, "https": None}
 
 
+def robust_cn_get(url, params=None, headers=None, timeout=15):
+    """国内接口稳健请求：直连优先，5xx/异常自动回退代理重试。"""
+    h = headers or {"User-Agent": UA}
+    try:
+        resp = requests.get(url, params=params, headers=h,
+                            timeout=timeout, proxies=NO_PROXY)
+        if resp.status_code >= 500:
+            raise RuntimeError(f"direct HTTP {resp.status_code}")
+        return resp
+    except Exception:
+        # 直连失败 → 走系统代理重试（Clash 可用时的正常路径）
+        return requests.get(url, params=params, headers=h, timeout=timeout)
+
+
 def em_get(url, params=None, headers=None, timeout=15):
-    """国内接口统一请求入口：强制不走代理 + 复用 UA"""
-    return requests.get(
-        url, params=params,
-        headers=headers or {"User-Agent": UA},
-        timeout=timeout,
-        proxies=NO_PROXY,
-    )
+    """东财接口统一请求入口（经 robust_cn_get：直连优先，失败退代理）"""
+    return robust_cn_get(url, params=params, headers=headers, timeout=timeout)
 
 
 def to_em_date(dt_str: str) -> str:
@@ -227,10 +239,9 @@ def _fetch_klines_em(tx_code: str, limit: int = 120) -> list:
         "lmt": str(limit),
     }
     try:
-        resp = requests.get(
+        resp = robust_cn_get(
             url, params=params,
             headers={"User-Agent": UA, "Referer": "https://quote.eastmoney.com/"},
-            timeout=15, proxies=NO_PROXY,
         )
         resp.raise_for_status()
         data = resp.json()
@@ -265,11 +276,9 @@ def fetch_klines(tx_code: str, limit: int = 120) -> list:
     """
     url = f"{TENCENT_KLINE}?param={tx_code},day,,,{limit},qfq"
     try:
-        # P0 教训：requests.get 默认读环境代理(Clash) → 财经接口 502/SSL 失败，
-        # 必须强制直连（与 em_get 一致）
-        resp = requests.get(
-            url, headers={"User-Agent": UA}, timeout=15, proxies=NO_PROXY
-        )
+        # 腾讯接口双路径（直连优先，501/异常自动退代理）——09-14 事故：
+        # 直连被 501 拒绝时单路径写法直接把指数缓存写成空
+        resp = robust_cn_get(url, headers={"User-Agent": UA})
         resp.raise_for_status()
         data = resp.json()
 

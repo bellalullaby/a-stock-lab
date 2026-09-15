@@ -304,6 +304,7 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
         # ── T+1 约束：A股当日买入当日不可卖，五层全跳 ──
         # 只挡一天，补跑场景（check_date 晚于 buy_date 数日）不误伤
         if h.get("buy_date") == check_date:
+            print(f"  ⏭️ T+1约束: {h.get('name', code)} 当日买入，五层止损今日不执行")
             continue
 
         # 补 cost_price 字段（portfolio.json 存的是 cost/buy_price）
@@ -322,6 +323,15 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
             check_lb_break_stop(holding_norm, l2_zb_pool),
             check_board_gradient_stop(holding_norm, l2_zt_pool),
         ]
+        # 跳过分支必须打印原因（原则升级：不许静默跳过）
+        if not h.get("hybk"):
+            print(f"  ⚠️ {h.get('name', code)} 无 hybk 行业字段 → 板块止损（第三层）未执行")
+        if not l2_boards:
+            print(f"  ⚠️ 板块榜单缺失 → {h.get('name', code)} 板块止损（第三层）未执行")
+        if not l2_zb_pool:
+            print(f"  ⚠️ 炸板池缺失 → {h.get('name', code)} 炸板止损（第四层）未执行")
+        if not l2_zt_pool:
+            print(f"  ⚠️ 涨停池缺失 → {h.get('name', code)} 连板梯度（第五层）未执行")
         triggered = [c for c in checks if c.get("triggered")]
 
         if triggered:

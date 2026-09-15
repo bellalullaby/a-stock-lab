@@ -487,6 +487,15 @@ pnl_pct = pnl / pf["account"]["initial_capital"] * 100
 trade_note = f"L1={state}→{gate}，买入{len(trades)}只/卖出{len(sold)}只"
 trade_note += "（止损触发）" if sold else "（无止损触发）"
 
+# ═══════════ 数据自检（机器断言；dry-run 与正式输出共用） ═══════════
+from self_check import run_self_check, format_check_line
+
+self_check_line = format_check_line(run_self_check(
+    holdings=holdings,
+    signals=l3_stocks,
+    l1={"volume_analysis": l1.get("volume_analysis", "")},
+))
+
 # ═══════════ dry-run 模式：到此为止，不写文件 ═══════════
 if args.dry_run:
     print()
@@ -503,6 +512,7 @@ if args.dry_run:
     print(f"账户将变为: ¥{total_value:,.0f} ({pnl_pct:+.2f}%)  现金: ¥{cash:,.0f}  持仓: {len(holdings)}只")
     if total_value > 0:
         print(f"当前仓位: {total_hold / total_value * 100:.1f}%（门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只）")
+    print(self_check_line)
     print("=" * 50)
     sys.exit(0)
 
@@ -624,9 +634,11 @@ for s in l3_stocks:
         "turnover": s.get("turnover", 0),
     })
 
+# 数据自检结果（前面已算，写进 daily_log，邮件/日报末尾可见）
 daily_log_entry = {
     "date": today,
     "session": "收盘简报(15:30运行)",
+    "self_check": self_check_line,
     "l1_state": state,
     "l1_gate": gate,
     "l1_bull": bull,
@@ -710,4 +722,7 @@ if sold:
         print(f"  卖 {s['name']} {s['shares']}股 ¥{s['price']:.2f} | {s['note']}")
 print(f"账户: ¥{total_value:,.0f} ({pnl_pct:+.2f}%)  现金: ¥{cash:,.0f}  持仓: {len(holdings)}只")
 print(f"盘前信号今日表现: {pos_n}/{len(yesterday_review)}正收益({win_rate:.0f}%), {zt_n}只涨停")
+
+# ═══════════ 数据自检（机器断言，替代人眼盯输出）═══════════
+print(self_check_line)
 print("=" * 50)

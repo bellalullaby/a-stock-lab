@@ -269,6 +269,15 @@ brief = {
     "observations": observations,
 }
 
+# ── 数据自检（机器断言，替代人眼盯输出；dry-run/正式输出共用） ──
+from self_check import run_self_check, format_check_line
+
+self_check_line = format_check_line(run_self_check(
+    holdings=holdings,
+    signals=signals,
+    l1={"volume_analysis": l1.get("volume_analysis", "")},
+))
+
 # ── dry-run：到此为止 ──
 if args.dry_run:
     print("\n" + "=" * 60)
@@ -284,6 +293,7 @@ if args.dry_run:
             print(f"   {s['code']} {s['name']:8s} {s['lbc']}板 ¥{s['price']:.2f} {s['pct']:+.1f}% → {s['out']}")
     print(f"昨日信号回顾: {len(hits_up)}/{n_track}正收益({up_rate:.0f}%), {len(hits_zt)}涨停")
     print(f"虚拟账户: ¥{total_value:,.0f} ({pnl_pct:+.2f}%)  持仓{len(holdings)}只")
+    print(self_check_line)
     print("=" * 60)
     sys.exit(0)
 
@@ -309,5 +319,7 @@ if tracking:
     print(f"昨日信号回顾: {len(hits_up)}/{n_track}正收益({up_rate:.0f}%), {len(hits_zt)}涨停, {len(hits_down)}下跌")
 print(f"持仓: {len(holdings)}只, 浮盈{sum(h.get('pnl',0) for h in holdings_snapshot):+,.0f}元")
 print(f"虚拟账户: ¥{total_value:,.0f} ({pnl:+,.0f} / {pnl_pct:+.2f}%)")
+print(self_check_line)
+
 print("\n⚠️ 不构成投资建议。虚拟盘仅作研究观察。")
 print("=" * 60)
