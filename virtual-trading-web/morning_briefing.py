@@ -271,11 +271,24 @@ brief = {
 
 # ── 数据自检（机器断言，替代人眼盯输出；dry-run/正式输出共用） ──
 from self_check import run_self_check, format_check_line
+from data_collector import find_prev_cache_date
+
+# 前一交易日板块榜（轮动基准新鲜度对照）
+prev_day_boards = None
+_pd = find_prev_cache_date(data_date)
+if _pd:
+    _pb_path = CACHE_DIR / _pd / "l2_boards.json"
+    if _pb_path.exists():
+        with open(_pb_path, encoding="utf-8") as f:
+            prev_day_boards = json.load(f).get("boards")
 
 self_check_line = format_check_line(run_self_check(
     holdings=holdings,
     signals=signals,
     l1={"volume_analysis": l1.get("volume_analysis", "")},
+    l3_stocks=l3_stocks,
+    l2_rotation=rot,
+    prev_day_boards=prev_day_boards,
 ))
 
 # ── dry-run：到此为止 ──
