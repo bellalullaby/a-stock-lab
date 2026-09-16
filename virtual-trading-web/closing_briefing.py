@@ -492,10 +492,12 @@ from self_check import run_self_check, format_check_line
 from data_collector import find_prev_cache_date
 
 # 前一交易日板块榜（轮动基准新鲜度对照）
+# 注意：find_prev_cache_date 返回 list（最近3个交易日，倒序），取 [0] 即最近一天
 prev_day_boards = None
-_prev_date = find_prev_cache_date(today)
-if _prev_date:
-    _pb_path = cache_dir(_prev_date) / "l2_boards.json"
+_pds = find_prev_cache_date(today)
+_pd = _pds[0] if _pds else None
+if _pd:
+    _pb_path = cache_dir(_pd) / "l2_boards.json"
     if _pb_path.exists():
         with open(_pb_path, encoding="utf-8") as f:
             prev_day_boards = json.load(f).get("boards")

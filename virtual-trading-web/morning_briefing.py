@@ -274,8 +274,10 @@ from self_check import run_self_check, format_check_line
 from data_collector import find_prev_cache_date
 
 # 前一交易日板块榜（轮动基准新鲜度对照）
+# 注意：find_prev_cache_date 返回 list（最近3个交易日，倒序），取 [0] 即最近一天
 prev_day_boards = None
-_pd = find_prev_cache_date(data_date)
+_pds = find_prev_cache_date(data_date)
+_pd = _pds[0] if _pds else None
 if _pd:
     _pb_path = CACHE_DIR / _pd / "l2_boards.json"
     if _pb_path.exists():
