@@ -1,12 +1,12 @@
 {
   "account": {
     "initial_capital": 1000000,
-    "cash": 1064847.1,
-    "total_value": 1064847.1,
-    "pnl": 64847.1,
+    "cash": 866511.54,
+    "total_value": 1064795.54,
+    "pnl": 64795.54,
     "pnl_pct": 6.48,
     "created": "2026-07-14",
-    "last_updated": "2026-09-15 收盘简报",
+    "last_updated": "2026-09-22 收盘简报",
     "total_fees": 4277.1,
     "fee_adjustment": {
       "date": "2026-09-12",
@@ -14,7 +14,28 @@
       "note": "历史 79 笔交易费用一次性回补（佣金万2.5/印花税0.05%卖/过户费0.001%），此后实时计费"
     }
   },
-  "holdings": [],
+  "holdings": [
+    {
+      "code": "sz000756",
+      "name": "新华制药",
+      "shares": 6100,
+      "cost": 16.14,
+      "buy_date": "2026-09-22",
+      "buy_price": 16.14,
+      "hybk": "化学制药",
+      "buy_reason": "2板强候选 收盘封板"
+    },
+    {
+      "code": "sz000676",
+      "name": "智度股份",
+      "shares": 13400,
+      "cost": 7.45,
+      "buy_date": "2026-09-22",
+      "buy_price": 7.45,
+      "hybk": "广告营销",
+      "buy_reason": "1板强候选 收盘封板"
+    }
+  ],
   "daily_log": [
     {
       "date": "2026-07-14",
@@ -57592,6 +57613,4630 @@
         "holdings": 0
       },
       "run_time": "2026-09-15 15:39:51"
+    },
+    {
+      "date": "2026-09-16",
+      "session": "收盘简报(15:30运行)",
+      "self_check": "数据自检：✅ 通过",
+      "l1_state": "系统性风险",
+      "l1_gate": "暂停交易",
+      "l1_bull": 0,
+      "l1_risk": 3,
+      "l1_changed": false,
+      "l1_detail": "上证指数收3891.6(+0.7%) MA20=3924(DOWN) MA60=3929 深证成指收13454.74(+1.3%) MA20=13725(DOWN) MA60=14285 创业板指收3311.47(+2.0%) MA20=3377(DOWN) MA60=3598。均涨幅+1.3% 量比0.89。量能观察：价涨量缩 — 量价背离",
+      "l1_indexes": {
+        "sh000001": {
+          "name": "上证指数",
+          "close": 3891.6,
+          "ma20": 3923.5,
+          "ma60": 3929.4,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9119,
+          "chg_pct": 0.71
+        },
+        "sz399001": {
+          "name": "深证成指",
+          "close": 13454.74,
+          "ma20": 13725.45,
+          "ma60": 14284.76,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.8904,
+          "chg_pct": 1.26
+        },
+        "sz399006": {
+          "name": "创业板指",
+          "close": 3311.47,
+          "ma20": 3377.27,
+          "ma60": 3598.32,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.8602,
+          "chg_pct": 1.96
+        }
+      },
+      "l2_summary": "89家涨停, 炸板率11.0%, 最高6板, 主线: 通信设备(6), 半导体(5), 化学制品(5)",
+      "l2_zt_count": 89,
+      "l2_zb_count": 11,
+      "l2_zbr": 11.0,
+      "l2_max_lb": 6,
+      "l2_sectors": [
+        {
+          "name": "通信设备",
+          "count": 6
+        },
+        {
+          "name": "半导体",
+          "count": 5
+        },
+        {
+          "name": "化学制品",
+          "count": 5
+        },
+        {
+          "name": "包装印刷",
+          "count": 4
+        },
+        {
+          "name": "元件",
+          "count": 4
+        }
+      ],
+      "l2_rotation": "加速轮动，仅限 buy_score≥3",
+      "l3_summary": "强候选:0, 观察:14, 风控:16, 弱:0 — 加速轮动，仅限 buy_score≥3",
+      "signals": [
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 2,
+          "price": 18.07,
+          "pct": 9.98,
+          "pe": 25.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.69
+        },
+        {
+          "code": "sz002442",
+          "name": "龙星科技",
+          "lbc": 1,
+          "price": 5.68,
+          "pct": 10.08,
+          "pe": 106.9,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.54
+        },
+        {
+          "code": "sz003001",
+          "name": "中岩大地",
+          "lbc": 1,
+          "price": 18.47,
+          "pct": 10.01,
+          "pe": -120.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.56
+        },
+        {
+          "code": "sh603248",
+          "name": "锡华科技",
+          "lbc": 2,
+          "price": 20.31,
+          "pct": 10.02,
+          "pe": 56.3,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.05
+        },
+        {
+          "code": "sz002068",
+          "name": "黑猫股份",
+          "lbc": 1,
+          "price": 10.14,
+          "pct": 9.98,
+          "pe": -16.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.09
+        },
+        {
+          "code": "sh603082",
+          "name": "北自科技",
+          "lbc": 2,
+          "price": 52.98,
+          "pct": 10.01,
+          "pe": 60.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 33.46
+        },
+        {
+          "code": "sz002846",
+          "name": "英联股份",
+          "lbc": 2,
+          "price": 12.75,
+          "pct": 10.01,
+          "pe": 126.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.89
+        },
+        {
+          "code": "sh600644",
+          "name": "乐山电力",
+          "lbc": 1,
+          "price": 10.38,
+          "pct": 9.96,
+          "pe": 269.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.39
+        },
+        {
+          "code": "sz003026",
+          "name": "中晶科技",
+          "lbc": 2,
+          "price": 33.64,
+          "pct": 10.01,
+          "pe": 108.3,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.74
+        },
+        {
+          "code": "sz002584",
+          "name": "西陇科学",
+          "lbc": 2,
+          "price": 9.55,
+          "pct": 10.02,
+          "pe": 142.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.74
+        },
+        {
+          "code": "sz002617",
+          "name": "露笑科技",
+          "lbc": 1,
+          "price": 7.02,
+          "pct": 10.03,
+          "pe": 76.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.91
+        },
+        {
+          "code": "sh605058",
+          "name": "澳弘电子",
+          "lbc": 4,
+          "price": 44.33,
+          "pct": 10.0,
+          "pe": 45.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.6
+        },
+        {
+          "code": "sz003031",
+          "name": "中瓷电子",
+          "lbc": 1,
+          "price": 137.72,
+          "pct": 10.0,
+          "pe": 91.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.36
+        },
+        {
+          "code": "sh603042",
+          "name": "华脉科技",
+          "lbc": 1,
+          "price": 17.16,
+          "pct": 10.0,
+          "pe": -158.6,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.72
+        },
+        {
+          "code": "sh603122",
+          "name": "合富中国",
+          "lbc": 1,
+          "price": 13.01,
+          "pct": 9.97,
+          "pe": -153.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.2
+        },
+        {
+          "code": "sz002300",
+          "name": "太阳电缆",
+          "lbc": 1,
+          "price": 8.38,
+          "pct": 9.97,
+          "pe": 144.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.52
+        },
+        {
+          "code": "sz000993",
+          "name": "闽东电力",
+          "lbc": 6,
+          "price": 18.48,
+          "pct": 10.0,
+          "pe": 494.8,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 21.76
+        },
+        {
+          "code": "sh605566",
+          "name": "福莱蒽特",
+          "lbc": 1,
+          "price": 27.58,
+          "pct": 10.01,
+          "pe": 71.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.57
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 1,
+          "price": 11.14,
+          "pct": 9.97,
+          "pe": 54.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.3
+        },
+        {
+          "code": "sz000720",
+          "name": "新能泰山",
+          "lbc": 1,
+          "price": 4.17,
+          "pct": 10.03,
+          "pe": -10.4,
+          "buy": 4,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.28
+        },
+        {
+          "code": "sh600371",
+          "name": "万向德农",
+          "lbc": 1,
+          "price": 14.22,
+          "pct": 9.98,
+          "pe": -755.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.01
+        },
+        {
+          "code": "sz002383",
+          "name": "合众思壮",
+          "lbc": 1,
+          "price": 8.16,
+          "pct": 9.97,
+          "pe": -32.7,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.88
+        },
+        {
+          "code": "sh600135",
+          "name": "乐凯胶片",
+          "lbc": 1,
+          "price": 8.09,
+          "pct": 10.07,
+          "pe": -57.2,
+          "buy": 4,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.15
+        },
+        {
+          "code": "sh603155",
+          "name": "新亚强",
+          "lbc": 1,
+          "price": 15.4,
+          "pct": 10.0,
+          "pe": 74.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.74
+        },
+        {
+          "code": "sz002963",
+          "name": "豪尔赛",
+          "lbc": 1,
+          "price": 20.71,
+          "pct": 9.98,
+          "pe": -25.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.44
+        },
+        {
+          "code": "sz002780",
+          "name": "三夫户外",
+          "lbc": 1,
+          "price": 14.04,
+          "pct": 10.03,
+          "pe": 25.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.58
+        },
+        {
+          "code": "sz000670",
+          "name": "盈方微",
+          "lbc": 1,
+          "price": 7.96,
+          "pct": 9.94,
+          "pe": -101.3,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.29
+        },
+        {
+          "code": "sh601579",
+          "name": "会稽山",
+          "lbc": 2,
+          "price": 28.33,
+          "pct": 10.02,
+          "pe": 48.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.24
+        },
+        {
+          "code": "sh600616",
+          "name": "金枫酒业",
+          "lbc": 1,
+          "price": 4.88,
+          "pct": 9.91,
+          "pe": 956.2,
+          "buy": 4,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.27
+        },
+        {
+          "code": "sz002137",
+          "name": "实益达",
+          "lbc": 1,
+          "price": 8.2,
+          "pct": 10.07,
+          "pe": 79.3,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 16.26
+        }
+      ],
+      "yesterday_review": [
+        {
+          "code": "sz002912",
+          "name": "中新赛克",
+          "lbc": 4,
+          "pre_price": 28.45,
+          "price": 25.61,
+          "today_pct": -9.98,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "跌停",
+          "chg_from_pre": -9.98,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002232",
+          "name": "启明信息",
+          "lbc": 2,
+          "pre_price": 16.81,
+          "price": 15.95,
+          "today_pct": -5.12,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "大跌",
+          "chg_from_pre": -5.12,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002882",
+          "name": "金龙羽",
+          "lbc": 1,
+          "pre_price": 23.45,
+          "price": 23.72,
+          "today_pct": 1.15,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 1.15,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 1,
+          "pre_price": 16.43,
+          "price": 18.07,
+          "today_pct": 9.98,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.98,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz000993",
+          "name": "闽东电力",
+          "lbc": 5,
+          "pre_price": 16.8,
+          "price": 18.48,
+          "today_pct": 10.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.0,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh688004",
+          "name": "博汇科技",
+          "lbc": 2,
+          "pre_price": 27.38,
+          "price": 32.86,
+          "today_pct": 20.01,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 20.01,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603186",
+          "name": "华正新材",
+          "lbc": 1,
+          "pre_price": 251.57,
+          "price": 253.99,
+          "today_pct": 0.96,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.96,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603200",
+          "name": "上海洗霸",
+          "lbc": 1,
+          "pre_price": 39.81,
+          "price": 40.52,
+          "today_pct": 1.78,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 1.78,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002362",
+          "name": "汉王科技",
+          "lbc": 1,
+          "pre_price": 17.5,
+          "price": 16.92,
+          "today_pct": -3.31,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.31,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002585",
+          "name": "双星新材",
+          "lbc": 3,
+          "pre_price": 12.06,
+          "price": 12.17,
+          "today_pct": 0.91,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.91,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh605058",
+          "name": "澳弘电子",
+          "lbc": 3,
+          "pre_price": 40.3,
+          "price": 44.33,
+          "today_pct": 10.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.0,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh601579",
+          "name": "会稽山",
+          "lbc": 1,
+          "pre_price": 25.75,
+          "price": 28.33,
+          "today_pct": 10.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.02,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600110",
+          "name": "诺德股份",
+          "lbc": 1,
+          "pre_price": 12.13,
+          "price": 12.19,
+          "today_pct": 0.49,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.49,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002846",
+          "name": "英联股份",
+          "lbc": 1,
+          "pre_price": 11.59,
+          "price": 12.75,
+          "today_pct": 10.01,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.01,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz001223",
+          "name": "欧克科技",
+          "lbc": 1,
+          "pre_price": 46.11,
+          "price": 45.64,
+          "today_pct": -1.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.02,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603353",
+          "name": "和顺石油",
+          "lbc": 1,
+          "pre_price": 41.44,
+          "price": 42.98,
+          "today_pct": 3.72,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 3.72,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603090",
+          "name": "宏盛股份",
+          "lbc": 2,
+          "pre_price": 40.21,
+          "price": 39.7,
+          "today_pct": -1.27,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.27,
+          "sealed": false,
+          "pre_label": "弱",
+          "pre_buy": 1
+        },
+        {
+          "code": "sz002491",
+          "name": "通鼎互联",
+          "lbc": 1,
+          "pre_price": 22.23,
+          "price": 24.45,
+          "today_pct": 9.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.99,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 4
+        },
+        {
+          "code": "sh601218",
+          "name": "吉鑫科技",
+          "lbc": 1,
+          "pre_price": 5.18,
+          "price": 5.22,
+          "today_pct": 0.77,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.77,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002487",
+          "name": "大金重工",
+          "lbc": 1,
+          "pre_price": 39.44,
+          "price": 39.16,
+          "today_pct": -0.71,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.71,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002213",
+          "name": "大为股份",
+          "lbc": 1,
+          "pre_price": 29.49,
+          "price": 29.58,
+          "today_pct": 0.31,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.31,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz003026",
+          "name": "中晶科技",
+          "lbc": 1,
+          "pre_price": 30.58,
+          "price": 33.64,
+          "today_pct": 10.01,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.01,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002631",
+          "name": "德尔未来",
+          "lbc": 1,
+          "pre_price": 10.21,
+          "price": 11.23,
+          "today_pct": 9.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.99,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002531",
+          "name": "天顺风能",
+          "lbc": 1,
+          "pre_price": 7.81,
+          "price": 7.82,
+          "today_pct": 0.13,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.13,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh605162",
+          "name": "新中港",
+          "lbc": 1,
+          "pre_price": 11.55,
+          "price": 11.09,
+          "today_pct": -3.98,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.98,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603082",
+          "name": "北自科技",
+          "lbc": 1,
+          "pre_price": 48.16,
+          "price": 52.98,
+          "today_pct": 10.01,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.01,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 4
+        },
+        {
+          "code": "sh603248",
+          "name": "锡华科技",
+          "lbc": 1,
+          "pre_price": 18.46,
+          "price": 20.31,
+          "today_pct": 10.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.02,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603266",
+          "name": "天龙股份",
+          "lbc": 1,
+          "pre_price": 16.73,
+          "price": 16.67,
+          "today_pct": -0.36,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.36,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600163",
+          "name": "中闽能源",
+          "lbc": 1,
+          "pre_price": 6.29,
+          "price": 6.28,
+          "today_pct": -0.16,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.16,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh605507",
+          "name": "国邦医药",
+          "lbc": 1,
+          "pre_price": 17.73,
+          "price": 17.76,
+          "today_pct": 0.17,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.17,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        }
+      ],
+      "trades": {
+        "bought": [],
+        "sold": [],
+        "note": "L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）"
+      },
+      "holdings_snapshot": [],
+      "decisions": "系统性风险→暂停交易。L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）。盘前30只信号→今收盘: 正收益21只(70%胜率), 涨停11只, 下跌9只。主线集中度: 通信设备(6), 半导体(5), 化学制品(5) (TOP1 6/89=6.7%)。",
+      "observations": [
+        "L1收盘: 上证指数收3891.6(+0.7%) MA20=3924(DOWN) MA60=3929 深证成指收13454.74(+1.3%) MA20=13725(DOWN) MA60=14285 创业板指收3311.47(+2.0%) MA20=3377(DOWN) MA60=3598。均涨幅+1.3% 量比0.89。量能观察：价涨量缩 — 量价背离",
+        "最高板6板(闽东电力) — 连板高度一般",
+        "主线分布: 通信设备(6), 半导体(5), 化学制品(5) — 行业集中度6.7%",
+        "涨停89家 / 炸板率11.0% — 情绪正常",
+        "轮动判定: 加速轮动，仅限 buy_score≥3",
+        "📊 当前仓位 0.0%（市值¥0 / 总资产¥1,064,847，门控上限 40% / 单日≤2只）"
+      ],
+      "portfolio_snapshot": {
+        "cash": 1064847.1,
+        "total_value": 1064847.1,
+        "pnl_pct": 6.48,
+        "holdings": 0
+      },
+      "run_time": "2026-09-16 15:40:10"
+    },
+    {
+      "date": "2026-09-17",
+      "session": "收盘简报(15:30运行)",
+      "self_check": "数据自检：✅ 通过",
+      "l1_state": "系统性风险",
+      "l1_gate": "暂停交易",
+      "l1_bull": 0,
+      "l1_risk": 3,
+      "l1_changed": false,
+      "l1_detail": "上证指数收3875.6(-0.4%) MA20=3922(DOWN) MA60=3925 深证成指收13409.91(-0.3%) MA20=13697(DOWN) MA60=14236 创业板指收3298.31(-0.4%) MA20=3367(DOWN) MA60=3580。均涨幅-0.4% 量比0.91。量能观察：量价正常，无极端信号",
+      "l1_indexes": {
+        "sh000001": {
+          "name": "上证指数",
+          "close": 3875.6,
+          "ma20": 3922.09,
+          "ma60": 3925.32,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9043,
+          "chg_pct": -0.41
+        },
+        "sz399001": {
+          "name": "深证成指",
+          "close": 13409.91,
+          "ma20": 13697.31,
+          "ma60": 14235.85,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9393,
+          "chg_pct": -0.33
+        },
+        "sz399006": {
+          "name": "创业板指",
+          "close": 3298.31,
+          "ma20": 3367.41,
+          "ma60": 3580.42,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.8763,
+          "chg_pct": -0.4
+        }
+      },
+      "l2_summary": "47家涨停, 炸板率29.9%, 最高5板, 主线: 汽车零部(8), 半导体(2), 出版(2)",
+      "l2_zt_count": 47,
+      "l2_zb_count": 20,
+      "l2_zbr": 29.9,
+      "l2_max_lb": 5,
+      "l2_sectors": [
+        {
+          "name": "汽车零部",
+          "count": 8
+        },
+        {
+          "name": "半导体",
+          "count": 2
+        },
+        {
+          "name": "出版",
+          "count": 2
+        },
+        {
+          "name": "消费电子",
+          "count": 2
+        },
+        {
+          "name": "医疗服务",
+          "count": 2
+        }
+      ],
+      "l2_rotation": "加速轮动，仅限 buy_score≥3",
+      "l3_summary": "强候选:0, 观察:10, 风控:17, 弱:3 — 加速轮动，仅限 buy_score≥3",
+      "signals": [
+        {
+          "code": "sz003026",
+          "name": "中晶科技",
+          "lbc": 3,
+          "price": 37.0,
+          "pct": 9.99,
+          "pe": 119.1,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.54
+        },
+        {
+          "code": "sz301390",
+          "name": "经纬股份",
+          "lbc": 1,
+          "price": 45.0,
+          "pct": 20.0,
+          "pe": -89.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.21
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 2,
+          "price": 12.25,
+          "pct": 9.96,
+          "pe": 60.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.68
+        },
+        {
+          "code": "sz002285",
+          "name": "世联行",
+          "lbc": 2,
+          "price": 2.63,
+          "pct": 10.04,
+          "pe": -7.8,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 6.52
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 3,
+          "price": 19.88,
+          "pct": 10.02,
+          "pe": 28.5,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.37
+        },
+        {
+          "code": "sh605058",
+          "name": "澳弘电子",
+          "lbc": 5,
+          "price": 48.76,
+          "pct": 9.99,
+          "pe": 50.5,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.81
+        },
+        {
+          "code": "sz300434",
+          "name": "金石亚药",
+          "lbc": 1,
+          "price": 12.49,
+          "pct": 19.98,
+          "pe": 31.1,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 13.14
+        },
+        {
+          "code": "sz002339",
+          "name": "积成电子",
+          "lbc": 1,
+          "price": 8.23,
+          "pct": 10.03,
+          "pe": 893.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.64
+        },
+        {
+          "code": "sh603626",
+          "name": "科森科技",
+          "lbc": 1,
+          "price": 21.29,
+          "pct": 10.03,
+          "pe": 455.6,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 6.23
+        },
+        {
+          "code": "sz000920",
+          "name": "沃顿科技",
+          "lbc": 1,
+          "price": 12.63,
+          "pct": 10.02,
+          "pe": 26.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.52
+        },
+        {
+          "code": "sz003001",
+          "name": "中岩大地",
+          "lbc": 2,
+          "price": 20.32,
+          "pct": 10.02,
+          "pe": -132.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 31.79
+        },
+        {
+          "code": "sh600293",
+          "name": "三峡新材",
+          "lbc": 1,
+          "price": 3.4,
+          "pct": 10.03,
+          "pe": -47.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.38
+        },
+        {
+          "code": "sh600721",
+          "name": "百花医药",
+          "lbc": 1,
+          "price": 11.87,
+          "pct": 10.01,
+          "pe": 152.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 23.45
+        },
+        {
+          "code": "sz002836",
+          "name": "新宏泽",
+          "lbc": 1,
+          "price": 10.84,
+          "pct": 10.05,
+          "pe": 69.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.2
+        },
+        {
+          "code": "sz000868",
+          "name": "安凯客车",
+          "lbc": 1,
+          "price": 4.06,
+          "pct": 10.03,
+          "pe": -53.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.66
+        },
+        {
+          "code": "sz000981",
+          "name": "山子高科",
+          "lbc": 1,
+          "price": 3.01,
+          "pct": 9.85,
+          "pe": 35.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.32
+        },
+        {
+          "code": "sz000504",
+          "name": "南华生物",
+          "lbc": 1,
+          "price": 9.1,
+          "pct": 10.04,
+          "pe": 78.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.8
+        },
+        {
+          "code": "sh600448",
+          "name": "华纺股份",
+          "lbc": 1,
+          "price": 3.22,
+          "pct": 9.9,
+          "pe": -7.5,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.46
+        },
+        {
+          "code": "sz002796",
+          "name": "世嘉科技",
+          "lbc": 1,
+          "price": 32.54,
+          "pct": 10.01,
+          "pe": -156.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.47
+        },
+        {
+          "code": "sh600822",
+          "name": "上海物贸",
+          "lbc": 1,
+          "price": 9.38,
+          "pct": 9.96,
+          "pe": 188.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.19
+        },
+        {
+          "code": "sh600127",
+          "name": "金健米业",
+          "lbc": 1,
+          "price": 13.02,
+          "pct": 9.97,
+          "pe": -478.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 30.02
+        },
+        {
+          "code": "sh603009",
+          "name": "北特科技",
+          "lbc": 1,
+          "price": 47.37,
+          "pct": 10.01,
+          "pe": 128.5,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.51
+        },
+        {
+          "code": "sh600354",
+          "name": "敦煌种业",
+          "lbc": 1,
+          "price": 9.75,
+          "pct": 10.05,
+          "pe": 37.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 26.16
+        },
+        {
+          "code": "sz002655",
+          "name": "共达电声",
+          "lbc": 2,
+          "price": 40.77,
+          "pct": 10.01,
+          "pe": 331.0,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 10.1
+        },
+        {
+          "code": "sh600593",
+          "name": "大连圣亚",
+          "lbc": 1,
+          "price": 43.31,
+          "pct": 10.01,
+          "pe": 95.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.9
+        },
+        {
+          "code": "sz001365",
+          "name": "天海电子",
+          "lbc": 1,
+          "price": 37.51,
+          "pct": 10.0,
+          "pe": 32.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 14.99
+        },
+        {
+          "code": "sh605288",
+          "name": "凯迪股份",
+          "lbc": 1,
+          "price": 67.25,
+          "pct": 9.99,
+          "pe": 1224.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.61
+        },
+        {
+          "code": "sh600630",
+          "name": "龙头股份",
+          "lbc": 1,
+          "price": 7.54,
+          "pct": 10.07,
+          "pe": 57.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.48
+        },
+        {
+          "code": "sz000980",
+          "name": "众泰汽车",
+          "lbc": 1,
+          "price": 2.37,
+          "pct": 10.23,
+          "pe": -86.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 12.72
+        },
+        {
+          "code": "sh600609",
+          "name": "金杯汽车",
+          "lbc": 1,
+          "price": 3.58,
+          "pct": 10.15,
+          "pe": 20.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.33
+        }
+      ],
+      "yesterday_review": [
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 2,
+          "pre_price": 18.07,
+          "price": 19.88,
+          "today_pct": 10.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.02,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002442",
+          "name": "龙星科技",
+          "lbc": 1,
+          "pre_price": 5.68,
+          "price": 5.74,
+          "today_pct": 1.06,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 1.06,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz003001",
+          "name": "中岩大地",
+          "lbc": 1,
+          "pre_price": 18.47,
+          "price": 20.32,
+          "today_pct": 10.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.02,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603248",
+          "name": "锡华科技",
+          "lbc": 2,
+          "pre_price": 20.31,
+          "price": 22.34,
+          "today_pct": 10.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.0,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002068",
+          "name": "黑猫股份",
+          "lbc": 1,
+          "pre_price": 10.14,
+          "price": 10.04,
+          "today_pct": -0.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.99,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603082",
+          "name": "北自科技",
+          "lbc": 2,
+          "pre_price": 52.98,
+          "price": 51.17,
+          "today_pct": -3.42,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.42,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002846",
+          "name": "英联股份",
+          "lbc": 2,
+          "pre_price": 12.75,
+          "price": 11.97,
+          "today_pct": -6.12,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "大跌",
+          "chg_from_pre": -6.12,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600644",
+          "name": "乐山电力",
+          "lbc": 1,
+          "pre_price": 10.38,
+          "price": 9.81,
+          "today_pct": -5.49,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "大跌",
+          "chg_from_pre": -5.49,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz003026",
+          "name": "中晶科技",
+          "lbc": 2,
+          "pre_price": 33.64,
+          "price": 37.0,
+          "today_pct": 9.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.99,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002584",
+          "name": "西陇科学",
+          "lbc": 2,
+          "pre_price": 9.55,
+          "price": 9.52,
+          "today_pct": -0.31,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.31,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002617",
+          "name": "露笑科技",
+          "lbc": 1,
+          "pre_price": 7.02,
+          "price": 6.9,
+          "today_pct": -1.71,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.71,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh605058",
+          "name": "澳弘电子",
+          "lbc": 4,
+          "pre_price": 44.33,
+          "price": 48.76,
+          "today_pct": 9.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.99,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz003031",
+          "name": "中瓷电子",
+          "lbc": 1,
+          "pre_price": 137.72,
+          "price": 137.4,
+          "today_pct": -0.23,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.23,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603042",
+          "name": "华脉科技",
+          "lbc": 1,
+          "pre_price": 17.16,
+          "price": 17.69,
+          "today_pct": 3.09,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 3.09,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603122",
+          "name": "合富中国",
+          "lbc": 1,
+          "pre_price": 13.01,
+          "price": 12.4,
+          "today_pct": -4.69,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -4.69,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002300",
+          "name": "太阳电缆",
+          "lbc": 1,
+          "pre_price": 8.38,
+          "price": 7.88,
+          "today_pct": -5.97,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "大跌",
+          "chg_from_pre": -5.97,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz000993",
+          "name": "闽东电力",
+          "lbc": 6,
+          "pre_price": 18.48,
+          "price": 17.97,
+          "today_pct": -2.76,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.76,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh605566",
+          "name": "福莱蒽特",
+          "lbc": 1,
+          "pre_price": 27.58,
+          "price": 26.88,
+          "today_pct": -2.54,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.54,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 1,
+          "pre_price": 11.14,
+          "price": 12.25,
+          "today_pct": 9.96,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.96,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz000720",
+          "name": "新能泰山",
+          "lbc": 1,
+          "pre_price": 4.17,
+          "price": 3.98,
+          "today_pct": -4.56,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -4.56,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 4
+        },
+        {
+          "code": "sh600371",
+          "name": "万向德农",
+          "lbc": 1,
+          "pre_price": 14.22,
+          "price": 15.64,
+          "today_pct": 9.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.99,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002383",
+          "name": "合众思壮",
+          "lbc": 1,
+          "pre_price": 8.16,
+          "price": 7.86,
+          "today_pct": -3.68,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.68,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600135",
+          "name": "乐凯胶片",
+          "lbc": 1,
+          "pre_price": 8.09,
+          "price": 7.8,
+          "today_pct": -3.58,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.58,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 4
+        },
+        {
+          "code": "sh603155",
+          "name": "新亚强",
+          "lbc": 1,
+          "pre_price": 15.4,
+          "price": 14.94,
+          "today_pct": -2.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.99,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002963",
+          "name": "豪尔赛",
+          "lbc": 1,
+          "pre_price": 20.71,
+          "price": 19.9,
+          "today_pct": -3.91,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.91,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002780",
+          "name": "三夫户外",
+          "lbc": 1,
+          "pre_price": 14.04,
+          "price": 13.34,
+          "today_pct": -4.99,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -4.99,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz000670",
+          "name": "盈方微",
+          "lbc": 1,
+          "pre_price": 7.96,
+          "price": 7.64,
+          "today_pct": -4.02,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -4.02,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh601579",
+          "name": "会稽山",
+          "lbc": 2,
+          "pre_price": 28.33,
+          "price": 29.85,
+          "today_pct": 5.37,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "大涨",
+          "chg_from_pre": 5.37,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh600616",
+          "name": "金枫酒业",
+          "lbc": 1,
+          "pre_price": 4.88,
+          "price": 4.67,
+          "today_pct": -4.3,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -4.3,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 4
+        },
+        {
+          "code": "sz002137",
+          "name": "实益达",
+          "lbc": 1,
+          "pre_price": 8.2,
+          "price": 8.55,
+          "today_pct": 4.27,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 4.27,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        }
+      ],
+      "trades": {
+        "bought": [],
+        "sold": [],
+        "note": "L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）"
+      },
+      "holdings_snapshot": [],
+      "decisions": "系统性风险→暂停交易。L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）。盘前30只信号→今收盘: 正收益11只(37%胜率), 涨停7只, 下跌19只。主线集中度: 汽车零部(8), 半导体(2), 出版(2) (TOP1 8/47=17.0%)。",
+      "observations": [
+        "L1收盘: 上证指数收3875.6(-0.4%) MA20=3922(DOWN) MA60=3925 深证成指收13409.91(-0.3%) MA20=13697(DOWN) MA60=14236 创业板指收3298.31(-0.4%) MA20=3367(DOWN) MA60=3580。均涨幅-0.4% 量比0.91。量能观察：量价正常，无极端信号",
+        "最高板5板(澳弘电子) — 连板高度一般",
+        "主线分布: 汽车零部(8), 半导体(2), 出版(2) — 行业集中度17.0%",
+        "涨停47家 / 炸板率29.9% — 情绪偏弱",
+        "轮动判定: 加速轮动，仅限 buy_score≥3",
+        "📊 当前仓位 0.0%（市值¥0 / 总资产¥1,064,847，门控上限 40% / 单日≤2只）"
+      ],
+      "portfolio_snapshot": {
+        "cash": 1064847.1,
+        "total_value": 1064847.1,
+        "pnl_pct": 6.48,
+        "holdings": 0
+      },
+      "run_time": "2026-09-17 15:42:59"
+    },
+    {
+      "date": "2026-09-18",
+      "session": "收盘简报(15:30运行)",
+      "self_check": "数据自检：✅ 通过",
+      "l1_state": "系统性风险",
+      "l1_gate": "暂停交易",
+      "l1_bull": 0,
+      "l1_risk": 2,
+      "l1_changed": false,
+      "l1_detail": "上证指数收3911.87(+0.9%) MA20=3922(DOWN) MA60=3923 深证成指收13640.87(+1.7%) MA20=13675(DOWN) MA60=14200 创业板指收3372.68(+2.2%) MA20=3359(DOWN) MA60=3567。均涨幅+1.6% 量比0.98。量能观察：量价正常，无极端信号",
+      "l1_indexes": {
+        "sh000001": {
+          "name": "上证指数",
+          "close": 3911.87,
+          "ma20": 3922.42,
+          "ma60": 3923.4,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9661,
+          "chg_pct": 0.94
+        },
+        "sz399001": {
+          "name": "深证成指",
+          "close": 13640.87,
+          "ma20": 13674.64,
+          "ma60": 14200.16,
+          "above_ma20": false,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 1.0002,
+          "chg_pct": 1.72
+        },
+        "sz399006": {
+          "name": "创业板指",
+          "close": 3372.68,
+          "ma20": 3358.76,
+          "ma60": 3566.73,
+          "above_ma20": true,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9775,
+          "chg_pct": 2.25
+        }
+      },
+      "l2_summary": "78家涨停, 炸板率24.3%, 最高4板, 主线: 电网设备(6), 半导体(5), 家居用品(4)",
+      "l2_zt_count": 78,
+      "l2_zb_count": 25,
+      "l2_zbr": 24.3,
+      "l2_max_lb": 4,
+      "l2_sectors": [
+        {
+          "name": "电网设备",
+          "count": 6
+        },
+        {
+          "name": "半导体",
+          "count": 5
+        },
+        {
+          "name": "家居用品",
+          "count": 4
+        },
+        {
+          "name": "服装家纺",
+          "count": 4
+        },
+        {
+          "name": "通用设备",
+          "count": 4
+        }
+      ],
+      "l2_rotation": "电风扇行情 ⚠ 全面暂停，只观察",
+      "l3_summary": "强候选:0, 观察:12, 风控:17, 弱:1 — 电风扇行情 ⚠ 全面暂停，只观察",
+      "signals": [
+        {
+          "code": "sz001376",
+          "name": "百通能源",
+          "lbc": 1,
+          "price": 12.66,
+          "pct": 9.99,
+          "pe": 31.6,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.41
+        },
+        {
+          "code": "sz002453",
+          "name": "华软科技",
+          "lbc": 2,
+          "price": 5.34,
+          "pct": 10.1,
+          "pe": -17.9,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 13.44
+        },
+        {
+          "code": "sz301390",
+          "name": "经纬股份",
+          "lbc": 2,
+          "price": 54.0,
+          "pct": 20.0,
+          "pe": -107.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.02
+        },
+        {
+          "code": "sh600448",
+          "name": "华纺股份",
+          "lbc": 2,
+          "price": 3.54,
+          "pct": 9.94,
+          "pe": -8.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.67
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 3,
+          "price": 13.48,
+          "pct": 10.04,
+          "pe": 66.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 18.47
+        },
+        {
+          "code": "sh603686",
+          "name": "福龙马",
+          "lbc": 1,
+          "price": 15.47,
+          "pct": 10.03,
+          "pe": 39.7,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.41
+        },
+        {
+          "code": "sz000504",
+          "name": "南华生物",
+          "lbc": 2,
+          "price": 10.01,
+          "pct": 10.0,
+          "pe": 86.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.75
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 4,
+          "price": 21.87,
+          "pct": 10.01,
+          "pe": 31.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.3
+        },
+        {
+          "code": "sh600630",
+          "name": "龙头股份",
+          "lbc": 2,
+          "price": 8.29,
+          "pct": 9.95,
+          "pe": 62.7,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.33
+        },
+        {
+          "code": "sh603248",
+          "name": "锡华科技",
+          "lbc": 4,
+          "price": 24.57,
+          "pct": 9.98,
+          "pe": 68.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 33.21
+        },
+        {
+          "code": "sh603626",
+          "name": "科森科技",
+          "lbc": 2,
+          "price": 23.42,
+          "pct": 10.0,
+          "pe": 501.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 12.18
+        },
+        {
+          "code": "sz001233",
+          "name": "海安集团",
+          "lbc": 1,
+          "price": 45.58,
+          "pct": 9.99,
+          "pe": 21.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.61
+        },
+        {
+          "code": "sz002298",
+          "name": "中电鑫龙",
+          "lbc": 1,
+          "price": 9.0,
+          "pct": 10.02,
+          "pe": -16.7,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.95
+        },
+        {
+          "code": "sz002836",
+          "name": "新宏泽",
+          "lbc": 2,
+          "price": 11.92,
+          "pct": 9.96,
+          "pe": 76.7,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.5
+        },
+        {
+          "code": "sh600640",
+          "name": "国脉文化",
+          "lbc": 1,
+          "price": 12.06,
+          "pct": 10.04,
+          "pe": 408.8,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.02
+        },
+        {
+          "code": "sz002589",
+          "name": "瑞康医药",
+          "lbc": 1,
+          "price": 3.27,
+          "pct": 10.1,
+          "pe": 544.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.12
+        },
+        {
+          "code": "sz002285",
+          "name": "世联行",
+          "lbc": 3,
+          "price": 2.89,
+          "pct": 9.89,
+          "pe": -8.6,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 12.89
+        },
+        {
+          "code": "sz001317",
+          "name": "三羊马",
+          "lbc": 1,
+          "price": 54.51,
+          "pct": 10.01,
+          "pe": 691.9,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 4.41
+        },
+        {
+          "code": "sz000910",
+          "name": "大亚圣象",
+          "lbc": 1,
+          "price": 5.69,
+          "pct": 10.06,
+          "pe": -14.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.95
+        },
+        {
+          "code": "sz002134",
+          "name": "天津普林",
+          "lbc": 1,
+          "price": 27.1,
+          "pct": 9.98,
+          "pe": 158.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 13.35
+        },
+        {
+          "code": "sh603120",
+          "name": "肯特催化",
+          "lbc": 1,
+          "price": 59.21,
+          "pct": 9.99,
+          "pe": 63.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.13
+        },
+        {
+          "code": "sh603316",
+          "name": "诚邦股份",
+          "lbc": 1,
+          "price": 16.69,
+          "pct": 10.02,
+          "pe": -51.9,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.5
+        },
+        {
+          "code": "sh603138",
+          "name": "海量数据",
+          "lbc": 1,
+          "price": 15.57,
+          "pct": 10.04,
+          "pe": -47.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.58
+        },
+        {
+          "code": "sh601579",
+          "name": "会稽山",
+          "lbc": 1,
+          "price": 32.84,
+          "pct": 10.02,
+          "pe": 56.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.76
+        },
+        {
+          "code": "sz000509",
+          "name": "华塑控股",
+          "lbc": 1,
+          "price": 3.77,
+          "pct": 9.91,
+          "pe": -157.7,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.72
+        },
+        {
+          "code": "sz002849",
+          "name": "威星智能",
+          "lbc": 1,
+          "price": 20.32,
+          "pct": 10.02,
+          "pe": 90.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 12.43
+        },
+        {
+          "code": "sz002161",
+          "name": "远 望 谷",
+          "lbc": 1,
+          "price": 7.25,
+          "pct": 10.02,
+          "pe": -35.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.33
+        },
+        {
+          "code": "sh603353",
+          "name": "和顺石油",
+          "lbc": 1,
+          "price": 48.55,
+          "pct": 9.99,
+          "pe": 180.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.2
+        },
+        {
+          "code": "sz002300",
+          "name": "太阳电缆",
+          "lbc": 1,
+          "price": 8.67,
+          "pct": 10.03,
+          "pe": 149.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.63
+        },
+        {
+          "code": "sz002713",
+          "name": "东易日盛",
+          "lbc": 1,
+          "price": 10.92,
+          "pct": 9.97,
+          "pe": 138.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.88
+        }
+      ],
+      "yesterday_review": [
+        {
+          "code": "sz003026",
+          "name": "中晶科技",
+          "lbc": 3,
+          "pre_price": 37.0,
+          "price": 37.2,
+          "today_pct": 0.54,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.54,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz301390",
+          "name": "经纬股份",
+          "lbc": 1,
+          "pre_price": 45.0,
+          "price": 54.0,
+          "today_pct": 20.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 20.0,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 2,
+          "pre_price": 12.25,
+          "price": 13.48,
+          "today_pct": 10.04,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.04,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002285",
+          "name": "世联行",
+          "lbc": 2,
+          "pre_price": 2.63,
+          "price": 2.89,
+          "today_pct": 9.89,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.89,
+          "sealed": true,
+          "pre_label": "弱",
+          "pre_buy": 1
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 3,
+          "pre_price": 19.88,
+          "price": 21.87,
+          "today_pct": 10.01,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.01,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh605058",
+          "name": "澳弘电子",
+          "lbc": 5,
+          "pre_price": 48.76,
+          "price": 47.4,
+          "today_pct": -2.79,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.79,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz300434",
+          "name": "金石亚药",
+          "lbc": 1,
+          "pre_price": 12.49,
+          "price": 12.25,
+          "today_pct": -1.92,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.92,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002339",
+          "name": "积成电子",
+          "lbc": 1,
+          "pre_price": 8.23,
+          "price": 8.04,
+          "today_pct": -2.31,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.31,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh603626",
+          "name": "科森科技",
+          "lbc": 1,
+          "pre_price": 21.29,
+          "price": 23.42,
+          "today_pct": 10.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.0,
+          "sealed": true,
+          "pre_label": "弱",
+          "pre_buy": 1
+        },
+        {
+          "code": "sz000920",
+          "name": "沃顿科技",
+          "lbc": 1,
+          "pre_price": 12.63,
+          "price": 13.16,
+          "today_pct": 4.2,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 4.2,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz003001",
+          "name": "中岩大地",
+          "lbc": 2,
+          "pre_price": 20.32,
+          "price": 20.0,
+          "today_pct": -1.57,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.57,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600293",
+          "name": "三峡新材",
+          "lbc": 1,
+          "pre_price": 3.4,
+          "price": 3.34,
+          "today_pct": -1.76,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.76,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600721",
+          "name": "百花医药",
+          "lbc": 1,
+          "pre_price": 11.87,
+          "price": 11.95,
+          "today_pct": 0.67,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.67,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002836",
+          "name": "新宏泽",
+          "lbc": 1,
+          "pre_price": 10.84,
+          "price": 11.92,
+          "today_pct": 9.96,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.96,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz000868",
+          "name": "安凯客车",
+          "lbc": 1,
+          "pre_price": 4.06,
+          "price": 3.99,
+          "today_pct": -1.72,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -1.72,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz000981",
+          "name": "山子高科",
+          "lbc": 1,
+          "pre_price": 3.01,
+          "price": 3.0,
+          "today_pct": -0.33,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": -0.33,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz000504",
+          "name": "南华生物",
+          "lbc": 1,
+          "pre_price": 9.1,
+          "price": 10.01,
+          "today_pct": 10.0,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 10.0,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600448",
+          "name": "华纺股份",
+          "lbc": 1,
+          "pre_price": 3.22,
+          "price": 3.54,
+          "today_pct": 9.94,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.94,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz002796",
+          "name": "世嘉科技",
+          "lbc": 1,
+          "pre_price": 32.54,
+          "price": 31.77,
+          "today_pct": -2.37,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -2.37,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh600822",
+          "name": "上海物贸",
+          "lbc": 1,
+          "pre_price": 9.38,
+          "price": 9.4,
+          "today_pct": 0.21,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.21,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600127",
+          "name": "金健米业",
+          "lbc": 1,
+          "pre_price": 13.02,
+          "price": 14.32,
+          "today_pct": 9.98,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.98,
+          "sealed": true,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh603009",
+          "name": "北特科技",
+          "lbc": 1,
+          "pre_price": 47.37,
+          "price": 49.29,
+          "today_pct": 4.05,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 4.05,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600354",
+          "name": "敦煌种业",
+          "lbc": 1,
+          "pre_price": 9.75,
+          "price": 10.23,
+          "today_pct": 4.92,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 4.92,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz002655",
+          "name": "共达电声",
+          "lbc": 2,
+          "pre_price": 40.77,
+          "price": 40.9,
+          "today_pct": 0.32,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.32,
+          "sealed": false,
+          "pre_label": "弱",
+          "pre_buy": 1
+        },
+        {
+          "code": "sh600593",
+          "name": "大连圣亚",
+          "lbc": 1,
+          "pre_price": 43.31,
+          "price": 44.15,
+          "today_pct": 1.94,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 1.94,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sz001365",
+          "name": "天海电子",
+          "lbc": 1,
+          "pre_price": 37.51,
+          "price": 38.32,
+          "today_pct": 2.16,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 2.16,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh605288",
+          "name": "凯迪股份",
+          "lbc": 1,
+          "pre_price": 67.25,
+          "price": 69.17,
+          "today_pct": 2.86,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小涨",
+          "chg_from_pre": 2.86,
+          "sealed": false,
+          "pre_label": "观察",
+          "pre_buy": 2
+        },
+        {
+          "code": "sh600630",
+          "name": "龙头股份",
+          "lbc": 1,
+          "pre_price": 7.54,
+          "price": 8.29,
+          "today_pct": 9.95,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "涨停",
+          "chg_from_pre": 9.95,
+          "sealed": true,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sz000980",
+          "name": "众泰汽车",
+          "lbc": 1,
+          "pre_price": 2.37,
+          "price": 2.29,
+          "today_pct": -3.38,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "小跌",
+          "chg_from_pre": -3.38,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        },
+        {
+          "code": "sh600609",
+          "name": "金杯汽车",
+          "lbc": 1,
+          "pre_price": 3.58,
+          "price": 3.59,
+          "today_pct": 0.28,
+          "open": null,
+          "high": null,
+          "low": null,
+          "status": "平盘",
+          "chg_from_pre": 0.28,
+          "sealed": false,
+          "pre_label": "风控",
+          "pre_buy": 3
+        }
+      ],
+      "trades": {
+        "bought": [],
+        "sold": [],
+        "note": "L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）"
+      },
+      "holdings_snapshot": [],
+      "decisions": "系统性风险→暂停交易。L1=系统性风险→暂停交易，买入0只/卖出0只（无止损触发）。盘前30只信号→今收盘: 正收益21只(70%胜率), 涨停10只, 下跌9只。主线集中度: 电网设备(6), 半导体(5), 家居用品(4) (TOP1 6/78=7.7%)。",
+      "observations": [
+        "L1收盘: 上证指数收3911.87(+0.9%) MA20=3922(DOWN) MA60=3923 深证成指收13640.87(+1.7%) MA20=13675(DOWN) MA60=14200 创业板指收3372.68(+2.2%) MA20=3359(DOWN) MA60=3567。均涨幅+1.6% 量比0.98。量能观察：量价正常，无极端信号",
+        "最高板4板(华瓷股份, 锡华科技) — 连板高度一般",
+        "主线分布: 电网设备(6), 半导体(5), 家居用品(4) — 行业集中度7.7%",
+        "涨停78家 / 炸板率24.3% — 情绪偏弱",
+        "轮动判定: 电风扇行情 ⚠ 全面暂停，只观察",
+        "📊 当前仓位 0.0%（市值¥0 / 总资产¥1,064,847，门控上限 0% / 单日≤0只）"
+      ],
+      "portfolio_snapshot": {
+        "cash": 1064847.1,
+        "total_value": 1064847.1,
+        "pnl_pct": 6.48,
+        "holdings": 0
+      },
+      "run_time": "2026-09-18 15:41:25"
+    },
+    {
+      "date": "2026-09-21",
+      "session": "收盘简报(15:30运行)",
+      "self_check": "数据自检：✅ 通过",
+      "l1_state": "震荡市",
+      "l1_gate": "降低权重",
+      "l1_bull": 0,
+      "l1_risk": 0,
+      "l1_changed": false,
+      "l1_detail": "上证指数收3949.91(+1.0%) MA20=3926(DOWN) MA60=3921 深证成指收13730.02(+0.7%) MA20=13671(DOWN) MA60=14165 创业板指收3399.59(+0.8%) MA20=3357(DOWN) MA60=3553。均涨幅+0.8% 量比1.04。量能观察：价涨量增 — 量价配合良好",
+      "l1_indexes": {
+        "sh000001": {
+          "name": "上证指数",
+          "close": 3949.91,
+          "ma20": 3925.82,
+          "ma60": 3921.34,
+          "above_ma20": true,
+          "above_ma60": true,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 0.9977,
+          "chg_pct": 0.97
+        },
+        "sz399001": {
+          "name": "深证成指",
+          "close": 13730.02,
+          "ma20": 13671.43,
+          "ma60": 14165.45,
+          "above_ma20": true,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 1.0521,
+          "chg_pct": 0.65
+        },
+        "sz399006": {
+          "name": "创业板指",
+          "close": 3399.59,
+          "ma20": 3357.15,
+          "ma60": 3553.11,
+          "above_ma20": true,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 1.0649,
+          "chg_pct": 0.8
+        }
+      },
+      "l2_summary": "103家涨停, 炸板率19.5%, 最高5板, 主线: 化学制药(9), 医疗服务(5), 化学制品(5)",
+      "l2_zt_count": 103,
+      "l2_zb_count": 25,
+      "l2_zbr": 19.5,
+      "l2_max_lb": 5,
+      "l2_sectors": [
+        {
+          "name": "化学制药",
+          "count": 9
+        },
+        {
+          "name": "医疗服务",
+          "count": 5
+        },
+        {
+          "name": "化学制品",
+          "count": 5
+        },
+        {
+          "name": "服装家纺",
+          "count": 4
+        },
+        {
+          "name": "一般零售",
+          "count": 4
+        }
+      ],
+      "l2_rotation": "电风扇行情 ⚠ 全面暂停，只观察",
+      "l3_summary": "强候选:0, 观察:15, 风控:12, 弱:3 — 电风扇行情 ⚠ 全面暂停，只观察",
+      "signals": [
+        {
+          "code": "sz000504",
+          "name": "南华生物",
+          "lbc": 3,
+          "price": 11.01,
+          "pct": 9.99,
+          "pe": 94.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.62
+        },
+        {
+          "code": "sz000607",
+          "name": "华媒控股",
+          "lbc": 1,
+          "price": 4.53,
+          "pct": 9.95,
+          "pe": -14.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.61
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 5,
+          "price": 24.06,
+          "pct": 10.01,
+          "pe": 34.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.86
+        },
+        {
+          "code": "sh600743",
+          "name": "华远控股",
+          "lbc": 1,
+          "price": 2.33,
+          "pct": 9.91,
+          "pe": -52.3,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 0.7
+        },
+        {
+          "code": "sh600630",
+          "name": "龙头股份",
+          "lbc": 3,
+          "price": 9.12,
+          "pct": 10.01,
+          "pe": 69.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.8
+        },
+        {
+          "code": "sh600301",
+          "name": "华锡有色",
+          "lbc": 1,
+          "price": 49.97,
+          "pct": 9.99,
+          "pe": 33.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.08
+        },
+        {
+          "code": "sh600825",
+          "name": "新华传媒",
+          "lbc": 1,
+          "price": 5.84,
+          "pct": 9.98,
+          "pe": 143.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.24
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 4,
+          "price": 14.83,
+          "pct": 10.01,
+          "pe": 72.7,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 10.63
+        },
+        {
+          "code": "sz002453",
+          "name": "华软科技",
+          "lbc": 3,
+          "price": 5.87,
+          "pct": 9.93,
+          "pe": -19.7,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.71
+        },
+        {
+          "code": "sz002614",
+          "name": "奥佳华",
+          "lbc": 1,
+          "price": 6.25,
+          "pct": 10.04,
+          "pe": -44.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.5
+        },
+        {
+          "code": "sz002172",
+          "name": "澳洋健康",
+          "lbc": 1,
+          "price": 5.81,
+          "pct": 10.04,
+          "pe": 131.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.07
+        },
+        {
+          "code": "sh601123",
+          "name": "马矿股份",
+          "lbc": 2,
+          "price": 19.56,
+          "pct": 10.01,
+          "pe": 36.7,
+          "buy": 0,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "数据不足"
+          ],
+          "turnover": 15.86
+        },
+        {
+          "code": "sz000910",
+          "name": "大亚圣象",
+          "lbc": 2,
+          "price": 6.26,
+          "pct": 10.02,
+          "pe": -15.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.09
+        },
+        {
+          "code": "sz002303",
+          "name": "美盈森",
+          "lbc": 1,
+          "price": 6.27,
+          "pct": 10.0,
+          "pe": 44.7,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.21
+        },
+        {
+          "code": "sh603316",
+          "name": "诚邦股份",
+          "lbc": 2,
+          "price": 18.36,
+          "pct": 10.01,
+          "pe": -57.1,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.69
+        },
+        {
+          "code": "sh601811",
+          "name": "新华文轩",
+          "lbc": 2,
+          "price": 15.29,
+          "pct": 10.0,
+          "pe": 13.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 5.4
+        },
+        {
+          "code": "sz000756",
+          "name": "新华制药",
+          "lbc": 1,
+          "price": 14.67,
+          "pct": 9.97,
+          "pe": 47.5,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.26
+        },
+        {
+          "code": "sh600448",
+          "name": "华纺股份",
+          "lbc": 3,
+          "price": 3.89,
+          "pct": 9.89,
+          "pe": -9.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 39.33
+        },
+        {
+          "code": "sh600664",
+          "name": "哈药股份",
+          "lbc": 1,
+          "price": 8.25,
+          "pct": 10.0,
+          "pe": 40.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.7
+        },
+        {
+          "code": "sh603580",
+          "name": "艾艾精工",
+          "lbc": 1,
+          "price": 71.53,
+          "pct": 10.0,
+          "pe": 231.7,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 5.67
+        },
+        {
+          "code": "sz002860",
+          "name": "星帅尔",
+          "lbc": 1,
+          "price": 18.39,
+          "pct": 9.99,
+          "pe": 36.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.13
+        },
+        {
+          "code": "sz001376",
+          "name": "百通能源",
+          "lbc": 2,
+          "price": 13.93,
+          "pct": 10.03,
+          "pe": 34.8,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.71
+        },
+        {
+          "code": "sh688315",
+          "name": "诺禾致源",
+          "lbc": 1,
+          "price": 18.18,
+          "pct": 20.0,
+          "pe": 50.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.3
+        },
+        {
+          "code": "sz002178",
+          "name": "延华智能",
+          "lbc": 1,
+          "price": 5.08,
+          "pct": 9.96,
+          "pe": -463.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.6
+        },
+        {
+          "code": "sh603068",
+          "name": "博通集成",
+          "lbc": 2,
+          "price": 43.79,
+          "pct": 10.0,
+          "pe": 124.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 13.71
+        },
+        {
+          "code": "sz002367",
+          "name": "康力电梯",
+          "lbc": 1,
+          "price": 6.28,
+          "pct": 9.98,
+          "pe": 20.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.55
+        },
+        {
+          "code": "sz001389",
+          "name": "广合科技",
+          "lbc": 1,
+          "price": 185.93,
+          "pct": 10.0,
+          "pe": 59.4,
+          "buy": 4,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.17
+        },
+        {
+          "code": "sh603636",
+          "name": "南威软件",
+          "lbc": 1,
+          "price": 7.28,
+          "pct": 9.97,
+          "pe": -7.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "风控",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.62
+        },
+        {
+          "code": "sz002589",
+          "name": "瑞康医药",
+          "lbc": 2,
+          "price": 3.6,
+          "pct": 10.09,
+          "pe": 599.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 14.23
+        },
+        {
+          "code": "sh603663",
+          "name": "三祥新材",
+          "lbc": 1,
+          "price": 49.82,
+          "pct": 10.0,
+          "pe": 197.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 3.97
+        }
+      ],
+      "yesterday_review": [],
+      "trades": {
+        "bought": [],
+        "sold": [],
+        "note": "L1=震荡市→降低权重，买入0只/卖出0只（无止损触发）"
+      },
+      "holdings_snapshot": [],
+      "decisions": "震荡市→降低权重。L1=震荡市→降低权重，买入0只/卖出0只（无止损触发）。盘前0只信号→今收盘: 正收益0只(0%胜率), 涨停0只, 下跌0只。主线集中度: 化学制药(9), 医疗服务(5), 化学制品(5) (TOP1 9/103=8.7%)。",
+      "observations": [
+        "L1收盘: 上证指数收3949.91(+1.0%) MA20=3926(DOWN) MA60=3921 深证成指收13730.02(+0.7%) MA20=13671(DOWN) MA60=14165 创业板指收3399.59(+0.8%) MA20=3357(DOWN) MA60=3553。均涨幅+0.8% 量比1.04。量能观察：价涨量增 — 量价配合良好",
+        "最高板5板(华瓷股份) — 连板高度一般",
+        "主线分布: 化学制药(9), 医疗服务(5), 化学制品(5) — 行业集中度8.7%",
+        "涨停103家 / 炸板率19.5% — 情绪正常",
+        "轮动判定: 电风扇行情 ⚠ 全面暂停，只观察",
+        "📊 当前仓位 0.0%（市值¥0 / 总资产¥1,064,847，门控上限 0% / 单日≤0只）"
+      ],
+      "portfolio_snapshot": {
+        "cash": 1064847.1,
+        "total_value": 1064847.1,
+        "pnl_pct": 6.48,
+        "holdings": 0
+      },
+      "run_time": "2026-09-22 21:40:59"
+    },
+    {
+      "date": "2026-09-22",
+      "session": "收盘简报(15:30运行)",
+      "self_check": "数据自检：⚠️ 1项异常 [hybk缺失2只[新华制药,智度股份]→板块止损对这些票未执行(第五层空转)]",
+      "l1_state": "震荡市",
+      "l1_gate": "降低权重",
+      "l1_bull": 1,
+      "l1_risk": 0,
+      "l1_changed": false,
+      "l1_detail": "上证指数收3952.13(+0.1%) MA20=3929(UP) MA60=3919 深证成指收13723.74(-0.1%) MA20=13670(DOWN) MA60=14124 创业板指收3399.93(+0.0%) MA20=3357(DOWN) MA60=3537。均涨幅+0.0% 量比1.06。量能观察：价涨量增 — 量价配合良好",
+      "l1_indexes": {
+        "sh000001": {
+          "name": "上证指数",
+          "close": 3952.13,
+          "ma20": 3928.95,
+          "ma60": 3918.96,
+          "above_ma20": true,
+          "above_ma60": true,
+          "ma20_rising": true,
+          "ma20_direction": "UP",
+          "vol_ratio": 1.001,
+          "chg_pct": 0.06
+        },
+        "sz399001": {
+          "name": "深证成指",
+          "close": 13723.74,
+          "ma20": 13670.32,
+          "ma60": 14124.09,
+          "above_ma20": true,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 1.0697,
+          "chg_pct": -0.05
+        },
+        "sz399006": {
+          "name": "创业板指",
+          "close": 3399.93,
+          "ma20": 3357.27,
+          "ma60": 3537.4,
+          "above_ma20": true,
+          "above_ma60": false,
+          "ma20_rising": false,
+          "ma20_direction": "DOWN",
+          "vol_ratio": 1.1154,
+          "chg_pct": 0.01
+        }
+      },
+      "l2_summary": "63家涨停, 炸板率22.2%, 最高6板, 主线: 家居用品(5), 出版(4), 广告营销(3)",
+      "l2_zt_count": 63,
+      "l2_zb_count": 18,
+      "l2_zbr": 22.2,
+      "l2_max_lb": 6,
+      "l2_sectors": [
+        {
+          "name": "家居用品",
+          "count": 5
+        },
+        {
+          "name": "出版",
+          "count": 4
+        },
+        {
+          "name": "广告营销",
+          "count": 3
+        },
+        {
+          "name": "化学制药",
+          "count": 3
+        },
+        {
+          "name": "元件",
+          "count": 3
+        }
+      ],
+      "l2_rotation": "加速轮动，仅限 buy_score≥3",
+      "l3_summary": "强候选:7, 观察:22, 风控:0, 弱:1 — 加速轮动，仅限 buy_score≥3",
+      "signals": [
+        {
+          "code": "sz000504",
+          "name": "南华生物",
+          "lbc": 4,
+          "price": 12.11,
+          "pct": 9.99,
+          "pe": 104.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.79
+        },
+        {
+          "code": "sz000607",
+          "name": "华媒控股",
+          "lbc": 2,
+          "price": 4.98,
+          "pct": 9.93,
+          "pe": -15.8,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.27
+        },
+        {
+          "code": "sz000756",
+          "name": "新华制药",
+          "lbc": 2,
+          "price": 16.14,
+          "pct": 10.02,
+          "pe": 52.2,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 19.45
+        },
+        {
+          "code": "sz001216",
+          "name": "华瓷股份",
+          "lbc": 6,
+          "price": 26.47,
+          "pct": 10.02,
+          "pe": 38.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.74
+        },
+        {
+          "code": "sz002290",
+          "name": "禾盛新材",
+          "lbc": 1,
+          "price": 77.85,
+          "pct": 10.0,
+          "pe": 95.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.4
+        },
+        {
+          "code": "sz002614",
+          "name": "奥佳华",
+          "lbc": 2,
+          "price": 6.88,
+          "pct": 10.08,
+          "pe": -48.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.73
+        },
+        {
+          "code": "sh600743",
+          "name": "华远控股",
+          "lbc": 2,
+          "price": 2.56,
+          "pct": 9.87,
+          "pe": -57.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.39
+        },
+        {
+          "code": "sh600770",
+          "name": "综艺股份",
+          "lbc": 1,
+          "price": 6.63,
+          "pct": 9.95,
+          "pe": 63.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 1.57
+        },
+        {
+          "code": "sh600825",
+          "name": "新华传媒",
+          "lbc": 2,
+          "price": 6.42,
+          "pct": 9.93,
+          "pe": 157.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.33
+        },
+        {
+          "code": "sh601811",
+          "name": "新华文轩",
+          "lbc": 3,
+          "price": 16.82,
+          "pct": 10.01,
+          "pe": 15.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 0.51
+        },
+        {
+          "code": "sh603636",
+          "name": "南威软件",
+          "lbc": 2,
+          "price": 8.01,
+          "pct": 10.03,
+          "pe": -8.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 2.94
+        },
+        {
+          "code": "sz001234",
+          "name": "泰慕士",
+          "lbc": 2,
+          "price": 29.25,
+          "pct": 10.0,
+          "pe": 78.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.74
+        },
+        {
+          "code": "sz002303",
+          "name": "美盈森",
+          "lbc": 2,
+          "price": 6.9,
+          "pct": 10.05,
+          "pe": 49.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.12
+        },
+        {
+          "code": "sh605218",
+          "name": "伟时电子",
+          "lbc": 1,
+          "price": 15.94,
+          "pct": 10.01,
+          "pe": -79.0,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.48
+        },
+        {
+          "code": "sz000676",
+          "name": "智度股份",
+          "lbc": 1,
+          "price": 7.45,
+          "pct": 10.04,
+          "pe": 46.4,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 13.77
+        },
+        {
+          "code": "sh600641",
+          "name": "先导基电",
+          "lbc": 1,
+          "price": 43.74,
+          "pct": 10.01,
+          "pe": 969.3,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.29
+        },
+        {
+          "code": "sh600664",
+          "name": "哈药股份",
+          "lbc": 2,
+          "price": 9.08,
+          "pct": 10.06,
+          "pe": 44.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 12.24
+        },
+        {
+          "code": "sz000560",
+          "name": "我爱我家",
+          "lbc": 2,
+          "price": 3.51,
+          "pct": 10.03,
+          "pe": -152.4,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 17.42
+        },
+        {
+          "code": "sz001317",
+          "name": "三羊马",
+          "lbc": 3,
+          "price": 65.96,
+          "pct": 10.01,
+          "pe": 837.2,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 8.94
+        },
+        {
+          "code": "sz002467",
+          "name": "二六三",
+          "lbc": 1,
+          "price": 5.09,
+          "pct": 9.94,
+          "pe": -20.6,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 7.49
+        },
+        {
+          "code": "sh603020",
+          "name": "爱普股份",
+          "lbc": 2,
+          "price": 13.83,
+          "pct": 10.02,
+          "pe": 82.1,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.87
+        },
+        {
+          "code": "sz001266",
+          "name": "宏英智能",
+          "lbc": 1,
+          "price": 37.75,
+          "pct": 9.99,
+          "pe": 91.8,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 15.07
+        },
+        {
+          "code": "sh603230",
+          "name": "内蒙新华",
+          "lbc": 5,
+          "price": 16.31,
+          "pct": 9.98,
+          "pe": 79.9,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 11.02
+        },
+        {
+          "code": "sz002564",
+          "name": "天沃科技",
+          "lbc": 1,
+          "price": 5.45,
+          "pct": 10.1,
+          "pe": -215.7,
+          "buy": 1,
+          "sell": 0,
+          "out": "弱",
+          "industry": "",
+          "hits": [
+            "R5:涨停封板"
+          ],
+          "turnover": 3.0
+        },
+        {
+          "code": "sz002141",
+          "name": "贤丰控股",
+          "lbc": 1,
+          "price": 7.43,
+          "pct": 10.07,
+          "pe": 1137.7,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 27.0
+        },
+        {
+          "code": "sh603216",
+          "name": "梦天家居",
+          "lbc": 1,
+          "price": 22.75,
+          "pct": 10.01,
+          "pe": 83.0,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R2:首板重站5日线",
+            "R5:涨停封板"
+          ],
+          "turnover": 4.26
+        },
+        {
+          "code": "sz002178",
+          "name": "延华智能",
+          "lbc": 2,
+          "price": 5.59,
+          "pct": 10.04,
+          "pe": -509.9,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 17.54
+        },
+        {
+          "code": "sz001268",
+          "name": "联合精密",
+          "lbc": 1,
+          "price": 26.57,
+          "pct": 10.02,
+          "pe": -427.1,
+          "buy": 3,
+          "sell": 0,
+          "out": "强候选",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R4:异常放量上行",
+            "R5:涨停封板"
+          ],
+          "turnover": 9.91
+        },
+        {
+          "code": "sh603580",
+          "name": "艾艾精工",
+          "lbc": 2,
+          "price": 78.68,
+          "pct": 10.0,
+          "pe": 254.8,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.29
+        },
+        {
+          "code": "sh603221",
+          "name": "爱丽家居",
+          "lbc": 1,
+          "price": 33.55,
+          "pct": 10.0,
+          "pe": -164.5,
+          "buy": 2,
+          "sell": 0,
+          "out": "观察",
+          "industry": "",
+          "hits": [
+            "R3:5/10线上方走强",
+            "R5:涨停封板"
+          ],
+          "turnover": 6.28
+        }
+      ],
+      "yesterday_review": [],
+      "trades": {
+        "bought": [
+          {
+            "date": "2026-09-22",
+            "type": "buy",
+            "code": "sz000756",
+            "name": "新华制药",
+            "shares": 6100,
+            "price": 16.14,
+            "amount": 98454.0,
+            "fee": 25.6
+          },
+          {
+            "date": "2026-09-22",
+            "type": "buy",
+            "code": "sz000676",
+            "name": "智度股份",
+            "shares": 13400,
+            "price": 7.45,
+            "amount": 99830.0,
+            "fee": 25.96
+          }
+        ],
+        "sold": [],
+        "note": "L1=震荡市→降低权重，买入2只/卖出0只（无止损触发）"
+      },
+      "holdings_snapshot": [
+        {
+          "code": "sz000756",
+          "name": "新华制药",
+          "shares": 6100,
+          "cost": 16.14,
+          "buy_date": "2026-09-22",
+          "buy_price": 16.14,
+          "hybk": "",
+          "buy_reason": "2板强候选 收盘封板",
+          "market_price": 16.14,
+          "market_value": 98454.0,
+          "pnl": 0.0,
+          "chg_pct": 0.0
+        },
+        {
+          "code": "sz000676",
+          "name": "智度股份",
+          "shares": 13400,
+          "cost": 7.45,
+          "buy_date": "2026-09-22",
+          "buy_price": 7.45,
+          "hybk": "",
+          "buy_reason": "1板强候选 收盘封板",
+          "market_price": 7.45,
+          "market_value": 99830.0,
+          "pnl": 0.0,
+          "chg_pct": 0.0
+        }
+      ],
+      "decisions": "震荡市→降低权重。L1=震荡市→降低权重，买入2只/卖出0只（无止损触发）。盘前0只信号→今收盘: 正收益0只(0%胜率), 涨停0只, 下跌0只。主线集中度: 家居用品(5), 出版(4), 广告营销(3) (TOP1 5/63=7.9%)。",
+      "observations": [
+        "L1收盘: 上证指数收3952.13(+0.1%) MA20=3929(UP) MA60=3919 深证成指收13723.74(-0.1%) MA20=13670(DOWN) MA60=14124 创业板指收3399.93(+0.0%) MA20=3357(DOWN) MA60=3537。均涨幅+0.0% 量比1.06。量能观察：价涨量增 — 量价配合良好",
+        "最高板6板(华瓷股份) — 连板高度一般",
+        "主线分布: 家居用品(5), 出版(4), 广告营销(3) — 行业集中度7.9%",
+        "涨停63家 / 炸板率22.2% — 情绪偏弱",
+        "轮动判定: 加速轮动，仅限 buy_score≥3",
+        "⛔ 想买买不到 2 只: 泰慕士：09:30:00 一字/秒板，无法成交；伟时电子：09:30:17 排队未成交，收盘没轮到",
+        "📊 当前仓位 18.6%（市值¥198,284 / 总资产¥1,064,796，门控上限 40% / 单日≤2只）"
+      ],
+      "portfolio_snapshot": {
+        "cash": 866511.54,
+        "total_value": 1064795.54,
+        "pnl_pct": 6.48,
+        "holdings": 2
+      },
+      "run_time": "2026-09-22 21:41:45"
     }
   ],
   "trades": [
@@ -58421,6 +63066,26 @@
       "amount": 105000.0,
       "fee": 79.8,
       "note": "板块止损 (TOP20): 「饰品」已跌出 TOP20 — 建议全部卖出"
+    },
+    {
+      "date": "2026-09-22",
+      "type": "buy",
+      "code": "sz000756",
+      "name": "新华制药",
+      "shares": 6100,
+      "price": 16.14,
+      "amount": 98454.0,
+      "fee": 25.6
+    },
+    {
+      "date": "2026-09-22",
+      "type": "buy",
+      "code": "sz000676",
+      "name": "智度股份",
+      "shares": 13400,
+      "price": 7.45,
+      "amount": 99830.0,
+      "fee": 25.96
     }
   ],
   "daily_snapshots": [
@@ -58655,6 +63320,46 @@
       "pnl": 64847.1,
       "pnl_pct": 6.48,
       "holdings": 0
+    },
+    {
+      "date": "2026-09-16",
+      "total_value": 1064847.1,
+      "cash": 1064847.1,
+      "pnl": 64847.1,
+      "pnl_pct": 6.48,
+      "holdings": 0
+    },
+    {
+      "date": "2026-09-17",
+      "total_value": 1064847.1,
+      "cash": 1064847.1,
+      "pnl": 64847.1,
+      "pnl_pct": 6.48,
+      "holdings": 0
+    },
+    {
+      "date": "2026-09-18",
+      "total_value": 1064847.1,
+      "cash": 1064847.1,
+      "pnl": 64847.1,
+      "pnl_pct": 6.48,
+      "holdings": 0
+    },
+    {
+      "date": "2026-09-21",
+      "total_value": 1064847.1,
+      "cash": 1064847.1,
+      "pnl": 64847.1,
+      "pnl_pct": 6.48,
+      "holdings": 0
+    },
+    {
+      "date": "2026-09-22",
+      "total_value": 1064795.54,
+      "cash": 866511.54,
+      "pnl": 64795.54,
+      "pnl_pct": 6.48,
+      "holdings": 2
     }
   ],
   "missed_buys": [
@@ -58878,6 +63583,28 @@
       "trigger_signal": "1板强候选",
       "next_open": 4.81,
       "next_close": 4.81
+    },
+    {
+      "date": "2026-09-22",
+      "code": "sz001234",
+      "name": "泰慕士",
+      "reason": 1,
+      "reason_text": "09:30:00 一字/秒板，无法成交",
+      "fbt": 93000,
+      "zbc": 0,
+      "fund": 250279760,
+      "trigger_signal": "2板强候选"
+    },
+    {
+      "date": "2026-09-22",
+      "code": "sh605218",
+      "name": "伟时电子",
+      "reason": 2,
+      "reason_text": "09:30:17 排队未成交，收盘没轮到",
+      "fbt": 93017,
+      "zbc": 0,
+      "fund": 3199158,
+      "trigger_signal": "1板强候选"
     }
   ],
   "missed_sells": [
@@ -58894,6 +63621,32 @@
       "trigger_reasons": [
         "硬止损: 累计亏损 -10.34%（成本¥3.19 → 现价¥2.86）"
       ]
+    }
+  ],
+  "trailing_shadow": [
+    {
+      "date": "2026-09-22",
+      "code": "sz000756",
+      "name": "新华制药",
+      "cost": 16.14,
+      "cur": 16.14,
+      "peak": 16.14,
+      "gain_pct": 0.0,
+      "drawdown_pct": 0.0,
+      "trigger": null,
+      "would_sell_shares": 0
+    },
+    {
+      "date": "2026-09-22",
+      "code": "sz000676",
+      "name": "智度股份",
+      "cost": 7.45,
+      "cur": 7.45,
+      "peak": 7.45,
+      "gain_pct": 0.0,
+      "drawdown_pct": 0.0,
+      "trigger": null,
+      "would_sell_shares": 0
     }
   ]
 }
