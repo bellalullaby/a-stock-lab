@@ -1202,6 +1202,13 @@ def analyze_l3(date_str: str, zt_pool: list, l1_result: dict, l2_rotation: dict)
     l1_regime = l1_result.get("regime", "震荡市")
     rotation_label = l2_rotation.get("rotation_label", "") if l2_rotation else ""
 
+    # 断言：涨停池 hybk 大面积缺失 → 上游数据源异常
+    # （09-22 事故：池内 hybk 齐全但 L3 拼装漏传；若源头就缺会致板块止损集体空转）
+    n_no_hybk = sum(1 for s in top_stocks if not s.get("hybk"))
+    if top_stocks and n_no_hybk / len(top_stocks) > 0.3:
+        print(f"  ⚠️ 断言报警: 涨停池 {n_no_hybk}/{len(top_stocks)} 只 hybk 缺失"
+              f"→ 行业数据源异常，板块止损将大范围失效，建议检查东财接口")
+
     results = []
 
     for i, stock in enumerate(top_stocks):
@@ -1297,6 +1304,7 @@ def analyze_l3(date_str: str, zt_pool: list, l1_result: dict, l2_rotation: dict)
             "label_note": label_note,
             "rules": rules,
             "l1_regime": l1_regime,
+            "hybk": stock.get("hybk", ""),  # 必须透传：持仓买入/板块止损依赖（09-22 事故：漏传致板块止损空转）
         })
 
         # 两个东财 API 之间间隔
