@@ -507,12 +507,14 @@ def main():
             save_config(sender, pwd, receivers)
             config = {"sender": sender, "password": pwd, "receivers": receivers}
 
-    send_briefing_email(
+    ok = send_briefing_email(
         subject, html, plain,
         config["sender"],
         config["password"],
         config["receivers"],
     )
+    # 失败要响：发送失败以非零退出码上抛（schtasks 链路依赖它触发 !!!! FAILED 标记）
+    sys.exit(0 if ok else 1)
 
 
 if __name__ == "__main__":
