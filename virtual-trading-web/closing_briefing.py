@@ -432,7 +432,11 @@ for sp in sell_plan:
     })
     print(f"  ⛔ 止损卖出: {name} {shares}股 ¥{price:.2f} (费¥{sell_fee:.2f}) | {note}")
 
-# ═══════════ 移动止盈·影子模式（只计算记录，不真实卖出） ═══════════
+# ═══════════ 移动止盈·影子模式【已退役 09-23，仅档案积累】 ═══════════
+# 退役原因: TIME_STOP_MODE=D1 快走下持有期 1 天，主板日涨幅上限 10%
+# < 启用线 20% → 数学上不可达（机制时代错位，见 shadow_review.py 分析）。
+# 保留每日计算仅作历史档案，不参与任何决策与转正评审。
+# 若 TIME_STOP_MODE 回退 "D3D5"，本段自动恢复观察价值。
 # 第六层草案：浮盈≥+20% 启用，从持有期最高价回吐 1/3 减半 / 1/2 清仓。
 # 影子跑三周攒"如果生效会怎样"的数据，再决定是否启用与调参。
 from stop_loss import fetch_tencent_highs, check_trailing_stop
@@ -618,12 +622,13 @@ if missed_buys:
 if missed_sells:
     ms_lines = [f"{m['name']}：{m['reason_text']}" for m in missed_sells]
     observations.append(f"🚫 想卖卖不掉 {len(missed_sells)} 只: {'；'.join(ms_lines)}")
-# 移动止盈影子触发（只记录不执行，攒三周数据再定）
+# 移动止盈影子【已退役】：触发不渲染进日报（避免"待观察"误导），
+# shadow_scoring/trailing_shadow 仅作档案积累，评审见 shadow_review.py
 shadow_triggers = [s for s in trailing_shadow if s.get("trigger")]
 if shadow_triggers:
-    sh_lines = [f"{s['name']} 浮盈{s['gain_pct']:+.0f}% 回吐{s['drawdown_pct']:.0f}%→{s['trigger']}档"
-                for s in shadow_triggers]
-    observations.append(f"🌅 影子止盈(未执行) {len(shadow_triggers)} 只: {'；'.join(sh_lines)}")
+    observations.append(
+        f"🌅 [已退役档案] 移动止盈影子触发 {len(shadow_triggers)} 次（D1 模式下无决策意义，仅记录）"
+    )
 # 当前仓位（门控数值化：用卖出后的最新估值口径）
 if total_value > 0:
     pos_pct = total_hold / total_value * 100
