@@ -45,6 +45,35 @@ triggers = [s for s in shadow if s.get("trigger")]
 print("=" * 66)
 print("🌅 移动止盈影子模式 · 转正评审")
 print("=" * 66)
+
+# ── 第一部分: D1 模式适用性分析（Claude哥 09-23 追加单）──
+# 时间止损 P0 复核后默认 D1 快走（持有期 1 交易日）。移动止盈启用线
+# 浮盈≥+20% vs D1 持有期单日涨幅上限（主板 10%）→ 数学上不可达。
+# 机制时代错位: 移动止盈为"持有多日等主升"的旧世界设计，D1 新世界
+# 里没有存在场景——评审若只看触发计数会开成空气会议（永远0触发
+# →样本不足→延长的无限循环）。
+from stop_loss import TIME_STOP_MODE
+
+print()
+print("【第一部分: D1 模式适用性分析】")
+print(f"  当前 TIME_STOP_MODE = {TIME_STOP_MODE}")
+if TIME_STOP_MODE == "D1":
+    print("  ⚠️ D1 快走模式下移动止盈【无存在场景】:")
+    print("    - 持有期 = 1 交易日，主板日涨幅上限 10% < 启用线 20% → 数学不可达")
+    print("    - 20cm 创业板/科创板单日理论可达，但需买入日即涨停 20% 且当日")
+    print("      回吐 1/3 → 概率趋零，不构成有效样本")
+    print("  结论: 移动止盈应随 D1 模式【退役】（影子记录继续积累仅作档案）。")
+    print("  若未来回退 D3D5 模式（持有多日等主升），本评审自动恢复有效。")
+    print()
+    print(f"  [档案] 影子记录 {len(shadow)} 条，有效触发 {len(triggers)} 次（D1 下预期恒为 0）")
+    print()
+    print("评审结论: 不转正（机制退役）。第 4-6 周 OOS 期间无需再跑本评审，")
+    print("除非 TIME_STOP_MODE 回退。")
+    sys.exit(0)
+else:
+    print(f"  D3D5 模式（持有多日）→ 移动止盈有存在场景，评审继续。")
+print()
+
 print(f"影子记录总数: {len(shadow)} 条（09-23 起积累）")
 print(f"有效触发: {len(triggers)} 次（判据①要求 ≥{MIN_TRIGGERS}）")
 print()

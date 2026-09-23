@@ -91,7 +91,13 @@ for s in signals:
     rows.append(row)
 
 usable = [r for r in rows if r.get("d1_return") is not None and r.get("d2_return") is not None]
-print(f"可用信号（d1+d2 齐全）: {len(usable)} 条")
+print()
+print("样本漏斗（口径声明）:")
+print(f"  全量信号            : {len(all_signals)}")
+print(f"  → 可买池(剔风控/弱/门控禁止): {len(pool)}")
+print(f"  → 同票去重(只计首次)   : {len(signals)}")
+print(f"  → K线拉取成功        : {len([r for r in rows])}（失败 {fail} 只股票的信号被剔除）")
+print(f"  → d1+d2 齐全         : {len(usable)}  ← 回测样本")
 
 
 # ── 三策略收益 ──
