@@ -267,6 +267,16 @@ def check_trailing_stop(cur: float, peak: float, cost: float):
     return None
 
 
+# ── 时间止损模式（P0 复核后参数化，2026-09-23）──────────────
+# 回测结论（analyze_time_stop.py，n=463 可买信号，45 交易日）:
+#   A) D+1 收盘走 : 中位 +1.17% 胜56%  |  按日胜现行 73%，中位差 +2.81pp
+#   C) 现行 D+3/5 : 中位 -2.69% 胜34%  |  71% 信号在观察期被踢，中位回撤 -5.22%
+# A 显著优于 C → 默认切换 D1 快走模式；TIME_STOP_MODE="D3D5" 可回退现行。
+# trade-off 如实标注: A 放弃 29% 大赢路径（留组 D+10 中位 +10.78%），
+# 换 71% 弱势路径的早退出——胜率/中位数换尾部赔率。
+TIME_STOP_MODE = "D1"   # "D1" = D+1 快走（新默认）; "D3D5" = 现行 D+3<2%/D+5<5%
+
+
 # ── 执行入口 ──────────────────────────────────────────────
 
 def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_date,
@@ -305,6 +315,48 @@ def run_stop_loss(holdings, prices, l2_boards, l2_zt_pool, l2_zb_pool, check_dat
         # 只挡一天，补跑场景（check_date 晚于 buy_date 数日）不误伤
         if h.get("buy_date") == check_date:
             print(f"  ⏭️ T+1约束: {h.get('name', code)} 当日买入，五层止损今日不执行")
+            continue
+
+        # ── 时间止损 D+1 快走模式（P0 复核后默认）──
+        # 持有满 1 个交易日即收盘离场，不再等 D+3/D+5 观察期
+        # （回测: 中位 +1.17% vs 现行 -2.69%，按日胜现行 73%）
+        # trade-off 如实标注: 放弃 29% 大赢路径，换 71% 弱势路径早退出
+        if TIME_STOP_MODE == "D1":
+            cost1 = h.get("cost") or h.get("cost_price") or h.get("buy_price") or 0
+            cur1 = prices.get(code) or cost1
+            shares1 = h.get("shares", 0)
+            # 跌停可卖判定（与主循环同规则——D1 卖出也要过市场层）
+            dt1 = dt_by_code.get(str(code)[-6:])
+            sell_price1 = cur1
+            if dt1 is not None:
+                try:
+                    oc1 = int(dt1.get("oc", 0) or 0)
+                except (TypeError, ValueError):
+                    oc1 = 0
+                if oc1 == 0:
+                    missed_sells.append({
+                        "date": check_date, "code": code, "name": h.get("name", ""),
+                        "reason": 1,
+                        "reason_text": f"D+1快走遇跌停封死未开板（连续{dt1.get('days', 1)}天），排队未成交",
+                        "oc": 0, "days": dt1.get("days", 1), "fund": dt1.get("fund", 0),
+                        "price": dt1.get("price", cur1),
+                        "trigger_reasons": ["时间止损 (D+1快走)"],
+                    })
+                    print(f"  🚫 D+1快走遇跌停拒卖: {h.get('name', code)}（次日再试）")
+                    continue
+                sell_price1 = dt1.get("price", cur1) or cur1
+            amount1 = round(sell_price1 * shares1, 2)
+            sells.append({
+                "code": code,
+                "name": h.get("name", ""),
+                "shares": shares1,
+                "price": sell_price1,
+                "amount": amount1,
+                "cost_price": cost1,
+                "half": False,
+                "reasons": [f"时间止损 (D+1快走): 持有满 1 交易日收盘离场"
+                            f"（P0 回测中位 +1.17% vs 现行 -2.69%，按日胜 73%）"],
+            })
             continue
 
         # 补 cost_price 字段（portfolio.json 存的是 cost/buy_price）
