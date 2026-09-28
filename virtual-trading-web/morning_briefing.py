@@ -63,6 +63,8 @@ from data_collector import fetch_trading_dates, is_trading_day
 _tds = fetch_trading_dates()
 _td = is_trading_day(run_date, _tds)
 if _td is False:
+    from holiday_audit import record_skip
+    record_skip(run_date, "morning")
     print(f"⏭️ {run_date} 非交易日（休市；数据最后交易日 {_tds[-1]}），跳过盘前简报")
     print("   这不是故障——退出码 0，不触发运行日志的 FAILED 标记")
     sys.exit(0)

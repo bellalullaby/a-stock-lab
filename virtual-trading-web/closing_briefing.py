@@ -73,6 +73,8 @@ from data_collector import fetch_trading_dates, is_trading_day
 _tds = fetch_trading_dates()
 _td = is_trading_day(today, _tds)
 if _td is False:
+    from holiday_audit import record_skip
+    record_skip(today, "closing")
     print(f"⏭️ {today} 非交易日（休市；数据最后交易日 {_tds[-1]}），跳过收盘简报")
     print("   这不是故障——退出码 0，不触发运行日志的 FAILED 标记")
     sys.exit(0)
@@ -532,6 +534,16 @@ self_check_line = format_check_line(run_self_check(
     target_date=today,
     trading_dates=_tds,
 ))
+
+# 交易日历对账（多标/少标检测——让日历错误可检测，Claude哥返工单②）
+from holiday_audit import audit_calendar
+
+_cal_issues = audit_calendar(
+    _tds,
+    [e.get("date") for e in pf["daily_log"] if str(e.get("session", "")).startswith("收盘简报")],
+)
+if _cal_issues:
+    self_check_line += f" ⚠️ 日历对账{len(_cal_issues)}项: {'; '.join(_cal_issues)}"
 
 # ═══════════ dry-run 模式：到此为止，不写文件 ═══════════
 if args.dry_run:

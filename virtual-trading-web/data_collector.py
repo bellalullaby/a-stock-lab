@@ -192,16 +192,16 @@ MARKET_HOLIDAYS = {
 
 
 def is_trading_day(target_date: str, tds: list = None):
-    """交易日判断（时序安全版）。返回 True / False / None。
+    """交易日判断（时序安全 + K线权威 + 可自愈）。返回 True / False / None。
 
-    判定优先级:
-      1. 周末         → False（本地判断，无需网络）
-      2. 法定休市日表 → False（未来日期判定用）
-      3. K 线列表内   → True
-      4. 早于 K 线窗口 → None（历史补跑，无法校验，调用方放行+警告）
-      5. 晚于 K 线最新（未来）→ True
-         —— "还没发生" ≠ "不交易"（09-28 回归修正：早报 07:35 时
-            今天的蜡烛尚未生成，此前误判为 False 导致早报永久停摆）
+    判定优先级（K 线在"能回答时"说了算——误标的日期一旦蜡烛出现
+    即自动纠正，不再被日历表永久否决）:
+      1. 周末            → False（本地，无需网络；A股不因调休开市）
+      2. target ∈ tds    → True  ← K 线权威（历史/今天，事实优先）
+      3. target > tds[-1]（未来）→ 查休市表: 在表 False / 否则 True
+         —— "还没发生" ≠ "不交易"（09-28 回归修正）
+      4. target < tds[0] → None（早于校验窗口的历史补跑）
+      5. 窗口内无蜡烛     → False（K 线权威：确实休市）
 
     调用方对 False 应跳过，对 None 应放行并打印警告。"""
     if not target_date:
@@ -212,20 +212,22 @@ def is_trading_day(target_date: str, tds: list = None):
             return False
     except ValueError:
         return None
-    # 2. 法定休市日
-    if target_date in MARKET_HOLIDAYS:
-        return False
-    # 3-5. K 线校验
+    # K 线校验（事实优先）
     tds = tds if tds is not None else fetch_trading_dates()
     if not tds:
-        return None
+        # K线不可用时退化为日历判断（周末已判，仅剩休市表）
+        return False if target_date in MARKET_HOLIDAYS else True
+    # 2. K 线权威：列表内即交易日
     if target_date in tds:
         return True
+    # 3. 未来日期：查休市表（表仅在此处生效）
+    if target_date > tds[-1]:
+        return False if target_date in MARKET_HOLIDAYS else True
+    # 4. 早于校验窗口的历史补跑
     if target_date < tds[0]:
-        return None  # 早于 K 线窗口（历史补跑）
-    if target_date < tds[-1]:
-        return False  # K 线窗口内但无蜡烛 = 休市（历史区间，K线权威）
-    return True  # 晚于最新蜡烛 = 未来交易日（"还没发生"）
+        return None
+    # 5. 窗口内无蜡烛 = 休市（K 线权威）
+    return False
 
 
 def to_em_date(dt_str: str) -> str:
@@ -1687,6 +1689,8 @@ if __name__ == "__main__":
     # 校验依据：真实 K 线交易日列表；窗口内非交易日即跳过。
     _td = is_trading_day(target_date)
     if _td is False:
+        from holiday_audit import record_skip
+        record_skip(target_date, "collector")
         print(f"⏭️ {target_date} 非交易日（休市），跳过采集")
         print("   这不是故障——退出码 0，不生成假缓存")
         sys.exit(0)
