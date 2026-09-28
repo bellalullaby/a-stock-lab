@@ -161,6 +161,38 @@ def em_get(url, params=None, headers=None, timeout=15):
     return robust_cn_get(url, params=params, headers=headers, timeout=timeout)
 
 
+def fetch_trading_dates(tx_code: str = "sh000001", limit: int = 15) -> list:
+    """拉指数 K 线返回交易日日期列表（升序）。
+    用途：交易日判断——休市日 K 线不会新增蜡烛（09-25 中秋事故修复依据）。
+    失败返回 []（调用方需处理无法校验的情况）。"""
+    kl = fetch_klines(tx_code, limit=limit)
+    return [k[0] for k in kl] if kl else []
+
+
+def is_trading_day(target_date: str, tds: list = None):
+    """交易日判断（窗口边界安全）。返回 True / False / None。
+      True  → 在 K 线交易日列表中
+      False → 周末（本地判断）或窗口内非交易日（休市）
+      None  → 无法判断（K线不可用 / 目标日期早于校验窗口的历史补跑）
+    调用方对 False 应跳过，对 None 应放行并打印警告。"""
+    if not target_date:
+        return None
+    # 周末本地判断（无需网络，历史补跑同样适用）
+    try:
+        if datetime.strptime(target_date, "%Y-%m-%d").weekday() >= 5:
+            return False
+    except ValueError:
+        return None
+    tds = tds if tds is not None else fetch_trading_dates()
+    if not tds:
+        return None
+    if target_date in tds:
+        return True
+    if target_date < tds[0]:
+        return None  # 早于 K 线窗口（历史补跑），无法校验
+    return False
+
+
 def to_em_date(dt_str: str) -> str:
     """2026-07-20 → 20260720（东财 API 日期格式，无连字符）"""
     return dt_str.replace("-", "")
@@ -1613,6 +1645,18 @@ if __name__ == "__main__":
     except ValueError:
         print(f"❌ 日期格式错误: {target_date}，应为 YYYY-MM-DD")
         sys.exit(1)
+
+    # ── 交易日校验（09-25 中秋 / 17 个周末假缓存事故修复）──
+    # 采集 schtask 每天跑（含周末节假日），非交易日会把前一交易日数据
+    # 原样存成当天 —— 生成"内部自洽的假数据"污染缓存。
+    # 校验依据：真实 K 线交易日列表；窗口内非交易日即跳过。
+    _td = is_trading_day(target_date)
+    if _td is False:
+        print(f"⏭️ {target_date} 非交易日（休市），跳过采集")
+        print("   这不是故障——退出码 0，不生成假缓存")
+        sys.exit(0)
+    elif _td is None:
+        print("⚠️ 交易日校验不可用（K线异常或历史补跑窗口外），按原流程采集")
 
     # 🆕 步骤 0.5: 缺口检测 + 自动回补
     auto_backfill(target_date)

@@ -137,13 +137,32 @@ def check_all_weak(signals):
     return issues
 
 
+def check_data_trading_date(target_date, trading_dates):
+    """检查7: 目标日期必须是真实交易日（09-25 中秋休市假数据事故）
+    "内部自洽的假数据能骗过所有为自洽设计的检查"——本断言是外部锚:
+    拿真实 K 线交易日列表做交叉验证，而非数据内部一致性。
+    trading_dates: fetch_trading_dates() 返回的日期列表（空=无法校验，跳过）"""
+    issues = []
+    if not trading_dates or not target_date:
+        return issues  # 无交易日历不判（网络故障时不误报）
+    if target_date not in trading_dates:
+        issues.append(
+            f"目标日期{target_date}不在真实交易日列表"
+            f"(最近交易日{trading_dates[-1]})→疑似休市日跑了假数据"
+        )
+    return issues
+
+
 def run_self_check(holdings=None, signals=None, l1=None,
-                   l3_stocks=None, l2_rotation=None, prev_day_boards=None):
+                   l3_stocks=None, l2_rotation=None, prev_day_boards=None,
+                   target_date=None, trading_dates=None):
     """跑全部自检，返回异常列表（空列表 = 全部通过）
     新增可选参数（上游缓存质量层）:
       l3_stocks       : l3_stocks.json 原始 stocks（MA 缺失检查用）
       l2_rotation     : l2_rotation.json（轮动基准检查用）
-      prev_day_boards : 前一交易日 l2_boards.json 的 boards（轮动基准对照）"""
+      prev_day_boards : 前一交易日 l2_boards.json 的 boards（轮动基准对照）
+      target_date     : 本次简报的目标日期（交易日校验用）
+      trading_dates   : fetch_trading_dates() 真实 K 线交易日列表（同）"""
     issues = []
     issues += check_holdings_hybk(holdings)
     issues += check_signal_buckets(signals)
@@ -152,6 +171,7 @@ def run_self_check(holdings=None, signals=None, l1=None,
     issues += check_rotation_freshness(l2_rotation, prev_day_boards)
     # 检查6用原始 stocks 的 label；没有时退回转换后的 signals
     issues += check_all_weak(l3_stocks or signals)
+    issues += check_data_trading_date(target_date, trading_dates)
     return issues
 
 

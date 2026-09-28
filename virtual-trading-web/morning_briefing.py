@@ -54,6 +54,26 @@ if args.date:
     cands = [d for d in avail if d < args.date]
     data_date = cands[-1] if cands else args.date
 
+# ── 交易日校验 + data_date 修正（09-25 中秋休市事故修复）──
+# 1) run_date 不在真实交易日列表 → 休市，跳过（exit 0 不打 FAILED）
+# 2) data_date 用真实 K 线日期修正——prev_trading_day 只跳周末，
+#    节假日（如 09-25）会被错误选中，导致读进"前一日的旧数据"
+from data_collector import fetch_trading_dates, is_trading_day
+
+_tds = fetch_trading_dates()
+_td = is_trading_day(run_date, _tds)
+if _td is False:
+    print(f"⏭️ {run_date} 非交易日（休市；数据最后交易日 {_tds[-1]}），跳过盘前简报")
+    print("   这不是故障——退出码 0，不触发运行日志的 FAILED 标记")
+    sys.exit(0)
+elif _td is None:
+    print("⚠️ 交易日校验不可用（K线异常/历史补跑窗口外），按原逻辑继续")
+if _tds:
+    _before = [d for d in _tds if d < run_date]
+    if _before and _before[-1] != data_date:
+        print(f"   数据日修正: {data_date} → {_before[-1]}（按真实 K 线交易日）")
+        data_date = _before[-1]
+
 CACHE = CACHE_DIR / data_date
 OBS_FILE = CACHE_DIR / f"morning_briefing_{run_date}.json"
 
@@ -291,6 +311,8 @@ self_check_line = format_check_line(run_self_check(
     l3_stocks=l3_stocks,
     l2_rotation=rot,
     prev_day_boards=prev_day_boards,
+    target_date=run_date,
+    trading_dates=_tds,
 ))
 
 # ── dry-run：到此为止 ──

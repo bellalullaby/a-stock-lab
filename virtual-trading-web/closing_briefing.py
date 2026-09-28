@@ -63,6 +63,22 @@ with open(BASE / "l3_stocks.json", encoding="utf-8") as f:
 with open(PF, encoding="utf-8") as f:
     pf = json.load(f)
 
+# ═══════════ 交易日校验（09-25 中秋休市假数据事故修复） ═══════════
+# B 计划迁移时弄丢了 SKILL.md 里的休市判断（agent 脑子里的隐式知识）：
+# 休市日采集器把前一交易日数据原样存成当天 → 简报用"内部自洽的假数据"
+# 生成完整报告，骗过所有为自洽设计的检查。
+# 校验依据：真实 K 线最后一根蜡烛 = 最近交易日；今天不在其中即休市。
+from data_collector import fetch_trading_dates, is_trading_day
+
+_tds = fetch_trading_dates()
+_td = is_trading_day(today, _tds)
+if _td is False:
+    print(f"⏭️ {today} 非交易日（休市；数据最后交易日 {_tds[-1]}），跳过收盘简报")
+    print("   这不是故障——退出码 0，不触发运行日志的 FAILED 标记")
+    sys.exit(0)
+elif _td is None:
+    print("⚠️ 交易日校验不可用（K线异常/历史补跑窗口外），按缓存继续")
+
 # ═══════════ 幂等锁：当天已跑过则跳过（防重跑覆盖） ═══════════
 already_run = any(
     e.get("date") == today and str(e.get("session", "")).startswith("收盘简报")
@@ -513,6 +529,8 @@ self_check_line = format_check_line(run_self_check(
     l3_stocks=l3_stocks,
     l2_rotation=rot,
     prev_day_boards=prev_day_boards,
+    target_date=today,
+    trading_dates=_tds,
 ))
 
 # ═══════════ dry-run 模式：到此为止，不写文件 ═══════════
