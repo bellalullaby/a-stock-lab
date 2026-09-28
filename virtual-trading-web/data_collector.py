@@ -169,28 +169,63 @@ def fetch_trading_dates(tx_code: str = "sh000001", limit: int = 15) -> list:
     return [k[0] for k in kl] if kl else []
 
 
+# ── 法定休市日表（国务院每年公布）──────────────────────────────
+# ⚠️ 此表仅用于【未来日期】判定——历史日期以 K 线为准，无需查表。
+# 核心洞察（09-28 回归事故）: "今天是否交易日"有两种语境——
+#   收盘后问（K线能答）vs 开盘前问（K线还没这根蜡烛，只能靠日历）。
+# 早报 07:35 跑时今天蜡烛未生成，误判"还没发生"= "不交易"→早报永久停摆。
+# 维护: 每年 11 月国务院公布次年安排后核对更新；保守多标（多标=少跑
+#       一天简报，无害；少标=生成假数据，有害）。
+MARKET_HOLIDAYS = {
+    # 2026 国庆（10-01 周四起，保守标至 10-08）
+    "2026-10-01", "2026-10-02", "2026-10-05", "2026-10-06",
+    "2026-10-07", "2026-10-08",
+    # ── 2027（国务院安排公布后必须核对）──
+    "2027-01-01",
+    "2027-02-05", "2027-02-08", "2027-02-09", "2027-02-10", "2027-02-11", "2027-02-12",
+    "2027-04-05",
+    "2027-05-03", "2027-05-04", "2027-05-05",
+    "2027-06-09",
+    "2027-09-15",
+    "2027-10-01", "2027-10-04", "2027-10-05", "2027-10-06", "2027-10-07",
+}
+
+
 def is_trading_day(target_date: str, tds: list = None):
-    """交易日判断（窗口边界安全）。返回 True / False / None。
-      True  → 在 K 线交易日列表中
-      False → 周末（本地判断）或窗口内非交易日（休市）
-      None  → 无法判断（K线不可用 / 目标日期早于校验窗口的历史补跑）
+    """交易日判断（时序安全版）。返回 True / False / None。
+
+    判定优先级:
+      1. 周末         → False（本地判断，无需网络）
+      2. 法定休市日表 → False（未来日期判定用）
+      3. K 线列表内   → True
+      4. 早于 K 线窗口 → None（历史补跑，无法校验，调用方放行+警告）
+      5. 晚于 K 线最新（未来）→ True
+         —— "还没发生" ≠ "不交易"（09-28 回归修正：早报 07:35 时
+            今天的蜡烛尚未生成，此前误判为 False 导致早报永久停摆）
+
     调用方对 False 应跳过，对 None 应放行并打印警告。"""
     if not target_date:
         return None
-    # 周末本地判断（无需网络，历史补跑同样适用）
+    # 1. 周末
     try:
         if datetime.strptime(target_date, "%Y-%m-%d").weekday() >= 5:
             return False
     except ValueError:
         return None
+    # 2. 法定休市日
+    if target_date in MARKET_HOLIDAYS:
+        return False
+    # 3-5. K 线校验
     tds = tds if tds is not None else fetch_trading_dates()
     if not tds:
         return None
     if target_date in tds:
         return True
     if target_date < tds[0]:
-        return None  # 早于 K 线窗口（历史补跑），无法校验
-    return False
+        return None  # 早于 K 线窗口（历史补跑）
+    if target_date < tds[-1]:
+        return False  # K 线窗口内但无蜡烛 = 休市（历史区间，K线权威）
+    return True  # 晚于最新蜡烛 = 未来交易日（"还没发生"）
 
 
 def to_em_date(dt_str: str) -> str:
