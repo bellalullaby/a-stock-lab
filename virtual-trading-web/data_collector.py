@@ -1517,15 +1517,34 @@ def auto_backfill(requested_date: str, verbose: bool = True):
 
     return backfilled, skipped
 
-def collect(date_str: str, is_backfill: bool = False):
+# 收盘快照核心文件（全部存在 = 该日已有完整快照，默认拒绝覆盖）
+SNAPSHOT_FILES = ["l1_index.json", "l2_boards.json", "l2_zt_pool.json",
+                  "l2_zb_pool.json", "l2_rotation.json", "l3_stocks.json"]
+
+
+def collect(date_str: str, is_backfill: bool = False, force: bool = False):
     """
     主入口：按 SPEC §7.2 流程拉取全量数据并写入缓存。
 
     参数:
         date_str: 目标日期 (YYYY-MM-DD)
         is_backfill: 🆕 是否来自自动回补（标记在 l1_index.json）
+        force: 已有完整快照时仍覆盖（默认 False，见收盘快照保护）
     """
     cache_dir = CACHE_ROOT / date_str
+
+    # ── 收盘快照保护（09-29 事故：19:32 重采悄悄覆盖 15:30 口径基准）──
+    # 15:30 快照是全系统（简报/止损/回测）的口径基准；盘后重采若接口
+    # 数据有微调，基准就被无声换掉。详情见 daily_briefing.log 无痕迹。
+    # 逃生口: --force（09-14 缓存写坏需重采的场景）。
+    if not force:
+        existing = [f for f in SNAPSHOT_FILES if (cache_dir / f).exists()]
+        if len(existing) == len(SNAPSHOT_FILES):
+            print(f"⏭️ {date_str} 已有完整收盘快照（{len(existing)}/{len(SNAPSHOT_FILES)} 文件），拒绝覆盖")
+            print("   15:30 快照是全系统口径基准，盘中/盘后重采会改变它。")
+            print("   如确认需要重采，请加 --force")
+            return
+
     ensure_dir(cache_dir)
 
     print("=" * 60)
@@ -1673,6 +1692,11 @@ if __name__ == "__main__":
         default=datetime.now().strftime("%Y-%m-%d"),
         help="目标日期，格式 YYYY-MM-DD（默认今天）",
     )
+    parser.add_argument(
+        "--force", "-f",
+        action="store_true",
+        help="已有完整收盘快照时强制覆盖（默认拒绝，保护 15:30 口径基准）",
+    )
     args = parser.parse_args()
     target_date = args.date
 
@@ -1700,5 +1724,5 @@ if __name__ == "__main__":
     # 🆕 步骤 0.5: 缺口检测 + 自动回补
     auto_backfill(target_date)
 
-    # 🆕 跑目标日期采集
-    collect(target_date)
+    # 🆕 跑目标日期采集（force 从 CLI 透传——收盘快照保护逃生口）
+    collect(target_date, force=args.force)
