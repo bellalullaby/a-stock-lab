@@ -1,0 +1,132 @@
+# -*- coding: utf-8 -*-
+"""隔夜跳空分解 —— 判断 alpha 是否住在"买不到的跳空"里
+
+背景：Codex 审核 #1 指出「收盘信号被追溯记为盘中成交」（未来信息偏差）。
+若信号只能在 T 日收盘后可见，可执行版 = T+1 开盘买入，最早 T+2 卖出。
+本脚本把收益拆成：
+    A) 信号日收盘 → T+1 开盘   （隔夜跳空：物理上买不到）
+    B) T+1 开盘   → T+1 收盘   （若能在 T+1 开盘买到，可持有）
+    C) T+1 开盘   → T+2 收盘   （可执行版的实际持有区间，遵守 T+1 卖出约束）
+并对比现行回测口径（信号日收盘 → T+1 收盘）。
+
+样本口径与 analyze_time_stop.py 保持一致（buyable 标签过滤 + 同票去重）。
+"""
+import sys, json, statistics
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+from data_collector import fetch_klines
+
+BASE = Path(__file__).resolve().parent
+TRACKER = BASE / "data" / "signal_tracker.json"
+CACHE = BASE / "data" / "kline_cache.json"
+
+
+def buyable(s):
+    out = s.get("out", "")
+    return "风控" not in out and out != "弱" and "门控禁止" not in out
+
+
+def limit_pct(code):
+    c = code[-6:]
+    if c.startswith(("30", "68")):
+        return 0.20
+    return 0.10
+
+
+def main():
+    data = json.loads(TRACKER.read_text(encoding="utf-8"))
+    all_sig = data.get("signals", [])
+
+    pool = [s for s in all_sig if buyable(s)]
+    seen, sigs = set(), []
+    for s in sorted(pool, key=lambda x: x["signal_date"]):
+        if s["code"] in seen:
+            continue
+        seen.add(s["code"])
+        sigs.append(s)
+
+    print(f"样本: 全量 {len(all_sig)} → buyable {len(pool)} → 同票去重 {len(sigs)}")
+    print(f"信号区间: {sigs[0]['signal_date']} ~ {sigs[-1]['signal_date']}\n")
+
+    kc = json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
+    codes = sorted(set(s["code"] for s in sigs))
+
+    fetched = 0
+    for i, c in enumerate(codes):
+        if c in kc:
+            continue
+        kl = fetch_klines(c, limit=120)
+        kc[c] = kl or []
+        fetched += 1
+        if fetched % 50 == 0:
+            print(f"  已拉取 {fetched} 只 ...")
+            CACHE.write_text(json.dumps(kc), encoding="utf-8")
+    CACHE.write_text(json.dumps(kc), encoding="utf-8")
+    print(f"K线: 新增 {fetched} 只，缓存共 {len(kc)} 只\n")
+
+    A, B, C, D1, filled, unfilled = [], [], [], [], [], []
+    missing = 0
+    for s in sigs:
+        kl = kc.get(s["code"]) or []
+        dates = [k[0] for k in kl]
+        d = s["signal_date"]
+        if d not in dates:
+            missing += 1
+            continue
+        i = dates.index(d)
+        if i + 2 >= len(kl):
+            missing += 1
+            continue
+        cT = float(kl[i][2])
+        o1, c1 = float(kl[i + 1][1]), float(kl[i + 1][2])
+        c2 = float(kl[i + 2][2])
+        if not cT or not o1:
+            missing += 1
+            continue
+
+        a = (o1 - cT) / cT * 100          # 隔夜跳空
+        b = (c1 - o1) / o1 * 100          # T+1 日内
+        cc = (c2 - o1) / o1 * 100         # 可执行版持有区间
+        d1 = (c1 - cT) / cT * 100         # 现行口径
+        A.append(a); B.append(b); C.append(cc); D1.append(d1)
+
+        zt = round(cT * (1 + limit_pct(s["code"])), 2)
+        (unfilled if o1 >= zt else filled).append(cc)
+
+    def st(v, name):
+        if not v:
+            print(f"  {name:<34} 无样本"); return
+        print(f"  {name:<34} n={len(v):<4} 中位{statistics.median(v):+6.2f}%  均{statistics.mean(v):+6.2f}%  胜{sum(1 for x in v if x>0)/len(v)*100:3.0f}%")
+
+    print(f"有效样本 {len(D1)}（跳过 {missing}：信号日不在K线窗口或T+2不足）\n")
+    print("=== ① 收益分解（相对信号日收盘）===")
+    st(A, "A) 信号收盘 → T+1 开盘（隔夜跳空）")
+    st(B, "B) T+1 开盘 → T+1 收盘（日内）")
+    st(D1, "A+B = 现行D1口径（信号收盘→T+1收盘）")
+    print()
+    print("=== ② 可执行版（T+1开盘买 → T+2收盘卖）===")
+    st(C, "C) 全部信号（含买不到的）")
+    st(filled, "   其中：T+1 开盘未封板（可成交）")
+    st(unfilled, "   其中：T+1 开盘即涨停（买不到）")
+
+    if D1:
+        print(f"\n=== ③ 结论 ===")
+        gap_share = statistics.median(A) / statistics.median(D1) * 100 if statistics.median(D1) else float('nan')
+        print(f"  现行口径中位 {statistics.median(D1):+.2f}%")
+        print(f"  其中隔夜跳空 {statistics.median(A):+.2f}%（占 {gap_share:.0f}%）← 物理上买不到")
+        print(f"  T+1 日内    {statistics.median(B):+.2f}%")
+        print(f"  可执行版中位 {statistics.median(C):+.2f}%（守 T+1 卖出约束）")
+        if filled:
+            print(f"  且只在能买到的那部分里：{statistics.median(filled):+.2f}%  (n={len(filled)})")
+
+    out = {"n": len(D1), "A_gap": A, "B_intraday": B, "C_exec": C, "D1_old": D1,
+           "filled": filled, "unfilled": unfilled}
+    (BASE / "data" / "gap_decomp.json").write_text(json.dumps(out), encoding="utf-8")
+    print("\n已存 data/gap_decomp.json")
+
+
+if __name__ == "__main__":
+    main()

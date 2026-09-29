@@ -6,7 +6,7 @@ data_collector.py — A股虚拟盘数据采集脚本（第一期）
 
 用法:
     python data_collector.py                           # 拉取今天的数据
-    python data_collector.py --date 2026-07-20         # 拉取指定日期
+    python research_execution.py                     # 离线历史研究；实时采集禁止补跑历史
 
 输出:
     data/cache/YYYY-MM-DD/
@@ -36,6 +36,7 @@ import os
 import sys
 import time
 from datetime import datetime, timedelta
+from data_integrity import require_live_date, atomic_json_write
 from pathlib import Path
 
 # Git Bash GBK 编码兼容：防止 emoji/特殊字符崩溃
@@ -479,6 +480,8 @@ def fetch_qt_batch(tx_codes: list) -> dict:
 
                 try:
                     result[tx] = {
+                        "date": f"{f(30)[:4]}-{f(30)[4:6]}-{f(30)[6:8]}",
+                        "prev_close": float(f(4)) if f(4) else None,
                         "name": f(1),
                         "price": float(f(3)) if f(3) else 0,
                         "open": float(f(5)) if f(5) else 0,   # 今开（T+1 跟踪用）
@@ -594,7 +597,7 @@ def fetch_zb_pool(date_str: str) -> list:
         return []
 
 
-def fetch_dt_pool(date_str: str) -> list:
+def fetch_dt_pool(date_str: str) -> list | None:
     """
     拉取东财跌停池（与涨停/炸板池同族，getTopicDTPool）。
     卖出端可成交判定依赖：oc（开板次数）是"炸过板的跌停"的镜像字段，
@@ -612,7 +615,10 @@ def fetch_dt_pool(date_str: str) -> list:
         resp = em_get(EM_DT_POOL, params=params, headers=EM_HEADERS)
         resp.raise_for_status()
         data = resp.json()
-        pool = data.get("data", {}).get("pool", [])
+        payload = data.get("data")
+        if not isinstance(payload, dict) or not isinstance(payload.get("pool"), list):
+            raise ValueError("跌停池响应缺少 data.pool，不能视为空池")
+        pool = payload["pool"]
         stocks = []
         for item in pool:
             raw_p = item.get("p", 0)
@@ -631,7 +637,7 @@ def fetch_dt_pool(date_str: str) -> list:
         return stocks
     except Exception as e:
         print(f"  ✗ 跌停池拉取失败: {e}")
-        return []
+        return None
 
 
 # ═══════════════════════════════════════════════════════════════
@@ -864,6 +870,9 @@ def analyze_l1(date_str: str, aux_board_data: dict) -> dict:
         if not klines:
             print(f"    ✗ {name} 截至 {date_str} 无 K 线数据")
             continue
+        if klines[-1][0] != date_str:
+            print(f"    {name}: 目标日期 K 线缺失，跳过")
+            continue
         print(f"    ✓ {name}: {len(klines)} 条日K线（截至 {klines[-1][0]}）")
 
         # 提取收盘价序列和成交量序列
@@ -1020,6 +1029,7 @@ def analyze_l2(date_str: str) -> dict:
     """
     print("\n📊 步骤 2/5: L2 行业板块 + 涨停池")
 
+    require_live_date(date_str)
     # ── 先拉涨停池（后续行业板块降级方案需要用到 hybk）──
     print("  拉取涨停池...")
     zt_pool = fetch_zt_pool(date_str)
@@ -1080,7 +1090,7 @@ def analyze_l2(date_str: str) -> dict:
     # ── 跌停池（卖出端可成交判定依赖，买入端 zbc 的镜像）──
     print("  拉取跌停池...")
     dt_pool = fetch_dt_pool(date_str)
-    print(f"    ✓ {len(dt_pool)} 家跌停")
+    print(f"    {len(dt_pool)} 家跌停" if dt_pool is not None else "    跌停池不可用，暂停卖出")
     if n_zt + n_zb > 0:
         zb_rate = n_zb / (n_zt + n_zb) * 100
         print(f"    ✓ {n_zb} 家炸板（炸板率 {zb_rate:.1f}%）")
@@ -1168,7 +1178,8 @@ def analyze_l2(date_str: str) -> dict:
         "boards": boards,
         "zt_pool": zt_pool,
         "zb_pool": zb_pool,
-        "dt_pool": dt_pool,
+        "dt_pool": dt_pool or [],
+        "dt_status": "ok" if dt_pool is not None else "error",
         "rotation": rotation,
     }
 
@@ -1295,12 +1306,18 @@ def analyze_l3(date_str: str, zt_pool: list, l1_result: dict, l2_rotation: dict)
             # 尝试旧格式
             klines = fetch_klines(tx_code, limit=250)
 
-        latest = klines[-1] if klines else None
+        klines = [k for k in klines if k[0] <= date_str]
+        if not klines or klines[-1][0] != date_str:
+            print("目标日期 K 线缺失，跳过，不用旧价打分")
+            continue
+        latest = klines[-1]
         close = latest[2] if latest else 0
 
         # ── 拉取 qt 快照 ──
-        qt_data = fetch_qt_batch([tx_code])
+        qt_data = fetch_qt_batch([tx_code]) if date_str == datetime.now().strftime("%Y-%m-%d") else {}
         qt = qt_data.get(tx_code, {})
+        if qt.get("date") != date_str:
+            qt = {}
 
         price = qt.get("price", close) or close
         pe = qt.get("pe")
@@ -1561,6 +1578,7 @@ def collect(date_str: str, is_backfill: bool = False, force: bool = False):
         is_backfill: 🆕 是否来自自动回补（标记在 l1_index.json）
         force: 已有完整快照时仍覆盖（默认 False，见收盘快照保护）
     """
+    require_live_date(date_str)  # Before mkdir/network: current boards cannot backfill history.
     cache_dir = CACHE_ROOT / date_str
 
     # ── 收盘快照保护（09-29 事故：19:32 重采悄悄覆盖 15:30 口径基准）──
@@ -1570,6 +1588,17 @@ def collect(date_str: str, is_backfill: bool = False, force: bool = False):
     if not force:
         valid, reason = snapshot_is_valid(cache_dir)
         if valid:
+            # Upgrade only the execution-status cache; preserve all signal snapshots.
+            dt_path = cache_dir / "l2_dt_pool.json"
+            try:
+                dt = json.loads(dt_path.read_text(encoding="utf-8"))
+            except (ValueError, OSError):
+                dt = {}
+            if dt.get("status") != "ok" or dt.get("date") != date_str:
+                pool = fetch_dt_pool(date_str)
+                atomic_json_write(dt_path, {"date": date_str, "status": "ok" if pool is not None else "error",
+                                            "stocks": pool or [], "total": len(pool or [])})
+                print("已单独更新跌停池采集状态，保留 L1/L2/L3 信号快照")
             print(f"⏭️ {date_str} 已有完整收盘快照（{len(SNAPSHOT_FILES)}/{len(SNAPSHOT_FILES)} 文件），拒绝覆盖")
             print("   15:30 快照是全系统口径基准，盘中/盘后重采会改变它。")
             print("   如确认需要重采，请加 --force")
@@ -1670,6 +1699,7 @@ def collect(date_str: str, is_backfill: bool = False, force: bool = False):
             "date": date_str,
             "total": len(l2_result.get("dt_pool", [])),
             "stocks": l2_result.get("dt_pool", []),
+            "status": l2_result["dt_status"],
         }, f, ensure_ascii=False, indent=2)
     files_written.append(str(path))
 
@@ -1731,6 +1761,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     target_date = args.date
+    require_live_date(target_date)  # Reject before any network or skip-log write.
 
     # 验证日期格式
     try:
@@ -1754,7 +1785,6 @@ if __name__ == "__main__":
         print("⚠️ 交易日校验不可用（K线异常或历史补跑窗口外），按原流程采集")
 
     # 🆕 步骤 0.5: 缺口检测 + 自动回补
-    auto_backfill(target_date)
 
     # 🆕 跑目标日期采集（force 从 CLI 透传——收盘快照保护逃生口）
     collect(target_date, force=args.force)

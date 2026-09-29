@@ -1,0 +1,4449 @@
+{
+  "status": "conditional_historical_research_not_OOS_or_verified_execution",
+  "legacy_sample_audit": {
+    "original_valid_rows": 525,
+    "paused_gate_rows": 200,
+    "strict_label_and_gate_rows": 120
+  },
+  "input_sha256": {
+    "signal_tracker.json": "18addd3b3b7e6549db3138c7e3f864fe6896cd15faa4be6841299fb8c774cabd",
+    "kline_cache.json": "96b433ad0c7bdae462caeb1ee27e57b7971235f7887ad4526442ded35fc352e1"
+  },
+  "funnel": {
+    "all_signals": 1404,
+    "strict_label_and_gate": 161,
+    "rotation_blocks": 39,
+    "signal_price_basis_mismatch": 2,
+    "opening_limit_up_no_fill_assumed": 13,
+    "entry_eligible_under_model": 107,
+    "matched_completed_exits": 82
+  },
+  "signal_days": 8,
+  "summary": {
+    "gap_pct": {
+      "n": 107,
+      "mean_pct": -0.4312,
+      "median_pct": -0.6552,
+      "win_pct": 38.32
+    },
+    "intraday_pct": {
+      "n": 107,
+      "mean_pct": -0.5836,
+      "median_pct": -2.5765,
+      "win_pct": 34.58
+    },
+    "old_d1_pct": {
+      "n": 107,
+      "mean_pct": -1.0302,
+      "median_pct": -2.6846,
+      "win_pct": 33.64
+    },
+    "exec_t2_gross_pct": {
+      "n": 107,
+      "mean_pct": -1.7694,
+      "median_pct": -3.0151,
+      "win_pct": 37.38
+    },
+    "paired_D1_net": {
+      "n": 82,
+      "mean_pct": -1.2668,
+      "median_pct": -2.4385,
+      "win_pct": 42.68
+    },
+    "paired_D3D5_net": {
+      "n": 82,
+      "mean_pct": -2.5394,
+      "median_pct": -3.8294,
+      "win_pct": 30.49
+    },
+    "paired_daily_D1_minus_D3D5": {
+      "n": 6,
+      "mean_pct": 1.5462,
+      "median_pct": 0.5838,
+      "win_pct": 50.0
+    },
+    "mean_log_components": {
+      "gap": -0.00487343907686935,
+      "intraday": -0.007805600983375599
+    }
+  },
+  "rows": [
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz002248",
+      "name": "华东数控",
+      "buy_date": "2026-08-13",
+      "buy_price": 11.91,
+      "shares": 8300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.136400986031217,
+      "intraday_pct": -1.4273719563392073,
+      "old_d1_pct": -3.5332785538208733,
+      "exec_t2_gross_pct": -1.0915197313182246,
+      "gap_log": -0.021595523632226995,
+      "intraday_log": -0.014376568967258313,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 11.78,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -1.1923801587197242
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 9.81,
+        "session": "open",
+        "delayed": true,
+        "net_pct": -17.716232110656797
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz002031",
+      "name": "巨轮智能",
+      "buy_date": "2026-08-13",
+      "buy_price": 6.63,
+      "shares": 15000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 3.2710280373831724,
+      "intraday_pct": -5.429864253393668,
+      "old_d1_pct": -2.336448598130847,
+      "exec_t2_gross_pct": -10.407239819004522,
+      "gap_log": 0.032186686495901284,
+      "intraday_log": -0.05582844955294184,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 5.94,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -10.498607400830714
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 5.99,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -9.74522864140104
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz000665",
+      "name": "湖北广电",
+      "buy_date": "2026-08-13",
+      "buy_price": 4.3,
+      "shares": 23200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.714932126696834,
+      "intraday_pct": -2.3255813953488302,
+      "old_d1_pct": -4.977375565610853,
+      "exec_t2_gross_pct": -4.651162790697683,
+      "gap_log": -0.027524673390090033,
+      "intraday_log": -0.023530497410194046,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 4.1,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.748394413080654
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 3.94,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -8.465531316335747
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sh600721",
+      "name": "百花医药",
+      "buy_date": "2026-08-13",
+      "buy_price": 13.6,
+      "shares": 7300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.064861012116893,
+      "intraday_pct": 6.617647058823528,
+      "old_d1_pct": 3.349964362081259,
+      "exec_t2_gross_pct": 1.5441176470588402,
+      "gap_log": -0.031128101372363253,
+      "intraday_log": 0.06407885668452239,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 13.81,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 1.4405702949303771
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 13.0,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.509232642078042
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sh603191",
+      "name": "望变电气",
+      "buy_date": "2026-08-13",
+      "buy_price": 15.49,
+      "shares": 6400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.5844155844155763,
+      "intraday_pct": 9.3608779857973,
+      "old_d1_pct": 10.000000000000009,
+      "exec_t2_gross_pct": 3.873466752743693,
+      "gap_log": 0.005827145009193708,
+      "intraday_log": 0.08948303479513117,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 16.09,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 3.767540276102345
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 15.08,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -2.746148768204847
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sh600604",
+      "name": "市北高新",
+      "buy_date": "2026-08-13",
+      "buy_price": 5.21,
+      "shares": 19100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 3.9920159680638667,
+      "intraday_pct": -8.25335892514395,
+      "old_d1_pct": -4.590818363273441,
+      "exec_t2_gross_pct": -6.3339731285988465,
+      "gap_log": 0.03914394066850207,
+      "intraday_log": -0.08613930926191089,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 4.88,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.429486882599384
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 4.66,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -10.647823263882017
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz002520",
+      "name": "日发精机",
+      "buy_date": "2026-08-13",
+      "buy_price": 6.59,
+      "shares": 15100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -3.0349013657056223,
+      "old_d1_pct": -3.0349013657056223,
+      "exec_t2_gross_pct": 0.9104704097116834,
+      "gap_log": 0.0,
+      "intraday_log": -0.030819080124972496,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 6.65,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.8075662328187097
+      },
+      "D3D5": {
+        "date": "2026-08-20",
+        "price": 6.09,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -7.681488909364126
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz002437",
+      "name": "誉衡药业",
+      "buy_date": "2026-08-13",
+      "buy_price": 3.73,
+      "shares": 26800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.3678756476683946,
+      "intraday_pct": 13.941018766756041,
+      "old_d1_pct": 10.103626943005196,
+      "exec_t2_gross_pct": 21.44772117962468,
+      "gap_log": -0.03425894982101533,
+      "intraday_log": 0.13051074928060136,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 4.53,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 21.323874519839435
+      },
+      "D3D5": {
+        "date": "2026-08-27",
+        "price": 4.42,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 18.377819619743935
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sh603076",
+      "name": "乐惠国际",
+      "buy_date": "2026-08-13",
+      "buy_price": 22.48,
+      "shares": 4400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.51517779705116,
+      "intraday_pct": -2.4021352313167266,
+      "old_d1_pct": -4.8568950563746665,
+      "exec_t2_gross_pct": -4.225978647686834,
+      "gap_log": -0.025473489815422534,
+      "intraday_log": -0.024314570178406145,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 21.53,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.3236492613737205
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 21.21,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -5.745685265437691
+      }
+    },
+    {
+      "signal_date": "2026-08-12",
+      "code": "sz301602",
+      "name": "超研股份",
+      "buy_date": "2026-08-13",
+      "buy_price": 18.0,
+      "shares": 5500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.0674646354733373,
+      "intraday_pct": 13.33333333333333,
+      "old_d1_pct": 10.990206746463539,
+      "exec_t2_gross_pct": 4.999999999999982,
+      "gap_log": -0.020891359031376264,
+      "intraday_log": 0.125163142954006,
+      "D1": {
+        "date": "2026-08-14",
+        "price": 18.9,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 4.892929858438811
+      },
+      "D3D5": {
+        "date": "2026-08-19",
+        "price": 17.7,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.7669446347989928
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz000936",
+      "name": "华西股份",
+      "buy_date": "2026-08-17",
+      "buy_price": 6.84,
+      "shares": 14600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.86513629842181,
+      "intraday_pct": -3.0701754385964897,
+      "old_d1_pct": -4.8780487804877986,
+      "exec_t2_gross_pct": -10.087719298245613,
+      "gap_log": -0.018827493137973446,
+      "intraday_log": -0.03118292743668794,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 6.15,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -10.179401413315212
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 5.41,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -20.98708418743986
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz002724",
+      "name": "海洋王",
+      "buy_date": "2026-08-17",
+      "buy_price": 6.98,
+      "shares": 14300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.9498525073746285,
+      "intraday_pct": 2.865329512893977,
+      "old_d1_pct": 5.899705014749257,
+      "exec_t2_gross_pct": -7.306590257879664,
+      "gap_log": 0.029071814821976877,
+      "intraday_log": 0.028250466285851653,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 6.47,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -7.401115485334278
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 5.93,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -15.129614948725434
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sh600645",
+      "name": "中源协和",
+      "buy_date": "2026-08-17",
+      "buy_price": 22.33,
+      "shares": 4400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -4.254366323331837,
+      "old_d1_pct": -4.254366323331837,
+      "exec_t2_gross_pct": 0.5373936408419322,
+      "gap_log": 0.0,
+      "intraday_log": -0.04347516025516731,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 22.45,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.43487042564656386
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 20.5,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -8.288871670081303
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sh603025",
+      "name": "大豪科技",
+      "buy_date": "2026-08-17",
+      "buy_price": 14.86,
+      "shares": 6700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.1080368906455926,
+      "intraday_pct": 0.9421265141319024,
+      "old_d1_pct": -1.1857707509881354,
+      "exec_t2_gross_pct": -2.4226110363391617,
+      "gap_log": -0.021305732677870826,
+      "intraday_log": 0.009377161812597005,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 14.5,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.5221138835253964
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 13.88,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -6.6901407389994905
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz002418",
+      "name": "康盛股份",
+      "buy_date": "2026-08-17",
+      "buy_price": 4.18,
+      "shares": 23900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.7027027027026973,
+      "intraday_pct": -2.8708133971291905,
+      "old_d1_pct": -0.24570024570026439,
+      "exec_t2_gross_pct": -6.459330143540665,
+      "gap_log": 0.026668247082161273,
+      "intraday_log": -0.029128272923023713,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 3.91,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.554711358591593
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 3.51,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -16.114337157054226
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sh600198",
+      "name": "大唐电信",
+      "buy_date": "2026-08-17",
+      "buy_price": 7.96,
+      "shares": 12500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.5306122448979664,
+      "intraday_pct": 1.7587939698492372,
+      "old_d1_pct": 3.316326530612246,
+      "exec_t2_gross_pct": -3.015075376884424,
+      "gap_log": 0.015190165493975238,
+      "intraday_log": 0.017435061822101347,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 7.72,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -3.1139742862835567
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 7.42,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -6.878975285521243
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz002774",
+      "name": "快意电梯",
+      "buy_date": "2026-08-17",
+      "buy_price": 17.22,
+      "shares": 5800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.8803418803418959,
+      "intraday_pct": -0.696864111498241,
+      "old_d1_pct": -2.564102564102555,
+      "exec_t2_gross_pct": -1.3937282229965042,
+      "gap_log": -0.018982450912290234,
+      "intraday_log": -0.0069930354909704135,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 16.98,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -1.4942848474359414
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 16.11,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -6.54139252709431
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sh603382",
+      "name": "海阳科技",
+      "buy_date": "2026-08-17",
+      "buy_price": 20.53,
+      "shares": 4800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.9579751671442214,
+      "intraday_pct": 0.8767657087189518,
+      "old_d1_pct": -1.0983763132760282,
+      "exec_t2_gross_pct": 6.088650754992697,
+      "gap_log": -0.01977397441154859,
+      "intraday_log": 0.008729444376650627,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 21.78,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 5.9804734968035795
+      },
+      "D3D5": {
+        "date": "2026-08-24",
+        "price": 19.82,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -3.5567956942514343
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz002651",
+      "name": "利君股份",
+      "buy_date": "2026-08-17",
+      "buy_price": 8.64,
+      "shares": 11500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.979737783075098,
+      "intraday_pct": 6.828703703703698,
+      "old_d1_pct": 10.011918951132293,
+      "exec_t2_gross_pct": 1.967592592592582,
+      "gap_log": 0.02936206233684953,
+      "intraday_log": 0.06605646569879649,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 8.81,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 1.8636157689682724
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 7.74,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -10.508017088552764
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sh601609",
+      "name": "金田股份",
+      "buy_date": "2026-08-17",
+      "buy_price": 11.29,
+      "shares": 8800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 3.1050228310502304,
+      "intraday_pct": 3.720106288751124,
+      "old_d1_pct": 6.940639269406401,
+      "exec_t2_gross_pct": 5.845881310894607,
+      "gap_log": 0.03057792189906084,
+      "intraday_log": 0.036525799448055486,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 11.95,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 5.737949802284891
+      },
+      "D3D5": {
+        "date": "2026-08-31",
+        "price": 13.49,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 19.364429672090864
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz000831",
+      "name": "中国稀土",
+      "buy_date": "2026-08-17",
+      "buy_price": 60.03,
+      "shares": 1600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.5094339622641506,
+      "intraday_pct": 4.597701149425282,
+      "old_d1_pct": 3.018867924528301,
+      "exec_t2_gross_pct": 4.097951024487756,
+      "gap_log": -0.015209418663528795,
+      "intraday_log": 0.04495138786226627,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 62.49,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 3.991799150166795
+      },
+      "D3D5": {
+        "date": "2026-08-21",
+        "price": 55.29,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -7.98996845834994
+      }
+    },
+    {
+      "signal_date": "2026-08-14",
+      "code": "sz301130",
+      "name": "西点药业",
+      "buy_date": "2026-08-17",
+      "buy_price": 30.79,
+      "shares": 3200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.1944894651539797,
+      "intraday_pct": -1.818772328678142,
+      "old_d1_pct": -2.0097244732577013,
+      "exec_t2_gross_pct": -9.64598895745371,
+      "gap_log": -0.0019467884149879041,
+      "intraday_log": -0.01835515314504232,
+      "D1": {
+        "date": "2026-08-18",
+        "price": 27.82,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -9.738130370046276
+      },
+      "D3D5": {
+        "date": "2026-08-24",
+        "price": 33.98,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 10.247964509066218
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh600613",
+      "name": "神奇制药",
+      "buy_date": "2026-08-19",
+      "buy_price": 8.19,
+      "shares": 12200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 5.541237113402064,
+      "intraday_pct": -5.006105006104999,
+      "old_d1_pct": 0.2577319587628857,
+      "exec_t2_gross_pct": 4.517704517704524,
+      "gap_log": 0.0539315636698507,
+      "intraday_log": -0.05135755967467775,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 8.56,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 4.411121110045848
+      },
+      "D3D5": {
+        "date": "2026-09-03",
+        "price": 9.09,
+        "session": "close",
+        "delayed": true,
+        "net_pct": 10.875832641445738
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz002515",
+      "name": "金字火腿",
+      "buy_date": "2026-08-19",
+      "buy_price": 8.19,
+      "shares": 12200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -5.9701492537313605,
+      "intraday_pct": -1.2210012210012167,
+      "old_d1_pct": -7.118254879448916,
+      "exec_t2_gross_pct": -1.3431013431013383,
+      "gap_log": -0.06155789299943355,
+      "intraday_log": -0.01228516679457769,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 8.08,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -1.4437087656505176
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 7.81,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.737043691876189
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz002284",
+      "name": "亚太股份",
+      "buy_date": "2026-08-19",
+      "buy_price": 10.29,
+      "shares": 9700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.6849315068492956,
+      "intraday_pct": -5.3449951409135,
+      "old_d1_pct": -4.6966731898238745,
+      "exec_t2_gross_pct": -7.191448007774525,
+      "gap_log": 0.006825965070399669,
+      "intraday_log": -0.05493143219151442,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 9.55,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -7.28608423866636
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 9.29,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -9.810239390538463
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh603936",
+      "name": "博敏电子",
+      "buy_date": "2026-08-19",
+      "buy_price": 18.57,
+      "shares": 5300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.8765690376569064,
+      "intraday_pct": -3.5541195476575083,
+      "old_d1_pct": -6.3284518828451874,
+      "exec_t2_gross_pct": -5.546580506192789,
+      "gap_log": -0.02918753225864083,
+      "intraday_log": -0.036188159291993975,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 17.54,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.642897331436264
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 16.57,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -10.861046583736421
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz002743",
+      "name": "富煌钢构",
+      "buy_date": "2026-08-19",
+      "buy_price": 4.33,
+      "shares": 23000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.1319910514541305,
+      "intraday_pct": -7.159353348729802,
+      "old_d1_pct": -10.06711409395974,
+      "exec_t2_gross_pct": 2.0785219399538146,
+      "gap_log": -0.0318208666110789,
+      "intraday_log": -0.0742856393834689,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 4.42,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 1.9744339984313748
+      },
+      "D3D5": {
+        "date": "2026-09-02",
+        "price": 5.09,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 17.43209843329212
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh603708",
+      "name": "家家悦",
+      "buy_date": "2026-08-19",
+      "buy_price": 9.89,
+      "shares": 10100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.700097370983435,
+      "intraday_pct": -5.561172901921141,
+      "old_d1_pct": -9.055501460564752,
+      "exec_t2_gross_pct": -6.774519716885741,
+      "gap_log": -0.03770287830584599,
+      "intraday_log": -0.05721789339386958,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 9.22,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.869581204898526
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 9.05,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -8.586741306132604
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz300684",
+      "name": "中石科技",
+      "buy_date": "2026-08-19",
+      "buy_price": 90.19,
+      "shares": 1100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -7.020618556701031,
+      "intraday_pct": -3.9915733451602153,
+      "old_d1_pct": -10.731958762886595,
+      "exec_t2_gross_pct": 0.5322097793547087,
+      "gap_log": -0.07279242232576602,
+      "intraday_log": -0.04073422071790694,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 90.67,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.4296980927757292
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 82.02,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -9.151387330995512
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz301106",
+      "name": "骏成科技",
+      "buy_date": "2026-08-19",
+      "buy_price": 22.58,
+      "shares": 4400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 6.6100094428706235,
+      "intraday_pct": 12.57750221434899,
+      "old_d1_pct": 20.018885741265358,
+      "exec_t2_gross_pct": -0.1771479185119551,
+      "gap_log": 0.06400721854825547,
+      "intraday_log": 0.11847170703979211,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 22.54,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -0.27893545270608694
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 20.11,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -11.029703506305166
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh603071",
+      "name": "物产环能",
+      "buy_date": "2026-08-19",
+      "buy_price": 13.15,
+      "shares": 7600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.37878787878786735,
+      "intraday_pct": -5.399239543726242,
+      "old_d1_pct": -5.757575757575761,
+      "exec_t2_gross_pct": -5.627376425855513,
+      "gap_log": -0.003795070968551498,
+      "intraday_log": -0.055504671312740235,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 12.41,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.723607171159629
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 12.48,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -5.191826259293412
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sz002124",
+      "name": "天邦食品",
+      "buy_date": "2026-08-19",
+      "buy_price": 2.49,
+      "shares": 40100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.39999999999998925,
+      "intraday_pct": -6.425702811244982,
+      "old_d1_pct": -6.799999999999995,
+      "exec_t2_gross_pct": -6.024096385542177,
+      "gap_log": -0.004008021397538711,
+      "intraday_log": -0.06641444289900707,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 2.34,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.119922350907588
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 2.21,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -11.335483889054885
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh600707",
+      "name": "彩虹股份",
+      "buy_date": "2026-08-19",
+      "buy_price": 10.35,
+      "shares": 9600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -4.166666666666674,
+      "intraday_pct": 0.0,
+      "old_d1_pct": -4.166666666666674,
+      "exec_t2_gross_pct": -5.410628019323671,
+      "gap_log": -0.04255961441879601,
+      "intraday_log": 0.0,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 9.79,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.507082850744432
+      },
+      "D3D5": {
+        "date": "2026-08-25",
+        "price": 9.08,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -12.359991358929134
+      }
+    },
+    {
+      "signal_date": "2026-08-18",
+      "code": "sh600227",
+      "name": "赤天化",
+      "buy_date": "2026-08-19",
+      "buy_price": 3.7,
+      "shares": 27000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.3333333333333308,
+      "intraday_pct": 0.540540540540535,
+      "old_d1_pct": -0.7999999999999896,
+      "exec_t2_gross_pct": 1.0810810810810922,
+      "gap_log": -0.013423020332140661,
+      "intraday_log": 0.005390848634876373,
+      "D1": {
+        "date": "2026-08-20",
+        "price": 3.74,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.9780140237818057
+      },
+      "D3D5": {
+        "date": "2026-09-02",
+        "price": 4.91,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 32.567389638549415
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002038",
+      "name": "双鹭药业",
+      "buy_date": "2026-08-24",
+      "buy_price": 6.93,
+      "shares": 14400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.1186440677966156,
+      "intraday_pct": -8.080808080808078,
+      "old_d1_pct": -10.028248587570621,
+      "exec_t2_gross_pct": -8.080808080808078,
+      "gap_log": -0.021414094503816584,
+      "intraday_log": -0.08426034361773985,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 6.37,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -8.174541753261813
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 6.43,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -7.309627176274408
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002209",
+      "name": "达 意 隆",
+      "buy_date": "2026-08-24",
+      "buy_price": 12.91,
+      "shares": 7700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.8996960486322156,
+      "intraday_pct": -0.07745933384972759,
+      "old_d1_pct": -1.9756838905775065,
+      "exec_t2_gross_pct": 4.570100697133994,
+      "gap_log": -0.01917972103861998,
+      "intraday_log": -0.0007748934909246878,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 13.5,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 4.463464539133696
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 13.08,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 1.2134923217025357
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh688356",
+      "name": "键凯科技",
+      "buy_date": "2026-08-24",
+      "buy_price": 116.32,
+      "shares": 800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 8.365940003726458,
+      "intraday_pct": 6.602475928473184,
+      "old_d1_pct": 15.52077510713621,
+      "exec_t2_gross_pct": 14.692228335625867,
+      "gap_log": 0.08034364703652627,
+      "intraday_log": 0.06393655181982769,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 133.41,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 14.575281808083975
+      },
+      "D3D5": {
+        "date": "2026-08-31",
+        "price": 100.0,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -14.11792348081799
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002686",
+      "name": "亿利达",
+      "buy_date": "2026-08-24",
+      "buy_price": 6.59,
+      "shares": 15100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.9345238095238027,
+      "intraday_pct": -5.918057663125942,
+      "old_d1_pct": -7.738095238095233,
+      "exec_t2_gross_pct": 3.490136570561453,
+      "gap_log": -0.019534806020642254,
+      "intraday_log": -0.06100405646336991,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 6.82,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 3.3846028030176765
+      },
+      "D3D5": {
+        "date": "2026-08-31",
+        "price": 6.7,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 1.5655217111350022
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002971",
+      "name": "和远气体",
+      "buy_date": "2026-08-24",
+      "buy_price": 45.51,
+      "shares": 2100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.360008581849393,
+      "intraday_pct": -3.6695231817182927,
+      "old_d1_pct": -5.942930701566174,
+      "exec_t2_gross_pct": -5.910788837618098,
+      "gap_log": -0.023883028356099054,
+      "intraday_log": -0.03738543938879036,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 42.82,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.006735648043298
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 43.58,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.338472852116488
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603095",
+      "name": "越剑智能",
+      "buy_date": "2026-08-24",
+      "buy_price": 14.7,
+      "shares": 6800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.669724770642202,
+      "intraday_pct": 1.4285714285714235,
+      "old_d1_pct": -2.2935779816513735,
+      "exec_t2_gross_pct": 11.564625850340127,
+      "gap_log": -0.03738753207162033,
+      "intraday_log": 0.014184634991956381,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 16.4,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 11.450854264682468
+      },
+      "D3D5": {
+        "date": "2026-09-04",
+        "price": 15.46,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 5.062819300984067
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh600460",
+      "name": "士兰微",
+      "buy_date": "2026-08-24",
+      "buy_price": 36.25,
+      "shares": 2700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.0030649205907016,
+      "intraday_pct": -1.903448275862063,
+      "old_d1_pct": -0.9194761772081339,
+      "exec_t2_gross_pct": -5.324137931034478,
+      "gap_log": 0.009980676141167962,
+      "intraday_log": -0.019217970654979894,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 34.32,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.420679884515342
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 34.3,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -5.475797097970454
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603079",
+      "name": "圣达生物",
+      "buy_date": "2026-08-24",
+      "buy_price": 13.76,
+      "shares": 7200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.924447612259439,
+      "intraday_pct": -8.21220930232558,
+      "old_d1_pct": -9.978617248752663,
+      "exec_t2_gross_pct": 0.9447674418604723,
+      "gap_log": -0.019432061609171918,
+      "intraday_log": -0.08569089614279785,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 13.89,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.8418252844463893
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 13.5,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.9895807937535623
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603318",
+      "name": "水发燃气",
+      "buy_date": "2026-08-24",
+      "buy_price": 9.35,
+      "shares": 10600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.991614255765195,
+      "intraday_pct": -0.42780748663100443,
+      "old_d1_pct": -2.410901467505222,
+      "exec_t2_gross_pct": 9.51871657754011,
+      "gap_log": -0.020117142159599484,
+      "intraday_log": -0.004287252011619812,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 10.24,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 9.407038448382457
+      },
+      "D3D5": {
+        "date": "2026-09-04",
+        "price": 9.11,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -2.6662021185693114
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603052",
+      "name": "可川科技",
+      "buy_date": "2026-08-24",
+      "buy_price": 61.46,
+      "shares": 1600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -7.549625772860402,
+      "old_d1_pct": -7.549625772860402,
+      "exec_t2_gross_pct": -7.484542792059878,
+      "gap_log": 0.0,
+      "intraday_log": -0.07849818027629678,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 56.86,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -7.578884720933185
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 58.88,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.29554957286672
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002536",
+      "name": "飞龙股份",
+      "buy_date": "2026-08-24",
+      "buy_price": 50.73,
+      "shares": 1900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 8.005109644453912,
+      "intraday_pct": -3.8044549576187636,
+      "old_d1_pct": 3.8961038961038863,
+      "exec_t2_gross_pct": 1.6361127537946052,
+      "gap_log": 0.07700835153969493,
+      "intraday_log": -0.038787138719497107,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 51.56,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 1.5324742568512695
+      },
+      "D3D5": {
+        "date": "2026-09-02",
+        "price": 51.51,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 1.4340114711790206
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603803",
+      "name": "瑞斯康达",
+      "buy_date": "2026-08-24",
+      "buy_price": 11.9,
+      "shares": 8400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 5.123674911660769,
+      "intraday_pct": -6.470588235294117,
+      "old_d1_pct": -1.6784452296819796,
+      "exec_t2_gross_pct": -5.462184873949583,
+      "gap_log": 0.04996732734244675,
+      "intraday_log": -0.06689423483003024,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 11.25,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.558588758285036
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 11.09,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -6.901756936146754
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002396",
+      "name": "星网锐捷",
+      "buy_date": "2026-08-24",
+      "buy_price": 33.58,
+      "shares": 2900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.2360566777208204,
+      "intraday_pct": -4.466944609886836,
+      "old_d1_pct": -3.286101899306615,
+      "exec_t2_gross_pct": -8.159618820726621,
+      "gap_log": 0.012284798690433595,
+      "intraday_log": -0.045697868651081,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 30.84,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -8.253270904075793
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 33.8,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 0.5525046782931564
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz003018",
+      "name": "金富科技",
+      "buy_date": "2026-08-24",
+      "buy_price": 43.1,
+      "shares": 2300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.18596001859598754,
+      "intraday_pct": -3.0162412993039567,
+      "old_d1_pct": -2.8358902835890376,
+      "exec_t2_gross_pct": 6.682134570765652,
+      "gap_log": 0.0018578732701179698,
+      "intraday_log": -0.030626657578991603,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 45.98,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 6.573354228402441
+      },
+      "D3D5": {
+        "date": "2026-09-07",
+        "price": 55.01,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 27.50326077847008
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz002017",
+      "name": "东信和平",
+      "buy_date": "2026-08-24",
+      "buy_price": 15.24,
+      "shares": 6500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 4.8864418444597435,
+      "intraday_pct": 4.855643044619429,
+      "old_d1_pct": 9.979353062629048,
+      "exec_t2_gross_pct": 11.220472440944885,
+      "gap_log": 0.04770807267630873,
+      "intraday_log": 0.04741439007962845,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 16.95,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 11.10705514092035
+      },
+      "D3D5": {
+        "date": "2026-09-01",
+        "price": 15.88,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 4.093211779371728
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603065",
+      "name": "宿迁联盛",
+      "buy_date": "2026-08-24",
+      "buy_price": 17.68,
+      "shares": 5600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.0196191575303057,
+      "intraday_pct": 6.391402714932126,
+      "old_d1_pct": 8.540103866128113,
+      "exec_t2_gross_pct": 0.7918552036199067,
+      "gap_log": 0.019994953481982776,
+      "intraday_log": 0.061954586103441636,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 17.82,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.6890782878643177
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 17.33,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -2.079594287764972
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sh603045",
+      "name": "福达合金",
+      "buy_date": "2026-08-24",
+      "buy_price": 58.5,
+      "shares": 1700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.2012578616352085,
+      "intraday_pct": -3.709401709401716,
+      "old_d1_pct": -1.589797344514332,
+      "exec_t2_gross_pct": -6.803418803418793,
+      "gap_log": 0.021773799549560536,
+      "intraday_log": -0.03779950133118828,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 54.52,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.898457575536416
+      },
+      "D3D5": {
+        "date": "2026-08-28",
+        "price": 56.53,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -3.4660670438033914
+      }
+    },
+    {
+      "signal_date": "2026-08-21",
+      "code": "sz300839",
+      "name": "博汇股份",
+      "buy_date": "2026-08-24",
+      "buy_price": 12.0,
+      "shares": 8300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.7690457097032892,
+      "intraday_pct": 17.666666666666654,
+      "old_d1_pct": 13.23175621491579,
+      "exec_t2_gross_pct": 8.083333333333332,
+      "gap_log": -0.03841910990394479,
+      "intraday_log": 0.1626855822770956,
+      "D1": {
+        "date": "2026-08-25",
+        "price": 12.97,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 7.973117432314288
+      },
+      "D3D5": {
+        "date": "2026-09-03",
+        "price": 12.68,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 5.558905866847877
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002084",
+      "name": "海鸥住工",
+      "buy_date": "2026-09-02",
+      "buy_price": 7.08,
+      "shares": 14100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.8547008547008517,
+      "intraday_pct": 0.5649717514124353,
+      "old_d1_pct": 1.4245014245014342,
+      "exec_t2_gross_pct": -2.401129943502822,
+      "gap_log": 0.00851068966790861,
+      "intraday_log": 0.005633817718256064,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 6.91,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.5006619667362213
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 6.8,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.052748634105248
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz300413",
+      "name": "芒果超媒",
+      "buy_date": "2026-09-02",
+      "buy_price": 21.5,
+      "shares": 4600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 5.495583905789991,
+      "intraday_pct": -4.55813953488372,
+      "old_d1_pct": 0.6869479882237517,
+      "exec_t2_gross_pct": -6.27906976744187,
+      "gap_log": 0.05349890733903837,
+      "intraday_log": -0.046652914831048324,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 20.15,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.374632034483249
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 20.1,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -6.606957887893854
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002855",
+      "name": "捷荣技术",
+      "buy_date": "2026-09-02",
+      "buy_price": 17.01,
+      "shares": 5800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.9525691699604737,
+      "intraday_pct": 11.75778953556732,
+      "old_d1_pct": 7.340485601355162,
+      "exec_t2_gross_pct": 0.5878894767783471,
+      "gap_log": -0.040328045386971774,
+      "intraday_log": 0.11116375009256746,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 17.95,
+        "session": "close",
+        "delayed": true,
+        "net_pct": 5.418557177404752
+      },
+      "D3D5": {
+        "date": "2026-09-10",
+        "price": 15.58,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -8.500222681264843
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002295",
+      "name": "精艺股份",
+      "buy_date": "2026-09-02",
+      "buy_price": 10.16,
+      "shares": 9800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -4.331450094161948,
+      "intraday_pct": -1.67322834645669,
+      "old_d1_pct": -5.932203389830503,
+      "exec_t2_gross_pct": -3.740157480314965,
+      "gap_log": -0.044280573663456835,
+      "intraday_log": -0.016873849489873652,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 9.78,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -3.838317792386661
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 10.22,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 0.4879717018784988
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sh603533",
+      "name": "掌阅科技",
+      "buy_date": "2026-09-02",
+      "buy_price": 24.85,
+      "shares": 4000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -2.8169014084507116,
+      "old_d1_pct": -2.8169014084507116,
+      "exec_t2_gross_pct": -6.277665995975868,
+      "gap_log": 0.0,
+      "intraday_log": -0.028573372444056114,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 23.29,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.373232552020683
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 24.53,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.3883815314006902
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sh605577",
+      "name": "龙版传媒",
+      "buy_date": "2026-09-02",
+      "buy_price": 11.85,
+      "shares": 8400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.4554794520547976,
+      "intraday_pct": 8.438818565400851,
+      "old_d1_pct": 10.017123287671236,
+      "exec_t2_gross_pct": 19.324894514767934,
+      "gap_log": 0.014449890181059223,
+      "intraday_log": 0.08101594376008868,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 14.14,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 19.203214996944734
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sh600551",
+      "name": "时代出版",
+      "buy_date": "2026-09-02",
+      "buy_price": 9.0,
+      "shares": 11100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.8810572687224627,
+      "intraday_pct": -4.222222222222227,
+      "old_d1_pct": -5.066079295154191,
+      "exec_t2_gross_pct": -11.555555555555552,
+      "gap_log": -0.0088496152769825,
+      "intraday_log": -0.04313949266061771,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 7.96,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -11.645741342315716
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 8.2,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -8.981799225966999
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002425",
+      "name": "凯撒文化",
+      "buy_date": "2026-09-02",
+      "buy_price": 3.5,
+      "shares": 28500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.777777777777779,
+      "intraday_pct": -3.142857142857136,
+      "old_d1_pct": -5.833333333333335,
+      "exec_t2_gross_pct": -4.571428571428571,
+      "gap_log": -0.028170876966696335,
+      "intraday_log": -0.03193304710300903,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 3.34,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.668731226058229
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 3.44,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.8145057630632961
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz000560",
+      "name": "我爱我家",
+      "buy_date": "2026-09-02",
+      "buy_price": 3.09,
+      "shares": 32300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.1347962382445194,
+      "intraday_pct": 2.912621359223322,
+      "old_d1_pct": -0.31347962382444194,
+      "exec_t2_gross_pct": -7.443365695792881,
+      "gap_log": -0.03184982588709916,
+      "intraday_log": 0.028710105882431575,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 3.15,
+        "session": "close",
+        "delayed": true,
+        "net_pct": 1.8377900282421786
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 3.35,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 8.303681299611
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002104",
+      "name": "恒宝股份",
+      "buy_date": "2026-09-02",
+      "buy_price": 12.32,
+      "shares": 8100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.32573289902280145,
+      "intraday_pct": 9.659090909090896,
+      "old_d1_pct": 10.016286644951133,
+      "exec_t2_gross_pct": 5.925324675324672,
+      "gap_log": 0.003252035386377316,
+      "intraday_log": 0.09220619386673364,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 13.05,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 5.817300395369771
+      },
+      "D3D5": {
+        "date": "2026-09-10",
+        "price": 12.6,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 2.168427622486737
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sh605365",
+      "name": "立达信",
+      "buy_date": "2026-09-02",
+      "buy_price": 15.68,
+      "shares": 6300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.12771392081736277,
+      "intraday_pct": -2.614795918367352,
+      "old_d1_pct": -2.490421455938696,
+      "exec_t2_gross_pct": -2.869897959183665,
+      "gap_log": 0.0012763243596046834,
+      "intraday_log": -0.026495895691720773,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 15.23,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.968939885242013
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 15.13,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -3.6060434564710664
+      }
+    },
+    {
+      "signal_date": "2026-09-01",
+      "code": "sz002172",
+      "name": "澳洋健康",
+      "buy_date": "2026-09-02",
+      "buy_price": 4.7,
+      "shares": 21200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.8438818565400852,
+      "intraday_pct": -4.0425531914893735,
+      "old_d1_pct": -4.852320675105492,
+      "exec_t2_gross_pct": -5.531914893617018,
+      "gap_log": -0.008474626990972232,
+      "intraday_log": -0.04126535520142604,
+      "D1": {
+        "date": "2026-09-03",
+        "price": 4.44,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.628253431890588
+      },
+      "D3D5": {
+        "date": "2026-09-08",
+        "price": 4.63,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.5898214344302881
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz000635",
+      "name": "英 力 特",
+      "buy_date": "2026-09-03",
+      "buy_price": 8.45,
+      "shares": 11800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 6.4231738035264385,
+      "intraday_pct": -12.071005917159761,
+      "old_d1_pct": -6.423173803526461,
+      "exec_t2_gross_pct": -8.994082840236672,
+      "gap_log": 0.06225316611003803,
+      "intraday_log": -0.12864058263941466,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 7.69,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -9.086876623788086
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 7.47,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -11.687775076421802
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002274",
+      "name": "华昌化工",
+      "buy_date": "2026-09-03",
+      "buy_price": 7.12,
+      "shares": 14000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -9.69101123595506,
+      "old_d1_pct": -9.69101123595506,
+      "exec_t2_gross_pct": -14.04494382022472,
+      "gap_log": 0.0,
+      "intraday_log": -0.10193318717435643,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 6.12,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -14.132601153472132
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 6.8,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.591773487471959
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh600828",
+      "name": "茂业商业",
+      "buy_date": "2026-09-03",
+      "buy_price": 4.7,
+      "shares": 21200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.2869022869022704,
+      "intraday_pct": 8.51063829787233,
+      "old_d1_pct": 6.029106029106024,
+      "exec_t2_gross_pct": 5.74468085106381,
+      "gap_log": -0.02313457540165674,
+      "intraday_log": 0.0816780310142671,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 4.97,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 5.63684212585828
+      },
+      "D3D5": {
+        "date": "2026-09-11",
+        "price": 4.72,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 0.32311950997086164
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002632",
+      "name": "道明光学",
+      "buy_date": "2026-09-03",
+      "buy_price": 9.45,
+      "shares": 10500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -4.352226720647789,
+      "intraday_pct": -2.4338624338624215,
+      "old_d1_pct": -6.68016194331984,
+      "exec_t2_gross_pct": 0.846560846560851,
+      "gap_log": -0.04449777025412523,
+      "intraday_log": -0.0246397039371488,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 9.53,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.7437219649615062
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 9.16,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -3.1676318981811593
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh603207",
+      "name": "小方制药",
+      "buy_date": "2026-09-03",
+      "buy_price": 27.0,
+      "shares": 3700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.36435218324983,
+      "intraday_pct": -3.888888888888886,
+      "old_d1_pct": -7.122405153901223,
+      "exec_t2_gross_pct": -6.592592592592594,
+      "gap_log": -0.03422248782448678,
+      "intraday_log": -0.0396652563924314,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 25.22,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.68784100869874
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 25.5,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -5.6518640749747036
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh600830",
+      "name": "香溢融通",
+      "buy_date": "2026-09-03",
+      "buy_price": 10.5,
+      "shares": 9500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 3.4482758620689724,
+      "intraday_pct": -3.23809523809524,
+      "old_d1_pct": 0.09852216748769127,
+      "exec_t2_gross_pct": -6.761904761904769,
+      "gap_log": 0.033901551675681416,
+      "intraday_log": -0.03291681501314187,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 9.79,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.856974422588709
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 9.39,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -10.662621736525033
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz000852",
+      "name": "石化机械",
+      "buy_date": "2026-09-03",
+      "buy_price": 5.71,
+      "shares": 17500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -5.775577557755773,
+      "intraday_pct": -2.276707530647981,
+      "old_d1_pct": -7.920792079207917,
+      "exec_t2_gross_pct": -2.276707530647981,
+      "gap_log": -0.05949077641330421,
+      "intraday_log": -0.02303024727469923,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 5.58,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.3763548891666697
+      },
+      "D3D5": {
+        "date": "2026-09-11",
+        "price": 6.07,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 6.196327439710946
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh601566",
+      "name": "九牧王",
+      "buy_date": "2026-09-03",
+      "buy_price": 10.35,
+      "shares": 9600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.09652509652509078,
+      "intraday_pct": 3.1884057971014457,
+      "old_d1_pct": 3.0888030888030826,
+      "exec_t2_gross_pct": 1.5458937198067568,
+      "gap_log": -0.0009657171199588627,
+      "intraday_log": 0.03138631382067066,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 10.51,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 1.4423484716080752
+      },
+      "D3D5": {
+        "date": "2026-09-10",
+        "price": 10.7,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 3.276221570016571
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002999",
+      "name": "天禾股份",
+      "buy_date": "2026-09-03",
+      "buy_price": 6.94,
+      "shares": 14400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -5.320600272851294,
+      "intraday_pct": -4.899135446685888,
+      "old_d1_pct": -9.959072305593452,
+      "exec_t2_gross_pct": -5.331412103746402,
+      "gap_log": -0.05467374137984698,
+      "intraday_log": -0.05023212548633336,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 6.57,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -5.427943704196336
+      },
+      "D3D5": {
+        "date": "2026-09-11",
+        "price": 7.03,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 1.1935337815437428
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh600967",
+      "name": "内蒙一机",
+      "buy_date": "2026-09-03",
+      "buy_price": 14.6,
+      "shares": 6800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 8.87397464578672,
+      "intraday_pct": -7.12328767123287,
+      "old_d1_pct": 1.118568232662187,
+      "exec_t2_gross_pct": -6.438356164383563,
+      "gap_log": 0.08502083142070353,
+      "intraday_log": -0.07389724620204116,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 13.66,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.533756685535318
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 13.55,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -7.28642161017568
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh601606",
+      "name": "长城军工",
+      "buy_date": "2026-09-03",
+      "buy_price": 36.26,
+      "shares": 2700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.9830693610049179,
+      "intraday_pct": -4.3298400441257545,
+      "old_d1_pct": -5.270344074276356,
+      "exec_t2_gross_pct": -3.998896856039702,
+      "gap_log": -0.009879333919659682,
+      "intraday_log": -0.04426374434504662,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 34.81,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.096787979264241
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 34.51,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -4.923297808734936
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh605577",
+      "name": "龙版传媒",
+      "buy_date": "2026-09-03",
+      "buy_price": 12.98,
+      "shares": 7700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.0116731517509692,
+      "intraday_pct": 8.93682588597844,
+      "old_d1_pct": 10.038910505836585,
+      "exec_t2_gross_pct": 19.79969183359014,
+      "gap_log": 0.010065899934715095,
+      "intraday_log": 0.08559794919248286,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 15.55,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 19.677521673820834
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh600869",
+      "name": "远东股份",
+      "buy_date": "2026-09-03",
+      "buy_price": 19.64,
+      "shares": 5000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.7179487179487243,
+      "intraday_pct": 7.179226069246436,
+      "old_d1_pct": 7.948717948717943,
+      "exec_t2_gross_pct": 7.942973523421593,
+      "gap_log": 0.007153837356618774,
+      "intraday_log": 0.06933225720207059,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 21.2,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 7.832902505081927
+      },
+      "D3D5": {
+        "date": "2026-09-17",
+        "price": 21.3,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 8.341548271615332
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh605006",
+      "name": "山东玻纤",
+      "buy_date": "2026-09-03",
+      "buy_price": 16.05,
+      "shares": 6200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.5639097744360999,
+      "intraday_pct": -2.8037383177570208,
+      "old_d1_pct": -2.2556390977443663,
+      "exec_t2_gross_pct": -8.598130841121499,
+      "gap_log": 0.0056232575543622605,
+      "intraday_log": -0.028437935320533625,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 14.67,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -8.691339112221556
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 15.54,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -3.2762962738960337
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sh600903",
+      "name": "贵州燃气",
+      "buy_date": "2026-09-03",
+      "buy_price": 7.0,
+      "shares": 14200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.990099009900991,
+      "intraday_pct": -3.7142857142857144,
+      "old_d1_pct": -4.667609618104674,
+      "exec_t2_gross_pct": -3.57142857142857,
+      "gap_log": -0.009950330853168092,
+      "intraday_log": -0.03785022413109764,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 6.75,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -3.6697602957138713
+      },
+      "D3D5": {
+        "date": "2026-09-14",
+        "price": 7.22,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 3.0376811500913643
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002201",
+      "name": "九鼎新材",
+      "buy_date": "2026-09-03",
+      "buy_price": 9.46,
+      "shares": 10500,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.6030368763557465,
+      "intraday_pct": 4.545454545454541,
+      "old_d1_pct": 7.266811279826468,
+      "exec_t2_gross_pct": -2.008456659619462,
+      "gap_log": 0.02569734549528443,
+      "intraday_log": 0.044451762570833796,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 9.27,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.1083815615047596
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 9.27,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -2.1083815615047596
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002300",
+      "name": "太阳电缆",
+      "buy_date": "2026-09-03",
+      "buy_price": 7.83,
+      "shares": 12700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.6212319790301475,
+      "intraday_pct": 7.15197956577267,
+      "old_d1_pct": 9.960681520314552,
+      "exec_t2_gross_pct": 2.5542784163473664,
+      "gap_log": 0.02587466470634613,
+      "intraday_log": 0.06907801047640309,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 8.03,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 2.4497005786349777
+      },
+      "D3D5": {
+        "date": "2026-09-11",
+        "price": 8.07,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 2.960041461049586
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002893",
+      "name": "京能热力",
+      "buy_date": "2026-09-03",
+      "buy_price": 10.89,
+      "shares": 9100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.506714413607869,
+      "intraday_pct": -2.5711662075298514,
+      "old_d1_pct": -5.01342882721576,
+      "exec_t2_gross_pct": -2.754820936639124,
+      "gap_log": -0.02538667613624014,
+      "intraday_log": -0.026047984318977414,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 10.59,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.853988967641489
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 10.7,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.8449172694171192
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002639",
+      "name": "雪人集团",
+      "buy_date": "2026-09-03",
+      "buy_price": 13.49,
+      "shares": 7400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.6578749058025588,
+      "intraday_pct": 4.299481097108959,
+      "old_d1_pct": 6.028636021100242,
+      "exec_t2_gross_pct": 6.152705707931805,
+      "gap_log": 0.01644282187554834,
+      "intraday_log": 0.042096200906633074,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 14.32,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 6.044458821284913
+      },
+      "D3D5": {
+        "date": "2026-09-11",
+        "price": 13.33,
+        "session": "open",
+        "delayed": false,
+        "net_pct": -1.28682514462662
+      }
+    },
+    {
+      "signal_date": "2026-09-02",
+      "code": "sz002536",
+      "name": "飞龙股份",
+      "buy_date": "2026-09-03",
+      "buy_price": 58.0,
+      "shares": 1700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.12054417082830726,
+      "intraday_pct": 8.67241379310344,
+      "old_d1_pct": 8.541415532977448,
+      "exec_t2_gross_pct": 0.44827586206896974,
+      "gap_log": -0.001206168837539132,
+      "intraday_log": 0.08316779297859932,
+      "D1": {
+        "date": "2026-09-04",
+        "price": 58.26,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 0.34584312963647185
+      },
+      "D3D5": {
+        "date": "2026-09-09",
+        "price": 58.1,
+        "session": "open",
+        "delayed": false,
+        "net_pct": 0.07025556437453791
+      }
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sz000756",
+      "name": "新华制药",
+      "buy_date": "2026-09-23",
+      "buy_price": 15.74,
+      "shares": 6300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -2.478314745972743,
+      "intraday_pct": -7.687420584498095,
+      "old_d1_pct": -9.975216852540282,
+      "exec_t2_gross_pct": -11.562897077509525,
+      "gap_log": -0.025095419852545615,
+      "intraday_log": -0.07998976540706564,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 13.92,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -11.653078635291566
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sh605218",
+      "name": "伟时电子",
+      "buy_date": "2026-09-23",
+      "buy_price": 15.46,
+      "shares": 6400,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.0112923462986108,
+      "intraday_pct": -3.6222509702457995,
+      "old_d1_pct": -6.524466750313673,
+      "exec_t2_gross_pct": -6.1448900388098355,
+      "gap_log": -0.030575630202792983,
+      "intraday_log": -0.03689483020786249,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 14.51,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -6.240605081978097
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sz000676",
+      "name": "智度股份",
+      "buy_date": "2026-09-23",
+      "buy_price": 7.75,
+      "shares": 12900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 4.026845637583887,
+      "intraday_pct": -6.451612903225811,
+      "old_d1_pct": -2.684563758389269,
+      "exec_t2_gross_pct": -12.25806451612903,
+      "gap_log": 0.03947881097378742,
+      "intraday_log": -0.06669137449867228,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 6.8,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -12.34753775937618
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sz001266",
+      "name": "宏英智能",
+      "buy_date": "2026-09-23",
+      "buy_price": 37.35,
+      "shares": 2600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.059602649006619,
+      "intraday_pct": 0.7228915662650603,
+      "old_d1_pct": -0.34437086092715674,
+      "exec_t2_gross_pct": -4.685408299866134,
+      "gap_log": -0.010652564116207361,
+      "intraday_log": 0.007202912294058016,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 35.6,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.782609814665634
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sz002178",
+      "name": "延华智能",
+      "buy_date": "2026-09-23",
+      "buy_price": 5.21,
+      "shares": 19100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -6.797853309481217,
+      "intraday_pct": -2.111324376199619,
+      "old_d1_pct": -8.765652951699465,
+      "exec_t2_gross_pct": -2.6871401151631447,
+      "gap_log": -0.07039943140173224,
+      "intraday_log": -0.021339316034995493,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 5.07,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -2.786374536390385
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-22",
+      "code": "sz001268",
+      "name": "联合精密",
+      "buy_date": "2026-09-23",
+      "buy_price": 27.0,
+      "shares": 3700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.6183665788483292,
+      "intraday_pct": 0.6296296296296466,
+      "old_d1_pct": 2.2581859239744206,
+      "exec_t2_gross_pct": -3.7407407407407445,
+      "gap_log": 0.016054106232606977,
+      "intraday_log": 0.006276557433927467,
+      "D1": {
+        "date": "2026-09-24",
+        "price": 25.99,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -3.8388919316970354
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh603636",
+      "name": "南威软件",
+      "buy_date": "2026-09-24",
+      "buy_price": 8.21,
+      "shares": 12100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -6.81044267877412,
+      "intraday_pct": -3.2886723507917215,
+      "old_d1_pct": -9.875141884222472,
+      "exec_t2_gross_pct": -12.911084043848975,
+      "gap_log": -0.07053451648375128,
+      "intraday_log": -0.03343964820529254,
+      "D1": {
+        "date": "2026-09-29",
+        "price": 7.87,
+        "session": "close",
+        "delayed": true,
+        "net_pct": -4.239040331668036
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600743",
+      "name": "华远控股",
+      "buy_date": "2026-09-24",
+      "buy_price": 2.88,
+      "shares": 34700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 2.127659574468077,
+      "intraday_pct": -11.111111111111105,
+      "old_d1_pct": -9.21985815602836,
+      "exec_t2_gross_pct": -20.138888888888896,
+      "gap_log": 0.021053409197832263,
+      "intraday_log": -0.11778303565638339,
+      "D1": {
+        "date": "2026-09-29",
+        "price": 2.4,
+        "session": "close",
+        "delayed": true,
+        "net_pct": -16.751638973137588
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600843",
+      "name": "上工申贝",
+      "buy_date": "2026-09-24",
+      "buy_price": 7.2,
+      "shares": 13800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -5.387647831800269,
+      "intraday_pct": 16.249999999999986,
+      "old_d1_pct": 9.98685939553219,
+      "exec_t2_gross_pct": 8.888888888888879,
+      "gap_log": -0.0553821458515849,
+      "intraday_log": 0.1505728584793742,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 7.84,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 8.777850927038592
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sz002614",
+      "name": "奥佳华",
+      "buy_date": "2026-09-24",
+      "buy_price": 7.5,
+      "shares": 13300,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.9247027741083214,
+      "intraday_pct": 11.06666666666667,
+      "old_d1_pct": 10.039630118890353,
+      "exec_t2_gross_pct": 13.33333333333333,
+      "gap_log": -0.009290046907092642,
+      "intraday_log": 0.10496043563648659,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 8.5,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 13.217767050630346
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh603773",
+      "name": "沃格光电",
+      "buy_date": "2026-09-24",
+      "buy_price": 103.01,
+      "shares": 900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.49756097560975654,
+      "intraday_pct": -5.154839335986794,
+      "old_d1_pct": -4.682926829268286,
+      "exec_t2_gross_pct": -2.9317541986215057,
+      "gap_log": 0.0049632723171391625,
+      "intraday_log": -0.05292451184686493,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 99.99,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -3.0307301276458998
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sz002426",
+      "name": "胜利精密",
+      "buy_date": "2026-09-24",
+      "buy_price": 2.95,
+      "shares": 33800,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.33783783783782884,
+      "intraday_pct": -5.084745762711873,
+      "old_d1_pct": -5.405405405405405,
+      "exec_t2_gross_pct": -9.49152542372882,
+      "gap_log": -0.003384097984240457,
+      "intraday_log": -0.05218575317057031,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 2.67,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -9.583818949080733
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600503",
+      "name": "华丽家族",
+      "buy_date": "2026-09-24",
+      "buy_price": 2.7,
+      "shares": 37000,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -8.163265306122437,
+      "intraday_pct": -1.85185185185186,
+      "old_d1_pct": -9.863945578231291,
+      "exec_t2_gross_pct": -9.259259259259256,
+      "gap_log": -0.08515780834030671,
+      "intraday_log": -0.018692133012152633,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 2.45,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -9.351783125047474
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600653",
+      "name": "申华控股",
+      "buy_date": "2026-09-24",
+      "buy_price": 1.81,
+      "shares": 55200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.208556149732622,
+      "intraday_pct": -2.7624309392265234,
+      "old_d1_pct": -5.882352941176472,
+      "exec_t2_gross_pct": -7.182320441988955,
+      "gap_log": -0.03261158558876089,
+      "intraday_log": -0.028013036227674006,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 1.68,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -7.276973178765471
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh688656",
+      "name": "浩欧博",
+      "buy_date": "2026-09-24",
+      "buy_price": 139.0,
+      "shares": 700,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.4463981849120788,
+      "intraday_pct": -4.928057553956833,
+      "old_d1_pct": -6.303176403857047,
+      "exec_t2_gross_pct": -0.9640287769784206,
+      "gap_log": -0.014569604958923002,
+      "intraday_log": -0.050536292080393536,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 137.66,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -1.0650262573041132
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sz002635",
+      "name": "安洁科技",
+      "buy_date": "2026-09-24",
+      "buy_price": 16.68,
+      "shares": 5900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -0.655151876116733,
+      "intraday_pct": -5.215827338129497,
+      "old_d1_pct": -5.836807623585461,
+      "exec_t2_gross_pct": -11.750599520383687,
+      "gap_log": -0.0065730741588487206,
+      "intraday_log": -0.05356774570922006,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 14.72,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -11.840588539398416
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600605",
+      "name": "汇通能源",
+      "buy_date": "2026-09-24",
+      "buy_price": 31.05,
+      "shares": 3200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.7715912685858815,
+      "intraday_pct": -2.5764895330112725,
+      "old_d1_pct": -4.302435937994309,
+      "exec_t2_gross_pct": -4.12238325281804,
+      "gap_log": -0.017874717848038495,
+      "intraday_log": -0.026102623902637307,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 29.77,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -4.220148888428058
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600230",
+      "name": "沧州大化",
+      "buy_date": "2026-09-24",
+      "buy_price": 15.0,
+      "shares": 6600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 1.2145748987854255,
+      "intraday_pct": -4.400000000000004,
+      "old_d1_pct": -3.238866396761142,
+      "exec_t2_gross_pct": -9.599999999999998,
+      "gap_log": 0.01207258123426924,
+      "intraday_log": -0.044997365930735805,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 13.56,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -9.692187102060535
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh603222",
+      "name": "济民健康",
+      "buy_date": "2026-09-24",
+      "buy_price": 8.94,
+      "shares": 11100,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.0,
+      "intraday_pct": -7.494407158836691,
+      "old_d1_pct": -7.494407158836691,
+      "exec_t2_gross_pct": -10.402684563758392,
+      "gap_log": 0.0,
+      "intraday_log": -0.07790108014982285,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 8.01,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -10.494046935415948
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sz300931",
+      "name": "通用电梯",
+      "buy_date": "2026-09-24",
+      "buy_price": 19.01,
+      "shares": 5200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -1.0411244143675114,
+      "intraday_pct": -8.153603366649131,
+      "old_d1_pct": -9.10983862571577,
+      "exec_t2_gross_pct": -10.57338243029985,
+      "gap_log": -0.01046582028012743,
+      "intraday_log": -0.08505260608888164,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 17.0,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -10.664568451733821
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh600802",
+      "name": "福建水泥",
+      "buy_date": "2026-09-24",
+      "buy_price": 5.8,
+      "shares": 17200,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": -3.6544850498338777,
+      "intraday_pct": 14.137931034482754,
+      "old_d1_pct": 9.966777408637872,
+      "exec_t2_gross_pct": 25.517241379310352,
+      "gap_log": -0.03722934176835592,
+      "intraday_log": 0.13223745239654314,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 7.28,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 25.3892482247499
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sh603937",
+      "name": "丽岛新材",
+      "buy_date": "2026-09-24",
+      "buy_price": 13.0,
+      "shares": 7600,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 0.23130300693907646,
+      "intraday_pct": 4.230769230769238,
+      "old_d1_pct": 4.471858134155737,
+      "exec_t2_gross_pct": 2.230769230769214,
+      "gap_log": 0.002310359133184085,
+      "intraday_log": 0.04143718986417324,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 13.29,
+        "session": "close",
+        "delayed": false,
+        "net_pct": 2.1265219600288146
+      },
+      "D3D5": null
+    },
+    {
+      "signal_date": "2026-09-23",
+      "code": "sz301150",
+      "name": "中一科技",
+      "buy_date": "2026-09-24",
+      "buy_price": 50.91,
+      "shares": 1900,
+      "l1_state": "震荡市",
+      "rotation": "加速轮动，仅限 buy_score≥3",
+      "gap_pct": 3.475609756097553,
+      "intraday_pct": -9.64447063445295,
+      "old_d1_pct": -6.504065040650408,
+      "exec_t2_gross_pct": -18.071105873109406,
+      "gap_log": 0.03416574441598213,
+      "intraday_log": -0.10141797142514958,
+      "D1": {
+        "date": "2026-09-28",
+        "price": 41.71,
+        "session": "close",
+        "delayed": false,
+        "net_pct": -18.154652797838647
+      },
+      "D3D5": null
+    }
+  ],
+  "portfolio_D1": [
+    {
+      "return_pct": -6.9749,
+      "max_drawdown_pct": -7.8388,
+      "open_positions": 0,
+      "slippage_bps_each_side": 0,
+      "skipped": {
+        "position_limit": 93
+      },
+      "equity": [
+        {
+          "date": "2026-08-13",
+          "cash": 801645.44,
+          "total_value": 993137.44,
+          "holdings_value": 191492.0
+        },
+        {
+          "date": "2026-08-14",
+          "cash": 988377.41,
+          "total_value": 988377.41,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-17",
+          "cash": 788647.5,
+          "total_value": 988119.5,
+          "holdings_value": 199472.0
+        },
+        {
+          "date": "2026-08-18",
+          "cash": 970819.94,
+          "total_value": 970819.94,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-19",
+          "cash": 770931.98,
+          "total_value": 964545.98,
+          "holdings_value": 193614.0
+        },
+        {
+          "date": "2026-08-20",
+          "cash": 973785.69,
+          "total_value": 973785.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-21",
+          "cash": 973785.69,
+          "total_value": 973785.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-24",
+          "cash": 774534.89,
+          "total_value": 965592.89,
+          "holdings_value": 191058.0
+        },
+        {
+          "date": "2026-08-25",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-26",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-27",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-28",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-31",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-01",
+          "cash": 970064.18,
+          "total_value": 970064.18,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-02",
+          "cash": 771284.51,
+          "total_value": 966068.51,
+          "holdings_value": 194784.0
+        },
+        {
+          "date": "2026-09-03",
+          "cash": 861525.1,
+          "total_value": 949199.1,
+          "holdings_value": 87674.0
+        },
+        {
+          "date": "2026-09-04",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-07",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-08",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-09",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-10",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-11",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-14",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-15",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-16",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-17",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-18",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-21",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-22",
+          "cash": 952198.14,
+          "total_value": 952198.14,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-23",
+          "cash": 754040.63,
+          "total_value": 940939.63,
+          "holdings_value": 186899.0
+        },
+        {
+          "date": "2026-09-24",
+          "cash": 835096.57,
+          "total_value": 931170.57,
+          "holdings_value": 96074.0
+        },
+        {
+          "date": "2026-09-28",
+          "cash": 835096.57,
+          "total_value": 921611.57,
+          "holdings_value": 86515.0
+        },
+        {
+          "date": "2026-09-29",
+          "cash": 930251.2,
+          "total_value": 930251.2,
+          "holdings_value": 0
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.91,
+          "fee": 25.7
+        },
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 6.63,
+          "fee": 25.86
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.78,
+          "fee": 74.31
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 5.94,
+          "fee": 67.72
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz000936",
+          "shares": 14600,
+          "price": 6.84,
+          "fee": 25.96
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz002724",
+          "shares": 14300,
+          "price": 6.98,
+          "fee": 25.95
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz000936",
+          "shares": 14600,
+          "price": 6.15,
+          "fee": 68.24
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz002724",
+          "shares": 14300,
+          "price": 6.47,
+          "fee": 70.32
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sh600613",
+          "shares": 12200,
+          "price": 8.19,
+          "fee": 25.98
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sz002515",
+          "shares": 12200,
+          "price": 8.19,
+          "fee": 25.98
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sh600613",
+          "shares": 12200,
+          "price": 8.56,
+          "fee": 79.37
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sz002515",
+          "shares": 12200,
+          "price": 8.08,
+          "fee": 74.92
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002038",
+          "shares": 14400,
+          "price": 6.93,
+          "fee": 25.95
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 12.91,
+          "fee": 25.85
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002038",
+          "shares": 14400,
+          "price": 6.37,
+          "fee": 69.71
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 13.5,
+          "fee": 79.0
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz002084",
+          "shares": 14100,
+          "price": 7.08,
+          "fee": 25.96
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 21.5,
+          "fee": 25.71
+        },
+        {
+          "date": "2026-09-03",
+          "type": "buy",
+          "code": "sz000635",
+          "shares": 11800,
+          "price": 8.45,
+          "fee": 25.92
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz002084",
+          "shares": 14100,
+          "price": 6.91,
+          "fee": 74.05
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 20.15,
+          "fee": 70.44
+        },
+        {
+          "date": "2026-09-04",
+          "type": "sell",
+          "code": "sz000635",
+          "shares": 11800,
+          "price": 7.69,
+          "fee": 68.96
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 15.74,
+          "fee": 25.78
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 15.46,
+          "fee": 25.73
+        },
+        {
+          "date": "2026-09-24",
+          "type": "buy",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 8.21,
+          "fee": 25.83
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 13.92,
+          "fee": 66.65
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 14.51,
+          "fee": 70.58
+        },
+        {
+          "date": "2026-09-29",
+          "type": "sell",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 7.87,
+          "fee": 72.37
+        }
+      ]
+    },
+    {
+      "return_pct": -7.2487,
+      "max_drawdown_pct": -8.1031,
+      "open_positions": 0,
+      "slippage_bps_each_side": 10,
+      "skipped": {
+        "position_limit": 93
+      },
+      "equity": [
+        {
+          "date": "2026-08-13",
+          "cash": 801447.09,
+          "total_value": 992939.09,
+          "holdings_value": 191492.0
+        },
+        {
+          "date": "2026-08-14",
+          "cash": 987992.33,
+          "total_value": 987992.33,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-17",
+          "cash": 788062.69,
+          "total_value": 987534.69,
+          "holdings_value": 199472.0
+        },
+        {
+          "date": "2026-08-18",
+          "cash": 970052.95,
+          "total_value": 970052.95,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-19",
+          "cash": 771605.18,
+          "total_value": 963632.18,
+          "holdings_value": 192027.0
+        },
+        {
+          "date": "2026-08-20",
+          "cash": 972594.96,
+          "total_value": 972594.96,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-21",
+          "cash": 972594.96,
+          "total_value": 972594.96,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-24",
+          "cash": 773144.92,
+          "total_value": 964202.92,
+          "holdings_value": 191058.0
+        },
+        {
+          "date": "2026-08-25",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-26",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-27",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-28",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-31",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-01",
+          "cash": 968478.69,
+          "total_value": 968478.69,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-02",
+          "cash": 769500.24,
+          "total_value": 964284.24,
+          "holdings_value": 194784.0
+        },
+        {
+          "date": "2026-09-03",
+          "cash": 859451.12,
+          "total_value": 947125.12,
+          "holdings_value": 87674.0
+        },
+        {
+          "date": "2026-09-04",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-07",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-08",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-09",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-10",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-11",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-14",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-15",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-16",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-17",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-18",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-21",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-22",
+          "cash": 950033.48,
+          "total_value": 950033.48,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-23",
+          "cash": 751677.82,
+          "total_value": 938576.82,
+          "holdings_value": 186899.0
+        },
+        {
+          "date": "2026-09-24",
+          "cash": 832453.98,
+          "total_value": 928527.98,
+          "holdings_value": 96074.0
+        },
+        {
+          "date": "2026-09-28",
+          "cash": 832453.98,
+          "total_value": 918968.98,
+          "holdings_value": 86515.0
+        },
+        {
+          "date": "2026-09-29",
+          "cash": 927513.45,
+          "total_value": 927513.45,
+          "holdings_value": 0
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.921909999999999,
+          "fee": 25.73
+        },
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 6.636629999999999,
+          "fee": 25.88
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.76822,
+          "fee": 74.23
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 5.934060000000001,
+          "fee": 67.65
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz000936",
+          "shares": 14600,
+          "price": 6.846839999999999,
+          "fee": 25.99
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz002724",
+          "shares": 14300,
+          "price": 6.98698,
+          "fee": 25.98
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz000936",
+          "shares": 14600,
+          "price": 6.1438500000000005,
+          "fee": 68.17
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz002724",
+          "shares": 14300,
+          "price": 6.4635299999999996,
+          "fee": 70.25
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sh600613",
+          "shares": 12100,
+          "price": 8.198189999999999,
+          "fee": 25.79
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sz002515",
+          "shares": 12100,
+          "price": 8.198189999999999,
+          "fee": 25.79
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sh600613",
+          "shares": 12100,
+          "price": 8.551440000000001,
+          "fee": 78.64
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sz002515",
+          "shares": 12100,
+          "price": 8.07192,
+          "fee": 74.23
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002038",
+          "shares": 14400,
+          "price": 6.936929999999999,
+          "fee": 25.97
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 12.922909999999998,
+          "fee": 25.87
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002038",
+          "shares": 14400,
+          "price": 6.36363,
+          "fee": 69.64
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 13.4865,
+          "fee": 78.92
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz002084",
+          "shares": 14100,
+          "price": 7.087079999999999,
+          "fee": 25.98
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 21.521499999999996,
+          "fee": 25.74
+        },
+        {
+          "date": "2026-09-03",
+          "type": "buy",
+          "code": "sz000635",
+          "shares": 11800,
+          "price": 8.45845,
+          "fee": 25.95
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz002084",
+          "shares": 14100,
+          "price": 6.90309,
+          "fee": 73.97
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 20.129849999999998,
+          "fee": 70.37
+        },
+        {
+          "date": "2026-09-04",
+          "type": "sell",
+          "code": "sz000635",
+          "shares": 11800,
+          "price": 7.68231,
+          "fee": 68.89
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 15.755739999999998,
+          "fee": 25.81
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 15.47546,
+          "fee": 25.75
+        },
+        {
+          "date": "2026-09-24",
+          "type": "buy",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 8.21821,
+          "fee": 25.85
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 13.90608,
+          "fee": 66.58
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 14.49549,
+          "fee": 70.51
+        },
+        {
+          "date": "2026-09-29",
+          "type": "sell",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 7.8621300000000005,
+          "fee": 72.3
+        }
+      ]
+    },
+    {
+      "return_pct": -7.762,
+      "max_drawdown_pct": -8.5974,
+      "open_positions": 0,
+      "slippage_bps_each_side": 30,
+      "skipped": {
+        "position_limit": 93
+      },
+      "equity": [
+        {
+          "date": "2026-08-13",
+          "cash": 801050.38,
+          "total_value": 992542.38,
+          "holdings_value": 191492.0
+        },
+        {
+          "date": "2026-08-14",
+          "cash": 987222.16,
+          "total_value": 987222.16,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-17",
+          "cash": 788279.56,
+          "total_value": 986370.56,
+          "holdings_value": 198091.0
+        },
+        {
+          "date": "2026-08-18",
+          "cash": 968648.23,
+          "total_value": 968648.23,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-19",
+          "cash": 769803.96,
+          "total_value": 961830.96,
+          "holdings_value": 192027.0
+        },
+        {
+          "date": "2026-08-20",
+          "cash": 970391.37,
+          "total_value": 970391.37,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-21",
+          "cash": 970391.37,
+          "total_value": 970391.37,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-24",
+          "cash": 771238.09,
+          "total_value": 961659.09,
+          "holdings_value": 190421.0
+        },
+        {
+          "date": "2026-08-25",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-26",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-27",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-28",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-08-31",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-01",
+          "cash": 965546.19,
+          "total_value": 965546.19,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-02",
+          "cash": 766880.49,
+          "total_value": 960952.49,
+          "holdings_value": 194072.0
+        },
+        {
+          "date": "2026-09-03",
+          "cash": 856411.29,
+          "total_value": 943342.29,
+          "holdings_value": 86931.0
+        },
+        {
+          "date": "2026-09-04",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-07",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-08",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-09",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-10",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-11",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-14",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-15",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-16",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-17",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-18",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-21",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-22",
+          "cash": 946046.2,
+          "total_value": 946046.2,
+          "holdings_value": 0
+        },
+        {
+          "date": "2026-09-23",
+          "cash": 747294.23,
+          "total_value": 934193.23,
+          "holdings_value": 186899.0
+        },
+        {
+          "date": "2026-09-24",
+          "cash": 827510.8,
+          "total_value": 923584.8,
+          "holdings_value": 96074.0
+        },
+        {
+          "date": "2026-09-28",
+          "cash": 827510.8,
+          "total_value": 914025.8,
+          "holdings_value": 86515.0
+        },
+        {
+          "date": "2026-09-29",
+          "cash": 922379.96,
+          "total_value": 922379.96,
+          "holdings_value": 0
+        }
+      ],
+      "trades": [
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.94573,
+          "fee": 25.78
+        },
+        {
+          "date": "2026-08-13",
+          "type": "buy",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 6.649889999999999,
+          "fee": 25.93
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002248",
+          "shares": 8300,
+          "price": 11.74466,
+          "fee": 74.09
+        },
+        {
+          "date": "2026-08-14",
+          "type": "sell",
+          "code": "sz002031",
+          "shares": 15000,
+          "price": 5.92218,
+          "fee": 67.51
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz000936",
+          "shares": 14500,
+          "price": 6.860519999999999,
+          "fee": 25.86
+        },
+        {
+          "date": "2026-08-17",
+          "type": "buy",
+          "code": "sz002724",
+          "shares": 14200,
+          "price": 7.00094,
+          "fee": 25.85
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz000936",
+          "shares": 14500,
+          "price": 6.131550000000001,
+          "fee": 67.57
+        },
+        {
+          "date": "2026-08-18",
+          "type": "sell",
+          "code": "sz002724",
+          "shares": 14200,
+          "price": 6.45059,
+          "fee": 69.61
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sh600613",
+          "shares": 12100,
+          "price": 8.214569999999998,
+          "fee": 25.84
+        },
+        {
+          "date": "2026-08-19",
+          "type": "buy",
+          "code": "sz002515",
+          "shares": 12100,
+          "price": 8.214569999999998,
+          "fee": 25.84
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sh600613",
+          "shares": 12100,
+          "price": 8.534320000000001,
+          "fee": 78.48
+        },
+        {
+          "date": "2026-08-20",
+          "type": "sell",
+          "code": "sz002515",
+          "shares": 12100,
+          "price": 8.05576,
+          "fee": 74.08
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002038",
+          "shares": 14300,
+          "price": 6.950789999999999,
+          "fee": 25.84
+        },
+        {
+          "date": "2026-08-24",
+          "type": "buy",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 12.94873,
+          "fee": 25.92
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002038",
+          "shares": 14300,
+          "price": 6.35089,
+          "fee": 69.02
+        },
+        {
+          "date": "2026-08-25",
+          "type": "sell",
+          "code": "sz002209",
+          "shares": 7700,
+          "price": 13.4595,
+          "fee": 78.76
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz002084",
+          "shares": 14000,
+          "price": 7.101239999999999,
+          "fee": 25.85
+        },
+        {
+          "date": "2026-09-02",
+          "type": "buy",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 21.5645,
+          "fee": 25.79
+        },
+        {
+          "date": "2026-09-03",
+          "type": "buy",
+          "code": "sz000635",
+          "shares": 11700,
+          "price": 8.475349999999999,
+          "fee": 25.78
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz002084",
+          "shares": 14000,
+          "price": 6.88927,
+          "fee": 73.3
+        },
+        {
+          "date": "2026-09-03",
+          "type": "sell",
+          "code": "sz300413",
+          "shares": 4600,
+          "price": 20.08955,
+          "fee": 70.23
+        },
+        {
+          "date": "2026-09-04",
+          "type": "sell",
+          "code": "sz000635",
+          "shares": 11700,
+          "price": 7.666930000000001,
+          "fee": 68.17
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 15.787219999999998,
+          "fee": 25.86
+        },
+        {
+          "date": "2026-09-23",
+          "type": "buy",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 15.50638,
+          "fee": 25.8
+        },
+        {
+          "date": "2026-09-24",
+          "type": "buy",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 8.23463,
+          "fee": 25.91
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sz000756",
+          "shares": 6300,
+          "price": 13.87824,
+          "fee": 66.45
+        },
+        {
+          "date": "2026-09-24",
+          "type": "sell",
+          "code": "sh605218",
+          "shares": 6400,
+          "price": 14.46647,
+          "fee": 70.36
+        },
+        {
+          "date": "2026-09-29",
+          "type": "sell",
+          "code": "sh603636",
+          "shares": 12100,
+          "price": 7.84639,
+          "fee": 72.16
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "历史标签跨策略版本且部分快照无采集时间/完整来源；排除 backfilled 标记不等于历史已全部认证。",
+    "日线无竞价委托队列；开盘非涨停假设可买，开盘涨停拒买。不是实盘成交证明。",
+    "K线缓存缺复权元数据：仅排除明显价格基准差异，未完整处理分红送转。",
+    "交易日历来自本地K线日期并集；股票缺该市场交易日则不顺延样本日期。",
+    "D3D5 是时间退出对比，未模拟板块/炸板等完整五层；持有10交易日收盘退出是研究补充假设。",
+    "组合仅模拟D1；不能将逐信号中位数当组合收益。未执行账户修复历史的反事实重放。",
+    "停牌或后续数据缺失不能伪装卖出；组合保留未退出持仓并按最后可用价暂估。",
+    "只作历史诊断，未改变现行买入时点、评分、门控或默认止损模式。"
+  ]
+}

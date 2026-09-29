@@ -63,7 +63,7 @@ def find_forward_prices(klines, signal_date, offsets=[1, 3, 5, 10]):
     """在K线数组中找到 signal_date 之后第 offset 个交易日的收盘价。"""
     idx = None
     for i, k in enumerate(klines):
-        if k["date"] >= signal_date:
+        if k["date"] == signal_date:
             idx = i
             break
     if idx is None:

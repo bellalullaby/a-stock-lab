@@ -1,13 +1,13 @@
 {
   "account": {
     "initial_capital": 1000000,
-    "cash": 1048356.86,
-    "total_value": 1048356.86,
-    "pnl": 48356.86,
-    "pnl_pct": 4.84,
+    "cash": 1048098.61,
+    "total_value": 1048098.61,
+    "pnl": 48098.61,
+    "pnl_pct": 4.81,
     "created": "2026-07-14",
     "last_updated": "2026-09-29 收盘简报",
-    "total_fees": 4277.1,
+    "total_fees": 5008.39,
     "fee_adjustment": {
       "date": "2026-09-12",
       "amount": 4277.1,
@@ -66800,6 +66800,521 @@
   ],
   "trades": [
     {
+      "type": "buy",
+      "code": "sh600272",
+      "name": "开开实业",
+      "shares": 6300,
+      "price": 15.7,
+      "amount": 98910.0,
+      "date": "2026-08-11",
+      "fee": 25.72,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sh600272]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sh600272]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sh600272]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sh600272]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sh600272]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sh600272]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh600611",
+      "name": "大众交通",
+      "shares": 19900,
+      "price": 5.02,
+      "amount": 99898.0,
+      "date": "2026-08-11",
+      "fee": 25.97,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sh600611]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sh600611]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sh600611]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sh600611]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sh600611]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sh600611]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh603087",
+      "name": "甘李药业",
+      "shares": 1300,
+      "price": 74.47,
+      "amount": 96811.0,
+      "date": "2026-08-11",
+      "fee": 25.17,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sh603087]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sh603087]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sh603087]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sh603087]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sh603087]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sh603087]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh603797",
+      "name": "联泰环保",
+      "shares": 19800,
+      "price": 5.05,
+      "amount": 99990.0,
+      "date": "2026-08-11",
+      "fee": 26.0,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sh603797]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sh603797]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sh603797]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sh603797]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sh603797]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sh603797]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh603883",
+      "name": "老百姓",
+      "shares": 7100,
+      "price": 14.01,
+      "amount": 99471.0,
+      "date": "2026-08-11",
+      "fee": 25.86,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sh603883]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sh603883]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sh603883]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sh603883]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sh603883]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sh603883]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz000859",
+      "name": "国风新材",
+      "shares": 9500,
+      "price": 10.48,
+      "amount": 99560.0,
+      "date": "2026-08-11",
+      "fee": 25.89,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sz000859]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sz000859]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sz000859]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sz000859]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sz000859]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sz000859]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002047",
+      "name": "宝鹰股份",
+      "shares": 28000,
+      "price": 3.56,
+      "amount": 99680.0,
+      "date": "2026-08-11",
+      "fee": 25.92,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sz002047]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sz002047]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sz002047]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0813_prebrief:holdings[sz002047]",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sz002047]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:holdings[sz002047]",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sz002047]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sz002047]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002212",
+      "name": "天融信",
+      "shares": 13900,
+      "price": 7.17,
+      "amount": 99663.0,
+      "date": "2026-08-11",
+      "fee": 25.91,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sz002212]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sz002212]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sz002212]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0813_prebrief:holdings[sz002212]",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sz002212]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:holdings[sz002212]",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sz002212]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sz002212]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002685",
+      "name": "华东重机",
+      "shares": 16400,
+      "price": 6.07,
+      "amount": 99548.0,
+      "date": "2026-08-11",
+      "fee": 25.88,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sz002685]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sz002685]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sz002685]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sz002685]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sz002685]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sz002685]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002721",
+      "name": "金一文化",
+      "shares": 32700,
+      "price": 3.05,
+      "amount": 99735.0,
+      "date": "2026-08-11",
+      "fee": 25.93,
+      "recovery_sources": [
+        "portfolio.json.bak_0810_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0810_backfill:holdings[sz002721]",
+        "portfolio.json.bak_0812_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_prebrief:holdings[sz002721]",
+        "portfolio.json.bak_0812_preclosing:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0812_preclosing:holdings[sz002721]",
+        "portfolio.json.bak_0813_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0810:holdings[sz002721]",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_hybk:holdings[sz002721]",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-11].bought",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-11].bought",
+        "portfolio.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:daily_log[2026-08-11].bought",
+        "portfolio_backup_0811_prebrief.json:holdings[sz002721]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002248",
+      "name": "华东数控",
+      "shares": 8200,
+      "price": 12.17,
+      "amount": 99794.0,
+      "fee": 25.95,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sz002248]",
+        "portfolio.json.bak_0814_prebrief:holdings[sz002248]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002031",
+      "name": "巨轮智能",
+      "shares": 15500,
+      "price": 6.42,
+      "amount": 99510.0,
+      "fee": 25.87,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sz002031]",
+        "portfolio.json.bak_0814_prebrief:holdings[sz002031]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh601886",
+      "name": "江河集团",
+      "shares": 9500,
+      "price": 10.48,
+      "amount": 99560.0,
+      "fee": 25.89,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sh601886]",
+        "portfolio.json.bak_0814_prebrief:holdings[sh601886]",
+        "portfolio.json.bak_0818_prebrief:holdings[sh601886]",
+        "portfolio.json.bak_0819_prebrief:holdings[sh601886]",
+        "portfolio.json.bak_0820_prebrief:holdings[sh601886]",
+        "portfolio.json.bak_before_0821_close:holdings[sh601886]",
+        "portfolio.json.bak_before_0825_close:holdings[sh601886]",
+        "portfolio.json.bak_before_0831_fix:holdings[sh601886]",
+        "portfolio.json.bak_before_legacy_audit:holdings[sh601886]",
+        "portfolio.json.bak_before_snapshot_backfill:holdings[sh601886]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz000665",
+      "name": "湖北广电",
+      "shares": 22600,
+      "price": 4.42,
+      "amount": 99892.0,
+      "fee": 25.97,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sz000665]",
+        "portfolio.json.bak_0814_prebrief:holdings[sz000665]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh600721",
+      "name": "百花医药",
+      "shares": 7100,
+      "price": 14.03,
+      "amount": 99613.0,
+      "fee": 25.9,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sh600721]",
+        "portfolio.json.bak_0814_prebrief:holdings[sh600721]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sh603191",
+      "name": "望变电气",
+      "shares": 6400,
+      "price": 15.4,
+      "amount": 98560.0,
+      "fee": 25.63,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sh603191]",
+        "portfolio.json.bak_0814_prebrief:holdings[sh603191]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002081",
+      "name": "金 螳 螂",
+      "shares": 22800,
+      "price": 4.37,
+      "amount": 99636.0,
+      "fee": 25.91,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sz002081]",
+        "portfolio.json.bak_0814_prebrief:holdings[sz002081]",
+        "portfolio.json.bak_0818_prebrief:holdings[sz002081]"
+      ]
+    },
+    {
+      "type": "buy",
+      "code": "sz002329",
+      "name": "皇氏集团",
+      "shares": 23800,
+      "price": 4.2,
+      "amount": 99960.0,
+      "fee": 25.99,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_0813_prebrief:holdings[sz002329]",
+        "portfolio.json.bak_0814_prebrief:holdings[sz002329]"
+      ]
+    },
+    {
       "type": "sell",
       "code": "sh600272",
       "name": "开开实业",
@@ -66807,7 +67322,11 @@
       "price": 17.27,
       "amount": 108801.0,
       "note": "板块止损 (TOP20): 「医药商业」已跌出 TOP20 — 建议全部卖出; 炸板止损: 开开实业 炸板！封板时间 150000，涨幅收至 10.0%",
-      "fee": 82.69
+      "fee": 82.69,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66817,7 +67336,11 @@
       "price": 3.01,
       "amount": 98427.0,
       "note": "板块止损 (TOP20): 「饰品」已跌出 TOP20 — 建议全部卖出",
-      "fee": 74.8
+      "fee": 74.8,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66827,7 +67350,11 @@
       "price": 4.85,
       "amount": 96030.0,
       "note": "板块止损 (TOP20): 「环境治理」已跌出 TOP20 — 建议全部卖出",
-      "fee": 72.98
+      "fee": 72.98,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66837,7 +67364,11 @@
       "price": 77.2,
       "amount": 100360.0,
       "note": "板块止损 (TOP20): 「生物制品」已跌出 TOP20 — 建议全部卖出",
-      "fee": 76.27
+      "fee": 76.27,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66847,7 +67378,11 @@
       "price": 5.25,
       "amount": 104475.0,
       "note": "板块止损 (TOP20): 「铁路公路」已跌出 TOP20 — 建议全部卖出",
-      "fee": 79.4
+      "fee": 79.4,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66857,7 +67392,11 @@
       "price": 13.62,
       "amount": 96702.0,
       "note": "板块止损 (TOP20): 「医药商业」已跌出 TOP20 — 建议全部卖出",
-      "fee": 73.49
+      "fee": 73.49,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66867,7 +67406,11 @@
       "price": 6.21,
       "amount": 101844.0,
       "note": "板块止损 (TOP20): 「工程机械」已跌出 TOP20 — 建议全部卖出",
-      "fee": 77.4
+      "fee": 77.4,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66877,79 +67420,11 @@
       "price": 10.2,
       "amount": 96900.0,
       "note": "板块止损 (TOP20): 「塑料」已跌出 TOP20 — 建议全部卖出",
-      "fee": 73.64
-    },
-    {
-      "type": "buy",
-      "code": "sz002248",
-      "name": "华东数控",
-      "shares": 8200,
-      "price": 12.17,
-      "amount": 99794.0,
-      "fee": 25.95
-    },
-    {
-      "type": "buy",
-      "code": "sz002031",
-      "name": "巨轮智能",
-      "shares": 15500,
-      "price": 6.42,
-      "amount": 99510.0,
-      "fee": 25.87
-    },
-    {
-      "type": "buy",
-      "code": "sh601886",
-      "name": "江河集团",
-      "shares": 9500,
-      "price": 10.48,
-      "amount": 99560.0,
-      "fee": 25.89
-    },
-    {
-      "type": "buy",
-      "code": "sz000665",
-      "name": "湖北广电",
-      "shares": 22600,
-      "price": 4.42,
-      "amount": 99892.0,
-      "fee": 25.97
-    },
-    {
-      "type": "buy",
-      "code": "sh600721",
-      "name": "百花医药",
-      "shares": 7100,
-      "price": 14.03,
-      "amount": 99613.0,
-      "fee": 25.9
-    },
-    {
-      "type": "buy",
-      "code": "sh603191",
-      "name": "望变电气",
-      "shares": 6400,
-      "price": 15.4,
-      "amount": 98560.0,
-      "fee": 25.63
-    },
-    {
-      "type": "buy",
-      "code": "sz002081",
-      "name": "金 螳 螂",
-      "shares": 22800,
-      "price": 4.37,
-      "amount": 99636.0,
-      "fee": 25.91
-    },
-    {
-      "type": "buy",
-      "code": "sz002329",
-      "name": "皇氏集团",
-      "shares": 23800,
-      "price": 4.2,
-      "amount": 99960.0,
-      "fee": 25.99
+      "fee": 73.64,
+      "date": "2026-08-12",
+      "recovery_sources": [
+        "portfolio.json.bak_before_closing_generic:daily_log[2026-08-12].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66959,7 +67434,23 @@
       "price": 6.64,
       "amount": 92296.0,
       "note": "硬止损（单日）: 单日跌幅 -7.39%（现价¥6.64）; 板块止损 (TOP10): 「软件开发」掉出 TOP10 — 建议减半仓",
-      "fee": 70.14
+      "fee": 70.14,
+      "date": "2026-08-13",
+      "recovery_sources": [
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-13].sold",
+        "portfolio.json:daily_log[2026-08-13].sold"
+      ]
     },
     {
       "type": "sell",
@@ -66969,7 +67460,23 @@
       "price": 4.2,
       "amount": 117600.0,
       "note": "炸板止损: 宝鹰股份 炸板！封板时间 141900，涨幅收至 7.142857551574707%",
-      "fee": 89.38
+      "fee": 89.38,
+      "date": "2026-08-13",
+      "recovery_sources": [
+        "portfolio.json.bak_0814_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0818_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0819_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_0820_prebrief:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0821_close:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0825_close:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0831_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_0921_22_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_AB_fix:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_holiday_cleanup:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_legacy_audit:daily_log[2026-08-13].sold",
+        "portfolio.json.bak_before_snapshot_backfill:daily_log[2026-08-13].sold",
+        "portfolio.json:daily_log[2026-08-13].sold"
+      ]
     },
     {
       "date": "2026-08-14",
@@ -68010,11 +68517,17 @@
     },
     {
       "date": "2026-09-29",
-      "total_value": 1048356.86,
-      "cash": 1048356.86,
-      "pnl": 48356.86,
-      "pnl_pct": 4.84,
-      "holdings": 0
+      "total_value": 1048098.61,
+      "cash": 1048098.61,
+      "pnl": 48098.61,
+      "pnl_pct": 4.81,
+      "holdings": 0,
+      "ledger_adjustment": {
+        "date": "2026-09-29",
+        "type": "recovered_trade_fees",
+        "amount": 258.25,
+        "note": "补齐遗漏买入的费用；本金历史已扣，不重复扣本金。费用已分配至对应流水，不另算第二次。"
+      }
     }
   ],
   "missed_buys": [
@@ -68370,6 +68883,14 @@
       "drawdown_pct": 0.0,
       "trigger": null,
       "would_sell_shares": 0
+    }
+  ],
+  "ledger_adjustments": [
+    {
+      "date": "2026-09-29",
+      "type": "recovered_trade_fees",
+      "amount": 258.25,
+      "note": "补齐遗漏买入的费用；本金历史已扣，不重复扣本金。费用已分配至对应流水，不另算第二次。"
     }
   ]
 }

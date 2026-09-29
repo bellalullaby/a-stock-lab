@@ -308,20 +308,11 @@ def fetch_tencent_prices(codes):
 
 
 def latest_closing_prices():
-    """最近收盘简报的持仓收盘价 {code: market_price}——实时行情失败时的回退价源"""
-    result = {}
-    pf_path = BASE_DIR.parent / "virtual-portfolio" / "portfolio.json"
-    try:
-        pf = json.loads(pf_path.read_text("utf-8"))
-        for e in pf.get("daily_log", []):
-            if str(e.get("session", "")).startswith("收盘简报") and e.get("holdings_snapshot"):
-                for hs in e["holdings_snapshot"]:
-                    if hs.get("market_price") is not None:
-                        result[hs.get("code", "")] = hs["market_price"]
-                break
-    except Exception:
-        pass
-    return result
+    """Per-code latest known closing valuation, never a future snapshot."""
+    from data_integrity import latest_closing_quotes
+    pf = load_xk_portfolio()
+    return {code: q["price"] for code, q in
+            latest_closing_quotes(pf, datetime.now().strftime("%Y-%m-%d")).items()}
 
 
 @app.route("/api/holdings/xk")
@@ -338,8 +329,11 @@ def api_holdings_xk():
         c = h.get("code", "")
         if c and c not in codes:
             codes.append(c)
-    prices = fetch_tencent_prices(codes)
-    closing_prices = latest_closing_prices()
+    from stop_loss import fetch_tencent_prices as dated_prices
+    from data_integrity import latest_closing_quotes
+    today = datetime.now().strftime("%Y-%m-%d")
+    quotes = dated_prices(codes, today, with_details=True)
+    closing_quotes = latest_closing_quotes(pf, today)
 
     results = []
     for h in holdings:
@@ -349,11 +343,16 @@ def api_holdings_xk():
         shares = h.get("shares", 0)
         # 价格源链：腾讯实时 > 最近收盘简报收盘价 > 成本价
         # （回退到昨收仍能显示涨跌；只有三层层层失败才落到成本，此时盈亏为 0 是诚实显示）
-        cur = prices.get(code) or closing_prices.get(code) or cost
+        quote = quotes.get(code) or closing_quotes.get(code) or {
+            "price": cost, "date": h.get("buy_date"), "source": "trade_price_estimate"}
+        cur = quote["price"]
         results.append({
             **h,
             "cost_price": cost,
             "current_price": cur,
+            "price_date": quote["date"],
+            "price_source": quote["source"],
+            "valuation_stale": quote["date"] != today,
             "market_value": round(cur * shares, 2),
             "pnl": round((cur - cost) * shares, 2),
             "pnl_pct": round((cur - cost) / cost * 100, 2) if cost else 0,

@@ -5,7 +5,7 @@ closing_briefing.py — A股SOP收盘简报（通用版）
 替代每天从零生成的 closing_briefing_MMDD.py。
 用法：
     python closing_briefing.py            # 今天收盘简报（自动用 date.today()）
-    python closing_briefing.py --date 2026-08-10   # 回补历史日期
+    python research_execution.py          # 离线历史研究，不写当前账户
     python closing_briefing.py --dry-run  # 只计算打印，不写 portfolio.json
 
 前置：当天缓存必须已采集（data_collector.py 跑过），否则报错退出。
@@ -28,16 +28,18 @@ _REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common_paths import PORTFOLIO, CACHE_DIR, cache_dir
+from data_integrity import latest_closing_quotes, require_live_date, valid_price, atomic_json_write
 
 # ── 参数 ──
 parser = argparse.ArgumentParser(description="A股SOP收盘简报（通用版）")
 parser.add_argument("--date", help="指定日期 YYYY-MM-DD（默认今天）")
 parser.add_argument("--dry-run", action="store_true", help="只计算打印，不写 portfolio.json")
 parser.add_argument("--pf", help="指定 portfolio.json 路径（回测/预演用，默认 common_paths.PORTFOLIO）")
-parser.add_argument("--force", action="store_true", help="当天已运行时强制重跑（谨慎使用）")
+parser.add_argument("--force", action="store_true", help="兼容旧参数；已结算账户禁止强制重跑")
 args = parser.parse_args()
 
 today = args.date or date.today().strftime("%Y-%m-%d")
+require_live_date(today)  # Historical research must not mutate today's account.
 BASE = cache_dir(today)
 PF = Path(args.pf) if args.pf else PORTFOLIO
 
@@ -60,8 +62,11 @@ with open(BASE / "l2_rotation.json", encoding="utf-8") as f:
     rot = json.load(f)
 with open(BASE / "l3_stocks.json", encoding="utf-8") as f:
     l3 = json.load(f)
-with open(PF, encoding="utf-8") as f:
-    pf = json.load(f)
+portfolio_original = PF.read_bytes()
+pf = json.loads(portfolio_original)
+for cache_name, payload in (("l1", l1), ("zt", l2_zt), ("zb", l2_zb), ("rotation", rot), ("l3", l3)):
+    if payload.get("date") != today:
+        raise ValueError(f"{cache_name} 缓存日期与目标日期不一致，拒绝交易")
 
 # ═══════════ 交易日校验（09-25 中秋休市假数据事故修复） ═══════════
 # B 计划迁移时弄丢了 SKILL.md 里的休市判断（agent 脑子里的隐式知识）：
@@ -70,7 +75,7 @@ with open(PF, encoding="utf-8") as f:
 # 校验依据：真实 K 线最后一根蜡烛 = 最近交易日；今天不在其中即休市。
 from data_collector import fetch_trading_dates, is_trading_day
 
-_tds = fetch_trading_dates()
+_tds = fetch_trading_dates(limit=320)
 _td = is_trading_day(today, _tds)
 if _td is False:
     from holiday_audit import record_skip
@@ -81,13 +86,18 @@ if _td is False:
 elif _td is None:
     print("⚠️ 交易日校验不可用（K线异常/历史补跑窗口外），按缓存继续")
 
+if today not in _tds:
+    raise ValueError("未取得目标交易日指数 K 线，拒绝用未经确认的交易日执行账户")
+
 # ═══════════ 幂等锁：当天已跑过则跳过（防重跑覆盖） ═══════════
 already_run = any(
     e.get("date") == today and str(e.get("session", "")).startswith("收盘简报")
     for e in pf["daily_log"]
 )
-if already_run and not getattr(args, "force", False):
-    print(f"⏭️  {today} 已有收盘简报，当天已运行过，跳过（如需强制重跑加 --force）")
+if already_run and getattr(args, "force", False):
+    raise ValueError("拒绝在已结算账户上 --force 重跑；请用离线研究与期初账户重放")
+if already_run:
+    print(f"⏭️  {today} 已有收盘简报，当天已运行过，跳过")
     sys.exit(0)
 
 # ═══════════ T+1 次日跟踪：给历史 missed_buys 补次日开盘/收盘价 ═══════════
@@ -96,11 +106,17 @@ from data_collector import fetch_qt_batch
 
 t1_missed = [m for m in pf.get("missed_buys", [])
              if not m.get("next_close") and m.get("date") and m["date"] < today]
+t1_missed = [m for m in t1_missed if m["date"] in _tds
+             and _tds.index(m["date"]) + 1 < len(_tds)
+             and _tds[_tds.index(m["date"]) + 1] == today]
 if t1_missed:
     t1_codes = [m["code"] for m in t1_missed]
     t1_q = fetch_qt_batch(t1_codes) if t1_codes else {}
     for m in t1_missed:
         qd = t1_q.get(m["code"], {})
+        if qd.get("date") != today:
+            continue
+        m["next_date"] = today
         m["next_open"] = qd.get("open")
         m["next_close"] = qd.get("price")
     print(f"📈 T+1 跟踪: 为 {len(t1_missed)} 只 missed_buys 补次日行情")
@@ -305,12 +321,8 @@ def gate_limits(state: str, rot_label: str):
 POS_CAP, DAY_MAX_BUY = gate_limits(state, rotation_label)
 
 # 当前持仓市值（最新估值链：最近收盘简报收盘价 > l3 缓存 > 成本，别拿成本价算仓位）
-closing_price_map = {}
-for e in pf["daily_log"]:
-    if str(e.get("session", "")).startswith("收盘简报") and e.get("holdings_snapshot"):
-        for hs in e["holdings_snapshot"]:
-            closing_price_map[hs.get("code", "")] = hs.get("market_price")
-        break  # daily_log 按日期排序，第一条收盘简报即最近
+closing_quotes = latest_closing_quotes(pf, today)
+closing_price_map = {code: q["price"] for code, q in closing_quotes.items()}
 l3_price_map = {s.get("tx_code"): s.get("price") for s in l3_stocks}
 
 
@@ -400,8 +412,12 @@ from stop_loss import fetch_tencent_prices, run_stop_loss
 
 sell_plan = []
 missed_sells = []
+price_quotes = {}
 if holdings:
-    prices = fetch_tencent_prices([h["code"] for h in holdings])
+    price_quotes = fetch_tencent_prices([h["code"] for h in holdings], today, with_details=True)
+    prices = {code: q["price"] for code, q in price_quotes.items()}
+    for h in holdings:
+        h["prev_close"] = price_quotes.get(h["code"], {}).get("prev_close")
     l2_boards = None
     boards_path = BASE / "l2_boards.json"
     if boards_path.exists():
@@ -414,10 +430,14 @@ if holdings:
         with open(dt_path, encoding="utf-8") as f:
             l2_dt = json.load(f)
     sell_plan, missed_sells = run_stop_loss(
-        holdings, prices, l2_boards, l2_zt, l2_zb, today, l2_dt_pool=l2_dt
+        holdings, prices, l2_boards, l2_zt, l2_zb, today, l2_dt_pool=l2_dt, trading_dates=_tds
     )
     for ms in missed_sells:
-        print(f"  🚫 卖不掉: {ms['name']} {ms['reason_text']}（继续按跌停价扛，次日再试）")
+        if ms.get("trigger_reasons"):
+            for h in holdings:
+                if h["code"] == ms["code"]:
+                    h["pending_exit"] = {"reasons": ms["trigger_reasons"], "half": ms.get("half", False), "since": today}
+        print(f"  🚫 卖不掉: {ms['name']} {ms['reason_text']}（保留持仓，次日再试）")
 
 sold = []
 for sp in sell_plan:
@@ -434,7 +454,9 @@ for sp in sell_plan:
         if h["code"] == code:
             left = h["shares"] - shares
             if left > 0:
-                new_holdings.append({**h, "shares": left})
+                remaining_holding = {**h, "shares": left}
+                remaining_holding.pop("pending_exit", None)
+                new_holdings.append(remaining_holding)
                 remaining = left
         else:
             new_holdings.append(h)
@@ -489,17 +511,27 @@ if trailing_shadow:
     pf["trailing_shadow"] = shadow_log + trailing_shadow
 
 # ═══════════ 账户估值（持仓按实时价） ═══════════
-hold_prices = fetch_tencent_prices([h["code"] for h in holdings]) if holdings else {}
+hold_prices = {code: q["price"] for code, q in price_quotes.items()}
+valuation_warnings = []
 total_hold = 0
 holdings_snapshot = []
 for h in holdings:
     cost = h.get("cost", h.get("buy_price", 0))
-    mv_price = hold_prices.get(h["code"], cost)
+    quote = price_quotes.get(h["code"]) or closing_quotes.get(h["code"])
+    if not quote and valid_price(cost) and h.get("buy_date") and h["buy_date"] <= today:
+        quote = {"price": cost, "date": h["buy_date"], "source": "trade_price_estimate"}
+    if not quote:
+        raise ValueError(f"{h['code']} 无有效估值依据，拒绝写入账户")
+    mv_price = quote["price"]
+    stale = quote["date"] != today
+    if stale:
+        valuation_warnings.append(f"{h['code']} 暂估价日期 {quote['date']}")
     mv = mv_price * h["shares"]
     total_hold += mv
     pnl_h = (mv_price - cost) / cost * 100 if cost else 0
     holdings_snapshot.append({
         **h, "market_price": round(mv_price, 2), "market_value": round(mv, 2),
+        "price_date": quote["date"], "price_source": quote["source"], "valuation_stale": stale,
         "pnl": round(mv - cost * h["shares"], 2), "chg_pct": round(pnl_h, 2),
     })
 total_value = cash + total_hold
@@ -566,6 +598,7 @@ if args.dry_run:
     sys.exit(0)
 
 # ═══════════ 写回 portfolio.json ═══════════
+pf["account"]["valuation_warnings"] = valuation_warnings
 pf["account"]["cash"] = round(cash, 2)
 pf["account"]["total_value"] = round(total_value, 2)
 pf["account"]["pnl"] = round(pnl, 2)
@@ -594,6 +627,7 @@ pf["trades"] = [
     t for t in old_trades
     if (t.get("date"), t.get("type"), t.get("code")) not in new_keys
 ] + trades + sold
+pf["account"]["total_fees"] = round(sum(t.get("fee", 0) for t in pf["trades"]), 2)
 
 # missed_buys 写入（幂等：按 date+code 去重，同日重跑不追加）
 old_missed = pf.get("missed_buys", [])
@@ -750,8 +784,9 @@ pf["daily_log"] = [
 pf["daily_log"].append(daily_log_entry)
 pf["daily_log"].sort(key=lambda e: e.get("date", ""))
 
-with open(PF, "w", encoding="utf-8") as f:
-    json.dump(pf, f, ensure_ascii=False, indent=2)
+if PF.read_bytes() != portfolio_original:
+    raise RuntimeError("计算期间账户已被其他进程修改，拒绝覆盖；请重新运行")
+atomic_json_write(PF, pf)
 
 # ═══════════ 输出 ═══════════
 print()
