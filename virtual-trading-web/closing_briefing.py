@@ -29,6 +29,7 @@ sys.path.insert(0, str(_REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common_paths import PORTFOLIO, CACHE_DIR, cache_dir
 from data_integrity import latest_closing_quotes, require_live_date, valid_price, atomic_json_write
+from account_context import CALIBRATION_META, account_notice
 
 # ── 参数 ──
 parser = argparse.ArgumentParser(description="A股SOP收盘简报（通用版）")
@@ -64,6 +65,7 @@ with open(BASE / "l3_stocks.json", encoding="utf-8") as f:
     l3 = json.load(f)
 portfolio_original = PF.read_bytes()
 pf = json.loads(portfolio_original)
+pf.setdefault("account_meta", dict(CALIBRATION_META))
 for cache_name, payload in (("l1", l1), ("zt", l2_zt), ("zb", l2_zb), ("rotation", rot), ("l3", l3)):
     if payload.get("date") != today:
         raise ValueError(f"{cache_name} 缓存日期与目标日期不一致，拒绝交易")
@@ -594,6 +596,8 @@ if args.dry_run:
     if total_value > 0:
         print(f"当前仓位: {total_hold / total_value * 100:.1f}%（门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只）")
     print(self_check_line)
+    print(account_notice(pf))
+    print("⚠️ 研究观察，不构成投资建议")
     print("=" * 50)
     sys.exit(0)
 
@@ -701,6 +705,8 @@ if total_value > 0:
         f"门控上限 {POS_CAP * 100:.0f}% / 单日≤{DAY_MAX_BUY}只）"
     )
 
+observations.extend([account_notice(pf), "⚠️ 研究观察，不构成投资建议"])
+
 signals_legacy = []
 for s in l3_stocks:
     signals_legacy.append({
@@ -720,6 +726,7 @@ for s in l3_stocks:
 
 # 数据自检结果（前面已算，写进 daily_log，邮件/日报末尾可见）
 daily_log_entry = {
+    "account_meta": dict(pf["account_meta"]),
     "date": today,
     "session": "收盘简报(15:30运行)",
     "self_check": self_check_line,
@@ -810,4 +817,6 @@ print(f"盘前信号今日表现: {pos_n}/{len(yesterday_review)}正收益({win_
 
 # ═══════════ 数据自检（机器断言，替代人眼盯输出）═══════════
 print(self_check_line)
+print(account_notice(pf))
+print("⚠️ 研究观察，不构成投资建议")
 print("=" * 50)

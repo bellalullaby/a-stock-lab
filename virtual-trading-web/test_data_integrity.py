@@ -14,6 +14,7 @@ from backfill_fees import fill_missing_fees
 from data_integrity import latest_closing_quotes, require_live_date
 from reconcile_ledger import reconcile
 from signal_tracker import find_forward_prices
+from account_context import CALIBRATION_META
 
 
 class IntegrityTests(unittest.TestCase):
@@ -150,6 +151,7 @@ class IntegrityTests(unittest.TestCase):
                 h = {**self.h, "buy_date": yesterday, "hybk": "fixture"}
                 pf = {"account": {"initial_capital": 1000000, "cash": 999000,
                                   "total_value": 1000000, "pnl": 0, "pnl_pct": 0},
+                      "account_meta": {**CALIBRATION_META, "preservation_probe": "keep"},
                       "holdings": [h], "trades": [], "daily_log": [
                           {"date": yesterday, "session": "收盘简报", "holdings_snapshot": [
                               {**h, "market_price": 9, "price_date": yesterday}]}]}
@@ -166,9 +168,19 @@ class IntegrityTests(unittest.TestCase):
                         patch.object(data_collector, "fetch_qt_batch", return_value={}), \
                         patch.object(stop_loss, "fetch_tencent_prices", return_value=quotes), \
                         patch.object(stop_loss, "fetch_tencent_highs", return_value=(None, None)), \
-                        patch("builtins.print"):
+                        patch("builtins.print") as output:
+                    before_dry_run = path.read_bytes()
+                    with patch.object(sys, "argv", ["closing_briefing.py", "--pf", str(path), "--dry-run"]):
+                        with self.assertRaises(SystemExit) as exited:
+                            runpy.run_path(str(Path(__file__).parent / "closing_briefing.py"), run_name="__main__")
+                        self.assertEqual(exited.exception.code, 0)
+                    self.assertEqual(path.read_bytes(), before_dry_run)
                     runpy.run_path(str(Path(__file__).parent / "closing_briefing.py"), run_name="__main__")
+                    self.assertTrue(any(CALIBRATION_META["note"] in str(call) for call in output.call_args_list))
                 result = json.loads(path.read_text(encoding="utf-8"))
+                self.assertEqual(result["account_meta"], pf["account_meta"])
+                self.assertEqual(result["daily_log"][-1]["account_meta"], pf["account_meta"])
+                self.assertIn(CALIBRATION_META["note"], result["daily_log"][-1]["observations"])
                 if has_quote:
                     self.assertEqual(result["holdings"], [])
                     self.assertEqual(result["trades"][0]["price"], 9.5)

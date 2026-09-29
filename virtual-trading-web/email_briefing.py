@@ -29,9 +29,12 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.utils import formataddr
 from pathlib import Path
+from html import escape
+from account_context import account_notice
 
 # UTF-8 stdout 防 Windows GBK emoji 崩溃
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+if __name__ == "__main__":
+    sys.stdout.reconfigure(encoding="utf-8")
 
 BASE_DIR = Path(__file__).parent
 PORTFOLIO = BASE_DIR.parent / "virtual-portfolio" / "portfolio.json"
@@ -212,6 +215,7 @@ def build_briefing_html(portfolio: dict) -> str:
     html += f"""
       <div style="text-align:center;color:#8b8fa3;font-size:11px;padding-top:16px;
                   border-top:1px solid #2a2d38;margin-top:8px;">
+        <div>{escape(account_notice(portfolio))}</div>
         ⚠️ 研究观察，不构成投资建议 · 自动生成于 {datetime.now().strftime('%m-%d %H:%M')}
       </div>
     </div>"""
@@ -237,6 +241,7 @@ def build_plain_briefing(portfolio: dict) -> str:
         f"L1: {l1} | 总资产: ¥{total:,.0f} ({pnl_pct:+.2f}%)",
         f"L2: {l2}",
         "",
+        *([account_notice(portfolio)] if account_notice(portfolio) else []),
         "⚠️ 研究观察，不构成投资建议",
     ]
     return "\n".join(lines)
@@ -260,6 +265,9 @@ def resolve_source(source: str):
     if want_morning and obs_file.exists():
         try:
             obs = json.loads(obs_file.read_text("utf-8"))
+            # Account role is authoritative even for observation files made before migration.
+            portfolio = json.loads(PORTFOLIO.read_text("utf-8"))
+            obs["account_meta"] = portfolio.get("account_meta", {})
             print(f"📤 来源: 盘前观察 ({obs_file.name})")
             return "morning", obs
         except Exception as e:
@@ -409,6 +417,7 @@ def build_morning_html(obs: dict) -> str:
     html += f"""
       <div style="text-align:center;color:#8b8fa3;font-size:11px;padding-top:16px;
                   border-top:1px solid #2a2d38;margin-top:8px;">
+        <div>{escape(account_notice(obs))}</div>
         ⚠️ 研究观察，不构成投资建议 · 自动生成于 {datetime.now().strftime('%m-%d %H:%M')}
       </div>
     </div>"""
@@ -428,6 +437,7 @@ def build_morning_plain(obs: dict) -> str:
         f"L2: {l2.get('detail', '')}",
         f"L3: 技术达标{l3.get('buy_ge3', 0)}只（强{l3.get('strong', 0)}/观{l3.get('watch', 0)}/风{l3.get('risk', 0)}）",
         "",
+        *([account_notice(obs)] if account_notice(obs) else []),
         "⚠️ 研究观察，不构成投资建议",
     ]
     return "\n".join(lines)
