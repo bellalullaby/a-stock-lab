@@ -1517,9 +1517,39 @@ def auto_backfill(requested_date: str, verbose: bool = True):
 
     return backfilled, skipped
 
-# 收盘快照核心文件（全部存在 = 该日已有完整快照，默认拒绝覆盖）
+# 收盘快照核心文件（全部存在且内容合理 = 该日已有完整快照，默认拒绝覆盖）
 SNAPSHOT_FILES = ["l1_index.json", "l2_boards.json", "l2_zt_pool.json",
-                  "l2_zb_pool.json", "l2_rotation.json", "l3_stocks.json"]
+                  "l2_zb_pool.json", "l2_rotation.json", "l3_stocks.json",
+                  "l2_dt_pool.json"]  # 09-01 新增，服务卖出端可成交判定
+
+
+def snapshot_is_valid(cache_dir) -> tuple:
+    """检查快照是否完整【且内容合理】。返回 (valid: bool, reason: str)。
+
+    为什么判内容而不只判存在（Claude哥 09-29 缺口二）:
+      只判存在的话，"存在但内容空/坏"的快照会被判完整并拒绝修复——
+      而这道保护正是从 09-14「腾讯 501 把缓存写成空」事故长出来的：
+      守护者会在它的出生场景里误判。故升级为 存在 + 内容合理。
+    """
+    # 1. 文件存在性
+    missing = [f for f in SNAPSHOT_FILES if not (cache_dir / f).exists()]
+    if missing:
+        return False, f"缺文件 {missing}"
+    # 2. 内容合理性（坏快照识别——宁可判不完整允许重采，不可保护坏数据）
+    try:
+        l1 = json.loads((cache_dir / "l1_index.json").read_text(encoding="utf-8"))
+        n_idx = len(l1.get("indices") or {})
+        if n_idx != 3:
+            return False, f"l1_index.indices={n_idx}（应 3，疑似写空）"
+        l2_zt = json.loads((cache_dir / "l2_zt_pool.json").read_text(encoding="utf-8"))
+        if (l2_zt.get("total") or 0) <= 0:
+            return False, "l2_zt_pool.total=0（疑似写空）"
+        l3 = json.loads((cache_dir / "l3_stocks.json").read_text(encoding="utf-8"))
+        if (l3.get("total") or 0) <= 0:
+            return False, "l3_stocks.total=0（疑似写空）"
+    except Exception as e:
+        return False, f"内容解析失败: {str(e)[:60]}"
+    return True, "ok"
 
 
 def collect(date_str: str, is_backfill: bool = False, force: bool = False):
@@ -1535,15 +1565,17 @@ def collect(date_str: str, is_backfill: bool = False, force: bool = False):
 
     # ── 收盘快照保护（09-29 事故：19:32 重采悄悄覆盖 15:30 口径基准）──
     # 15:30 快照是全系统（简报/止损/回测）的口径基准；盘后重采若接口
-    # 数据有微调，基准就被无声换掉。详情见 daily_briefing.log 无痕迹。
-    # 逃生口: --force（09-14 缓存写坏需重采的场景）。
+    # 数据有微调，基准就被无声换掉。逃生口: --force。
+    # 判定为"完整且内容合理"才保护——坏快照（如 09-14 写空）允许重采修复。
     if not force:
-        existing = [f for f in SNAPSHOT_FILES if (cache_dir / f).exists()]
-        if len(existing) == len(SNAPSHOT_FILES):
-            print(f"⏭️ {date_str} 已有完整收盘快照（{len(existing)}/{len(SNAPSHOT_FILES)} 文件），拒绝覆盖")
+        valid, reason = snapshot_is_valid(cache_dir)
+        if valid:
+            print(f"⏭️ {date_str} 已有完整收盘快照（{len(SNAPSHOT_FILES)}/{len(SNAPSHOT_FILES)} 文件），拒绝覆盖")
             print("   15:30 快照是全系统口径基准，盘中/盘后重采会改变它。")
             print("   如确认需要重采，请加 --force")
             return
+        elif (cache_dir / "l1_index.json").exists():
+            print(f"ℹ️ {date_str} 缓存不完整（{reason}），允许重采修复")
 
     ensure_dir(cache_dir)
 
